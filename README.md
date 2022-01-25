@@ -13,11 +13,11 @@ Our quiz application allows users to create quizzes and quiz questions through a
 
 ## Scrum Roles
 
-- Isaiah Dicristoforo
-- Eric Davin
-- Ian Hegarty
-- Christian Turner
-- Mahesh Gowda
+- Isaiah Dicristoforo Project Owner and Scrum Master 
+- Eric Davin UI 
+- Ian Hegarty UI
+- Christian Turner BL + Persistence
+- Mahesh Gowda BL + Persistence
 
 
 ## Project Link
