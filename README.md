@@ -13,7 +13,7 @@ Our application will be similar to Wordle and Kahoot, two popular online word/qu
 As an educator, I want to create a custom Wordle quiz for my students, so that I can quiz them and test their knowledge about spcifics words and terms disucssed in class.
 
 #### Dependencies
-The Wordle quiz is store in a MySql database and is associated with the creator's account.
+The Wordle quiz is stored in a MySql database and is associated with the creator's account.
 
 #### Assumptions
 The user creating the wordle quiz has an account to save, share, and start the Wordle quiz.
@@ -22,8 +22,8 @@ The user creating the wordle quiz has an account to save, share, and start the W
 
 1.1\
 Given that a educator adds a Wordle question to their quiz titled English 1001 Vocabulary,\
-When the educator add the word *intermittent* to their quiz,\
-Then the word should have an associated time limit, list of 0 or more hints, time limit in seconds, and total number of allowed guesses.
+When the educator adds the word *intermittent* to their quiz,\
+Then the word should have a list of 0 or more hints, time limit in seconds, and total number of allowed guesses.
 
 1.2\
 Given that a educator adds a Wordle question to their quiz titled English 1001 Vocabulary,\
@@ -32,7 +32,7 @@ Then the invalid word should not be added to the wordle list, and the user shoul
 
 ### Requirement 02: Start a Wordle Quiz Game
 #### Scenario
-As a host of a game, I want to start an existing Wordle game so that people can play.
+As a host of a game, I want to start an existing Wordle game so that people can join and play.
 
 #### Assumptions
 The host of the Wordle can view a list of their own, and other user created Wordle lists.
@@ -45,7 +45,7 @@ When the user starts the game\
 Then a game code such as 19583ab should generated so that players can play the game.
 
 1.2\
-Given that a user enter a game code such as 19583ab to join a game, and a game with that code exists,\
+Given that a user enter a game code such as 19583ab to join a game, and an open game with that code exists,\
 When the user is directed to the game queue, they will be prompted to enter a game username, ie: Isaiah123\
 Then they should be entered into the game and see a list of other waiting players and their usernames.
 
@@ -69,8 +69,8 @@ When a user guesses the word *homes*"\
 Then the information available to the player should be that the letter h and o are in the word and in the right location, e and s are in the word but in the wrong location, and that m is not in the word.
 
 1.2\
-Given that a user correctly enters the word *house* and the word is the solution,\
-When the user has entered the word witin the allowed number of guesses, 5, and within the time limit, 60 seconds,\
+Given that a user correctly enters the word *house* and the word *house* is the solution,\
+When the user has entered the word within the allowed number of guesses, 5, and within the time limit, 60 seconds,\
 Then they should be given a minimum of 1000 points, plus any bonus points given for guessing the word before other players.
 
 1.3\
@@ -82,7 +82,30 @@ Then they should be given zero points.
 
 ## Class Diagram
 
-## Json Schema
+## Json Schema \
+
+>{
+   "type" : "object",
+   "properties" : {
+    "hints" : {
+      "type" : "object"
+    },
+    "questionTimeLimit" : {
+      "type" : "integer"
+    },
+    "allowedGuesses" : {
+      "type" : "integer"
+    },
+    "totalCharactersInWord" : {
+      "type" : "integer"
+    },
+    "answer" : {
+      "type" : "string"
+    }
+  }
+}
+\
+
 
 ## Scrum Roles
 
