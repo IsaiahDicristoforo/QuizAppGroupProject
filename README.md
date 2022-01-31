@@ -84,7 +84,7 @@ Then they should be given zero points.
 
 ## Class Diagram
 
-![dto](https://user-images.githubusercontent.com/37581557/151718757-1c34a955-8af1-485b-bf05-fcb01a243d1c.PNG)
+![dto](https://user-images.githubusercontent.com/37581557/151727563-0c1a89e0-cd50-4e15-bace-f62af457ec50.PNG)
 ![dao](https://user-images.githubusercontent.com/37581557/151719041-3ae7727f-0d31-4e7f-886b-f1ef2a286850.PNG)
 
 
