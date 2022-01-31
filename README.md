@@ -5,6 +5,8 @@ Our application will be similar to Wordle and Kahoot, two popular online word/qu
 
 ## Storyboard
 
+[Storyboard](https://projects.invisionapp.com/prototype/ckyyt0m59003sb301po5ikef8/play)
+
 ## Functional Requirements
 
 
@@ -86,7 +88,7 @@ Then they should be given zero points.
 ![dao](https://user-images.githubusercontent.com/37581557/151719041-3ae7727f-0d31-4e7f-886b-f1ef2a286850.PNG)
 
 
-## Json Schema \
+## Json Schema
 
 >{
    "type" : "object",
@@ -124,7 +126,7 @@ Then they should be given zero points.
 [Our GitHub Project](https://github.com/IsaiahDicristoforo/QuizAppGroupProject)
 
 ## Scrum/Kaban Board
-We are using GitHub projects.
+Our milestones, issues, and project boards are all listed here on GitHub.
 
 ## Weekly meeting.
 We plan to meet weekly on Discord Tuesdays at 5 P.M
