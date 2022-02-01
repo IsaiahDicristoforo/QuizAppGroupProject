@@ -1,0 +1,24 @@
+#wordleGridContainer{
+    display: grid;
+    grid-template-rows: auto;
+    padding: 15px;
+    grid-row-gap: 10px;
+    justify-content: center;
+}
+
+.letter{
+    border: 1px solid black;
+    aspect-ratio: 1;
+    background: limegreen ;
+    text-align: center;
+    border-radius: 7px;
+    font-size: 40px;
+    font-family: 'Mochiy Pop P One', sans-serif;
+    height: 50px;
+    width: 50px;
+
+}
+
+#parentDiv div{
+}
+

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wordle</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Montserrat:wght@700&display=swap');
+    </style>
+    <link type="text/css" href="/css/gameScreen.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div id="parentDiv" style="display: grid; grid-template-columns: 0.25fr 0.75fr 0.25fr; height: 80%; background-color: aqua">
+
+    <div style="grid-column-start: 2; background-color: black; grid-column-end: 3" id="wordleGridContainer"></div>
+
+    <div style="grid-row-start: 1; text-align: left">
+        <h1>Leaderboard</h1>
+        <ol>
+            <li>Player 1</li>
+            <li>Player 2</li>
+            <li>Player 3</li>
+            <li>Player 4</li>
+
+        </ol>
+    </div>
+
+    <div>
+
+        <h1>Hints</h1>
+        <ol>
+            <li>Hint 1</li>
+            <li>Hint 2</li>
+            <li>Hint 3</li>
+            <li>Hint 4</li>
+
+        </ol>
+    </div>
+
+    <div style="grid-row-start: 4; background-color: antiquewhite;  grid-column-start: 1; grid-column-end: 4">
+
+        <h1>Powerups?</h1>
+
+
+    </div>
+
+
+</div>
+
+
+
+<input id="word">
+<input id="totalGuesses">
+
+<button onclick="nextWordle()">Next Wordle</button>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/js/gameScreen.js"></script>
+</body>
+</html>
