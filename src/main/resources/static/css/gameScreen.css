@@ -6,19 +6,50 @@
     justify-content: center;
 }
 
+body{
+    font-family: 'Mochiy Pop P One', sans-serif;
+
+}
+
 .letter{
-    border: 1px solid black;
+    border: 1px solid white;
     aspect-ratio: 1;
-    background: limegreen ;
+    background: #751fff;
     text-align: center;
     border-radius: 7px;
     font-size: 40px;
     font-family: 'Mochiy Pop P One', sans-serif;
     height: 50px;
     width: 50px;
-
 }
 
 #parentDiv div{
+}
+
+#timer{
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+}
+
+#parentDiv{
+    display: grid;
+    grid-template-columns: 0.25fr 0.75fr 0.25fr;
+    height: 80%;
+    background-color: #e0dcdc;
+}
+
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #d6d3eb;
+    padding: 10px;
 }
 

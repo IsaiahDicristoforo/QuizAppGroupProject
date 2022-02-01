@@ -9,14 +9,20 @@
     <link type="text/css" href="/css/gameScreen.css" rel="stylesheet">
 
 </head>
-<body>
+<body style="background-color: cornflowerblue">
 
-<div id="parentDiv" style="display: grid; grid-template-columns: 0.25fr 0.75fr 0.25fr; height: 80%; background-color: aqua">
+
+<div class="navbar">
+    <h1>The Wordle Game</h1>
+    <input style="height: 40px; " placeholder="Enter Code To Join">
+</div>
+
+<div id="parentDiv" style="">
 
     <div style="grid-column-start: 2; background-color: black; grid-column-end: 3" id="wordleGridContainer"></div>
 
     <div style="grid-row-start: 1; text-align: left">
-        <h1>Leaderboard</h1>
+        <h2>Leaderboard</h2>
         <ol>
             <li>Player 1</li>
             <li>Player 2</li>
@@ -26,17 +32,30 @@
         </ol>
     </div>
 
-    <div>
+    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
 
-        <h1>Hints</h1>
-        <ol>
-            <li>Hint 1</li>
-            <li>Hint 2</li>
-            <li>Hint 3</li>
-            <li>Hint 4</li>
+        <div id="timer">
 
-        </ol>
+            <div>
+                60 sec
+            </div>
+
+        </div>
+
+        <div>
+            <h2>Hints</h2>
+            <ol style="padding: 0">
+                <li>This is Hint 1</li>
+                <li>This is Hint 2</li>
+                <li>This is Hint 3</li>
+                <li>This is Hint 4</li>
+
+            </ol>
+        </div>
+
+
     </div>
+
 
     <div style="grid-row-start: 4; background-color: antiquewhite;  grid-column-start: 1; grid-column-end: 4">
 
