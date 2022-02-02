@@ -31,6 +31,9 @@ function handleLetterEntered(event){
             targets: targetsArray,
             direction: "normal",
             easing: 'easeInOutSine',
+            delay: function (el, i, l){
+                return i * 100;
+            },
             duration: 500,
             rotate: '1turn'
         })
@@ -67,14 +70,13 @@ function createGrid(wordLength, totalGuesses){
     $("#wordleGridContainer").empty();
     $("#wordleGridContainer").css("grid-template-columns", "repeat(" + wordLength + ", 0.08fr")
 
-    for(let i = 1; i  <= wordLength; i++){
+    for(let i = 1; i  <= totalGuesses; i++){
 
-        for(let j = 1; j <= totalGuesses; j++){
+        for(let j = 1; j <= wordLength; j++){
             let newElement = document.createElement("div");
             newElement.innerHTML = "&nbsp"
             newElement.classList.add("letter");
 
-            console.log("row" + i + "column" + j);
             newElement.id = ("row" + i + "column" + j);
 
 
@@ -96,7 +98,6 @@ function createGrid(wordLength, totalGuesses){
 
 function nextWordle(){
     createGrid($("#word").val().length, $("#totalGuesses").val())
-    console.log($("#word").val())
 }
 
 

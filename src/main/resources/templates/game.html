@@ -9,8 +9,7 @@
     <link type="text/css" href="/css/gameScreen.css" rel="stylesheet">
 
 </head>
-<body style="background-color: cornflowerblue">
-
+<body style="background-color: #000814">
 
 <div class="navbar">
     <h1>The Wordle Game</h1>
@@ -19,9 +18,9 @@
 
 <div id="parentDiv" style="">
 
-    <div style="grid-column-start: 2; background-color: black; grid-column-end: 3" id="wordleGridContainer"></div>
+    <div id="wordleGridContainer"></div>
 
-    <div style="grid-row-start: 1; text-align: left">
+    <div id="leaderboard">
         <h2>Leaderboard</h2>
         <ol>
             <li>Player 1</li>
@@ -32,7 +31,7 @@
         </ol>
     </div>
 
-    <div style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+    <div id="hintsList">
 
         <div id="timer">
 
@@ -57,9 +56,9 @@
     </div>
 
 
-    <div style="grid-row-start: 4; background-color: antiquewhite;  grid-column-start: 1; grid-column-end: 4">
+    <div id="powerupsList">
 
-        <h1>Powerups?</h1>
+        <h2>Powerups</h2>
 
 
     </div>
