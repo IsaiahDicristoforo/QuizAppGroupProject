@@ -68,7 +68,7 @@ function createGrid(wordLength, totalGuesses){
     row = 1;
     column = 0;
     $("#wordleGridContainer").empty();
-    $("#wordleGridContainer").css("grid-template-columns", "repeat(" + wordLength + ", 0.08fr")
+    $("#wordleGridContainer").css("grid-template-columns", "repeat(" + wordLength + ", 0.062fr")
 
     for(let i = 1; i  <= totalGuesses; i++){
 

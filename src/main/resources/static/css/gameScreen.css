@@ -10,12 +10,11 @@ body{
 #wordleGridContainer{
     display: grid;
     grid-template-rows: auto;
-    padding: 15px;
-    grid-row-gap: 10px;
+    grid-row-gap: 40px;
     justify-content: center;
     grid-column-start: 2;
-    background-color: ghostwhite;
     grid-column-end: 3;
+    column-gap: 10px;
 
 }
 
@@ -30,6 +29,7 @@ body{
     font-family: 'Mochiy Pop P One', sans-serif;
     height: 50px;
     width: 50px;
+    color: white;
 }
 
 #parentDiv div{
