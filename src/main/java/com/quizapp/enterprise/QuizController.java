@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class QuizController {
 
-    @RequestMapping("/")
+    @RequestMapping("/start")
     public String index(){
         return "start";
     }
