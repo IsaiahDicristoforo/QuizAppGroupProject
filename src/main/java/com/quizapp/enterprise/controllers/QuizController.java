@@ -1,4 +1,4 @@
-package com.quizapp.enterprise;
+package com.quizapp.enterprise.controllers;
 
 import com.quizapp.enterprise.models.Question;
 import com.quizapp.enterprise.persistence.QuestionRepository;
@@ -16,21 +16,9 @@ import java.util.List;
 @RestController
 public class QuizController {
 
-    @Autowired
-    private QuestionRepository questionRepository;
-
-    @RequestMapping("/start")
-    public String index(){
-        return "start";
-    }
-
-    @GetMapping(value = "/questions", produces = "application/json")
-   public Question GetAllQuestions(){
-
-
-        List<Question> q = questionRepository.findAll();
-
-        return (questionRepository.findAll().get(0));
+    @RequestMapping("/quizzes")
+    public String userQuizes(){
+        return "quiz_list";
     }
 
 }

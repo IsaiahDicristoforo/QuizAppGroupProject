@@ -10,6 +10,7 @@ public class Hint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "hint_id")
     private int hintId;
 
     private String hint;

@@ -14,6 +14,7 @@ public class Quiz {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "quizId")
     private int quizId;
 
 
