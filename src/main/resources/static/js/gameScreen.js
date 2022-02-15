@@ -3,7 +3,6 @@ let row = 1;
 let column = 0;
 
 $(document).ready(function(){
-
     createGrid(5, 5)
 
     $(document).on('keydown', (event) => {
@@ -12,8 +11,17 @@ $(document).ready(function(){
 
     })
 
+    $("#joinGame").click(function (){
+        $('#myModal').modal('hide');
+        connect();
+    })
 
 })
+
+
+$(window).on('load', function() {
+    $('#myModal').modal('show');
+});
 
 function handleLetterEntered(event){
 
@@ -96,8 +104,25 @@ function createGrid(wordLength, totalGuesses){
 
 }
 
-function nextWordle(){
-    createGrid($("#word").val().length, $("#totalGuesses").val())
+
+function connect() {
+    var socket = new SockJS('/chat');
+    let stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function(frame) {
+            console.log('Connected: ' + frame);
+            stompClient.subscribe('/game1/messages', function(messageOutput) {
+
+
+                let playerName = JSON.parse(messageOutput.body)["playerName"];
+                $("#playerList").append("<li>" + playerName +  "</li>")
+            });
+
+            stompClient.send("/app/chat", {}, JSON.stringify({'playerName': $("#playerUserNameSelection").val(), 'message': 'Player Joined'}));
+
+        });
+
+
 }
 
 
