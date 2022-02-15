@@ -1,4 +1,4 @@
-package com.quizapp.enterprise;
+package com.quizapp.enterprise.controllers;
 
 import com.quizapp.enterprise.models.User;
 import com.quizapp.enterprise.persistence.UserRepository;

@@ -2,17 +2,40 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
-    <title>Welcome to CodeJava Home</title>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <title>Wordle Multiplayer</title>
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+
 </head>
-<body>
-<div class="container text-center">
-    <h1>Welcome to CodeJava.net</h1>
-    <h3><a th:href="@{/users}">List of Users</a></h3>
-    <h3><a th:href="@{/register}">Register</a></h3>
-    <h3><a th:href="@{/login}">Login</a></h3>
+<body style="height: 100vh; margin: 0">
+
+
+<div style="height: 100vh; padding: 20px; display: grid; align-items: center; background-color: #3f8be0;  grid-template-columns: repeat(2, 1fr)">
+
+    <div>
+        <h1 class="display-1">Wordle Multiplayer</h1>
+
+    </div>
+
+    <div style="display: flex; padding: 5px; flex-direction: column; align-items: center">
+
+        <a style="font-size: 50px;  padding: 5px; border-radius: 5px; border: 2px solid orange; text-decoration: none; color: white" th:href="@{/login}">Login</a>
+
+        <br>
+        <a style="font-size: 50px; padding: 5px; border-radius: 5px; border: 2px solid orange; text-decoration: none; color: white" th:href="@{/register}">Register</a>
+
+
+        <br>
+
+        <label style="color: white" class="form-label">Join A Game</label>
+        <input placeholder="Game Code" class="form-control'">
+
+
+
+    </div>
+
+
 </div>
 
 </body>

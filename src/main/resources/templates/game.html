@@ -7,7 +7,10 @@
         @import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Montserrat:wght@700&display=swap');
     </style>
     <link type="text/css" href="/css/gameScreen.css" rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 </head>
 <body style="background-color: #000814">
 
@@ -16,19 +19,35 @@
     <input style="height: 40px; " placeholder="Enter Code To Join">
 </div>
 
+<!-- The Modal -->
+<div class="modal hide fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Welcome To Wordle</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <h5>Enter a username</h5>
+                <input id="playerUserNameSelection" type="text" class="form-control" placeholder="Username">
+            </div>
+            <div class="modal-footer">
+                <button id="joinGame" type="button" class="btn btn-primary">Join</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 <div id="parentDiv" style="">
 
     <div id="wordleGridContainer"></div>
 
     <div id="leaderboard">
         <h2>Leaderboard</h2>
-        <ol>
-            <li>Player 1</li>
-            <li>Player 2</li>
-            <li>Player 3</li>
-            <li>Player 4</li>
-
-        </ol>
+        <ol id="playerList"></ol>
     </div>
 
     <div id="hintsList">
@@ -64,14 +83,10 @@
     </div>
 
 
+
+
 </div>
 
-
-
-<input id="word">
-<input id="totalGuesses">
-
-<button onclick="nextWordle()">Next Wordle</button>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

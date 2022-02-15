@@ -48,15 +48,17 @@ public class WebSecurityAccessConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/game").authenticated()
+                .antMatchers("/quizzes").authenticated()
+                .antMatchers("/gameView/{gameId}").permitAll()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .usernameParameter("email")
-                .defaultSuccessUrl("/game")
+                .defaultSuccessUrl("/quizzes")
                 .permitAll()
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll();
+
 
         http.csrf().disable();
     }
