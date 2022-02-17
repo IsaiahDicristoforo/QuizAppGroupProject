@@ -20,6 +20,10 @@ public class WebSocketConfig extends AbstractSecurityWebSocketMessageBrokerConfi
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/chat");
         registry.addEndpoint("/chat").withSockJS();
+
+        registry.addEndpoint("/chat1");
+        registry.addEndpoint("/chat1").withSockJS();
+
     }
 
     @Override

@@ -16,10 +16,9 @@
 
 <div class="navbar">
     <h1>The Wordle Game</h1>
-    <input style="height: 40px; " placeholder="Enter Code To Join">
+    <h5 id="gameCode" style="color: white" th:text="${gameCode}"></h5>
 </div>
 
-<!-- The Modal -->
 <div class="modal hide fade" id="myModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -43,11 +42,37 @@
 
 <div id="parentDiv" style="">
 
-    <div id="wordleGridContainer"></div>
+    <div>
+        <div id="wordleGridContainer"></div>
 
-    <div id="leaderboard">
+        <div id="Waiting">
+            <h2>Waiting</h2>
+        </div>
+        <div id="Correct">
+            <h2>Correct</h2>
+        </div>
+        <div id="Incorrect">
+            <h2>Incorrect</h2>
+        </div>
+
+
+
+    </div>
+
+    <div  id="leaderboard">
         <h2>Leaderboard</h2>
-        <ol id="playerList"></ol>
+
+        <ol class="list-group" id="playerList">
+
+
+        <div th:each="player: ${players}">
+                <li class="list-group-item d-flex justify-content-between align-items-center" th:inline="text">[[${player.playerUsername}]]<span class="badge bg-primary rounded-pill">0</span>
+                </li>
+        </div>
+
+        </ol>
+
+
     </div>
 
     <div id="hintsList">

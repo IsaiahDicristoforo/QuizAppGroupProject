@@ -13,6 +13,6 @@ public class Game {
 
     private String gameCode;
     private int quizId;
-    private ArrayList<Player> players;
+    private ArrayList<Player> players = new ArrayList<>();
     private GameStatus gameStatus;
 }
