@@ -9,4 +9,5 @@ public class WordleDisplayDetail {
     private int wordleTimeLimit;
     private int totalGuesses;
     private int questionId;
+    private String gameId;
 }

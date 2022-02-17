@@ -121,14 +121,12 @@ function connect() {
 
         stompClient.connect({}, function(frame) {
 
-            stompClient.subscribe('/game1/messages', function(messageOutput) {
+            stompClient.subscribe('/game1/messages/' + $("#gameCode").text() , function(messageOutput) {
                 let playerName = JSON.parse(messageOutput.body)["playerName"];
                 $("#playerList").append("<li class=\"list-group-item d-flex justify-content-between align-items-center\">" + playerName +  "<span class=\"badge bg-primary rounded-pill\">0</span></li>")
+
             });
 
-            stompClient.subscribe('/game1/gameUpdate', function(messageOutput) {
-                console.log(messageOutput)
-            });
 
             stompClient.send("/app/chat", {}, JSON.stringify({'playerName': $("#playerUserNameSelection").val(), 'gameId': $("#gameCode").text()  }));
 
@@ -139,7 +137,7 @@ function connect() {
 
             newStomClient.connect({}, function(frame) {
 
-                newStomClient.subscribe('/game1/newQuestion', function(messageOutput) {
+                newStomClient.subscribe('/game1/newQuestion/' + $("#gameCode").text() , function(messageOutput) {
                     createGrid(Math.floor(Math.random() * 10),5)
                 });
                 });

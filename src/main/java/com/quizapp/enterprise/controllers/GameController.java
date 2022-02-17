@@ -9,6 +9,7 @@ import com.quizapp.enterprise.webSockets.PlayerJoinEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,9 @@ public class GameController {
 
     @Autowired
     IGameService gameService;
+
+    @Autowired
+    SimpMessagingTemplate messagingTemplate;
 
 
     @PostMapping(value = "/newGame/{quizId}")
@@ -46,19 +50,18 @@ public class GameController {
     }
 
     @MessageMapping("/chat")
-    @SendTo("/game1/messages")
     public PlayerJoinEvent send(PlayerJoinEvent message) throws Exception {
         Player newPlayer = new Player();
         newPlayer.setTotalPoints(0);
         newPlayer.setPlayerUsername(message.getPlayerName());
         newPlayer.setHost(false);
         gameService.joinGame(message.getGameId(), newPlayer);
+        messagingTemplate.convertAndSend("/game1/messages/" + message.getGameId(),message);
         return message;
     }
 
     @MessageMapping("/chat1")
-    @SendTo("/game1/newQuestion")
-    public WordleDisplayDetail send(WordleDisplayDetail wordleDisplayDetails) throws Exception {
-        return wordleDisplayDetails;
+    public void send(WordleDisplayDetail wordleDisplayDetails) throws Exception {
+        messagingTemplate.convertAndSend("/game1/newQuestion/"  + wordleDisplayDetails.getGameId(), wordleDisplayDetails);
     }
 }
