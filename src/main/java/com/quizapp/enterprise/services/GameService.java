@@ -27,7 +27,7 @@ public class GameService implements IGameService{
 
     @Override
     public ArrayList<Game> getAllGames() {
-        return null;
+        return GameTracker.getInstance().getAllGames();
     }
 
     @Override
@@ -36,7 +36,15 @@ public class GameService implements IGameService{
     }
 
     @Override
-    public void joinGame(int gameId, Player playerToJoin) {
+    public void joinGame(String gameId, Player playerToJoin) throws Exception {
 
+        if(userNameExists(playerToJoin.getPlayerUsername(), gameId)){
+            throw new Exception("Username already exists. Please choose another username");
+        }
+        GameTracker.getInstance().joinGame(gameId, playerToJoin);
+    }
+
+    private boolean userNameExists(String userName, String gameCode){
+        return GameTracker.getInstance().getGameByCode(gameCode).getPlayers().stream().anyMatch(player -> player.getPlayerUsername().equals(userName));
     }
 }

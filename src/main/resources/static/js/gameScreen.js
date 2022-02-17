@@ -3,7 +3,11 @@ let row = 1;
 let column = 0;
 
 $(document).ready(function(){
-    createGrid(5, 5)
+
+    $.get("/")
+
+    displayWaitingScreen()
+
 
     $(document).on('keydown', (event) => {
 
@@ -13,6 +17,7 @@ $(document).ready(function(){
 
     $("#joinGame").click(function (){
         $('#myModal').modal('hide');
+
         connect();
     })
 
@@ -73,9 +78,14 @@ function handleLetterEntered(event){
 
 }
 function createGrid(wordLength, totalGuesses){
+
+    $("#Correct").hide();
+    $("#Incorrect").hide();
+    $("#Waiting").hide();
     row = 1;
     column = 0;
-    $("#wordleGridContainer").empty();
+    $("#wordleGridContainer").empty();  
+    $("#wordleGridContainer").show();
     $("#wordleGridContainer").css("grid-template-columns", "repeat(" + wordLength + ", 0.062fr")
 
     for(let i = 1; i  <= totalGuesses; i++){
@@ -110,20 +120,66 @@ function connect() {
     let stompClient = Stomp.over(socket);
 
         stompClient.connect({}, function(frame) {
-            console.log('Connected: ' + frame);
+
             stompClient.subscribe('/game1/messages', function(messageOutput) {
-
-
                 let playerName = JSON.parse(messageOutput.body)["playerName"];
-                $("#playerList").append("<li>" + playerName +  "</li>")
+                $("#playerList").append("<li class=\"list-group-item d-flex justify-content-between align-items-center\">" + playerName +  "<span class=\"badge bg-primary rounded-pill\">0</span></li>")
             });
 
-            stompClient.send("/app/chat", {}, JSON.stringify({'playerName': $("#playerUserNameSelection").val(), 'message': 'Player Joined'}));
+            stompClient.subscribe('/game1/gameUpdate', function(messageOutput) {
+                console.log(messageOutput)
+            });
 
-        });
+            stompClient.send("/app/chat", {}, JSON.stringify({'playerName': $("#playerUserNameSelection").val(), 'gameId': $("#gameCode").text()  }));
 
 
+
+            var newSocket = new SockJS('/chat1');
+            let newStomClient = Stomp.over(newSocket);
+
+            newStomClient.connect({}, function(frame) {
+
+                newStomClient.subscribe('/game1/newQuestion', function(messageOutput) {
+                    createGrid(Math.floor(Math.random() * 10),5)
+                });
+                });
+            });
+        }
+
+
+
+
+        function displayWaitingScreen(){
+            $("#wordleGridContainer").hide();
+            $("#Correct").hide();
+            $("#Incorrect").hide();
+            $("#Waiting").show();
+        }
+
+
+
+function displayWaitingScreen(){
+    $("#wordleGridContainer").hide();
+    $("#Correct").hide();
+    $("#Incorrect").hide();
+    $("#Waiting").show();
 }
+
+function displayCorrectScreen(){
+    $("#wordleGridContainer").hide();
+    $("#Correct").show();
+    $("#Incorrect").hide();
+    $("#Waiting").hide();
+}
+
+
+function displayIncorrectScreen(){
+    $("#wordleGridContainer").hide();
+    $("#Correct").hide();
+    $("#Incorrect").show();
+    $("#Waiting").hide();
+}
+
 
 
 

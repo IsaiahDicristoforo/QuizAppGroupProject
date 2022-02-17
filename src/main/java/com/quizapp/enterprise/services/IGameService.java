@@ -10,5 +10,5 @@ public interface IGameService {
      Game startNewGame(int quizId);
      ArrayList<Game> getAllGames();
      Game getGame(String gameId);
-     void joinGame(int gameId, Player playerToJoin);
+     void joinGame(String gameId, Player playerToJoin) throws Exception;
 }
