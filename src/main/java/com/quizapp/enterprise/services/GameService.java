@@ -2,6 +2,7 @@ package com.quizapp.enterprise.services;
 
 import com.quizapp.enterprise.models.game.Game;
 import com.quizapp.enterprise.models.game.GameStatus;
+import com.quizapp.enterprise.models.game.Guess;
 import com.quizapp.enterprise.models.game.Player;
 import com.quizapp.enterprise.persistence.GameTracker;
 import org.springframework.stereotype.Service;
@@ -46,5 +47,22 @@ public class GameService implements IGameService{
 
     private boolean userNameExists(String userName, String gameCode){
         return GameTracker.getInstance().getGameByCode(gameCode).getPlayers().stream().anyMatch(player -> player.getPlayerUsername().equals(userName));
+    }
+
+    public ArrayList<Guess> checkGuess(String userGuess, String correctAnswer) {
+        var userGuessArr = userGuess.toCharArray();
+        var correctAnswerArr = correctAnswer.toCharArray();
+
+        var userGuessList = new ArrayList<Guess>();
+
+        for(int i = 0; i < userGuess.length(); i++) {
+            if(userGuessArr[i] == correctAnswerArr[i]){
+                userGuessList.add(new Guess(true, Character.toString(userGuessArr[i])));
+            } else {
+                userGuessList.add(new Guess(false, Character.toString(userGuessArr[i])));
+            }
+        }
+
+        return userGuessList;
     }
 }
