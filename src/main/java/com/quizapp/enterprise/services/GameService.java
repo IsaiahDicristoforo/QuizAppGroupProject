@@ -49,13 +49,25 @@ public class GameService implements IGameService{
         return GameTracker.getInstance().getGameByCode(gameCode).getPlayers().stream().anyMatch(player -> player.getPlayerUsername().equals(userName));
     }
 
+    /***
+     * Checks the user guess agains the correct answer and return ArrayList<Guess>
+     * to be verified and displayed client side.
+     *
+     * @param userGuess the users guess
+     * @param correctAnswer the correct answer
+     * @return ArrayList<Guest> (bool, string)
+     */
     public ArrayList<Guess> checkGuess(String userGuess, String correctAnswer) {
+        // Convert guess and correct guess to a character array
         var userGuessArr = userGuess.toCharArray();
         var correctAnswerArr = correctAnswer.toCharArray();
 
+        // Initialize the list of guesses with their respective correctness
         var userGuessList = new ArrayList<Guess>();
 
+        // Loop over the characters in the guess
         for(int i = 0; i < userGuess.length(); i++) {
+            // If guess character == correct character, letter = correct
             if(userGuessArr[i] == correctAnswerArr[i]){
                 userGuessList.add(new Guess(true, Character.toString(userGuessArr[i])));
             } else {

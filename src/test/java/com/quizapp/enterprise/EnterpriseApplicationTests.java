@@ -58,6 +58,10 @@ class EnterpriseApplicationTests {
 
     }
 
+    /**
+     * Scenario: User guesses correct answer
+     * @author Christian Turner
+     */
     @Test
     void verifyCorrectAnswer() {
         String userGuest = "Blubber";
@@ -75,6 +79,10 @@ class EnterpriseApplicationTests {
         assertTrue(correct);
     }
 
+    /**
+     * Scenario: User guesses incorrect answer
+     * @author Christian Turner
+     */
     @Test
     void verifyIncorrectAnswer() {
         String userGuest = "Flubber";
