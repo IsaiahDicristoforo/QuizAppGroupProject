@@ -1,6 +1,7 @@
 package com.quizapp.enterprise;
 
 import com.quizapp.enterprise.models.game.Game;
+import com.quizapp.enterprise.models.game.GameStatus;
 import com.quizapp.enterprise.services.GameService;
 import com.quizapp.enterprise.services.IGameService;
 import org.junit.jupiter.api.Test;
@@ -25,10 +26,13 @@ class EnterpriseApplicationTests {
     @Test
     void verifyGameProperties() {
         String gameCode =  "TEST";
+        GameStatus gameStatus = GameStatus.valueOf("NotStarted");
 
         Game game = new Game();
         game.setGameCode(gameCode);
+        game.setGameStatus(gameStatus);
         assertEquals(gameCode, game.getGameCode());
+        assertEquals(gameStatus, game.getGameStatus());
     }
 
     /**
