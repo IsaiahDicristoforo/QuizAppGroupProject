@@ -44,16 +44,16 @@ class EnterpriseApplicationTests {
         Game game = new Game();
         game.setGameCode(gameCode);
 
-//        List<Game> games = GameService.getAllGames();
-//        boolean gamePresent = false;
-//        for (Game g : games) {
-//            if (g.getGameCode().equals(gameCode)) {
-//                gamePresent = true;
-//                break;
-//            }
-//        }
+        List<Game> games = GameService.getAllGames();
+        boolean gamePresent = false;
+        for (Game g : games) {
+            if (g.getGameCode().equals(gameCode)) {
+                gamePresent = true;
+                break;
+            }
+        }
 
-       // assertTrue(gamePresent);
+        assertTrue(gamePresent);
 
 
     }
