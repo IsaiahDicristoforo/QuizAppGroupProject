@@ -7,8 +7,11 @@ import java.util.ArrayList;
 
 public interface IGameService {
 
-     Game startNewGame(int quizId);
-     ArrayList<Game> getAllGames();
-     Game getGame(String gameId);
-     void joinGame(String gameId, Player playerToJoin) throws Exception;
+    Game startNewGame(int quizId);
+
+    ArrayList<Game> getAllGames();
+
+    Game getGame(String gameId);
+
+    void joinGame(String gameId, Player playerToJoin) throws Exception;
 }

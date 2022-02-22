@@ -27,25 +27,25 @@ public class GameController {
 
 
     @PostMapping(value = "/newGame/{quizId}")
-    public Game startNewGame(@PathVariable("quizId") int quizId){
+    public Game startNewGame(@PathVariable("quizId") int quizId) {
         return gameService.startNewGame(quizId);
     }
 
 
     @GetMapping(value = "/{gameId}")
-    public Game getGame(@PathVariable("gameId") String gameId){
-      return gameService.getGame(gameId);
+    public Game getGame(@PathVariable("gameId") String gameId) {
+        return gameService.getGame(gameId);
     }
 
     @PostMapping(value = "/joinGame/{gameId}")
-    public Game joinGame(@PathVariable("gameId") String gameId, @RequestBody Player player) throws Exception{
+    public Game joinGame(@PathVariable("gameId") String gameId, @RequestBody Player player) throws Exception {
         gameService.joinGame(gameId, player);
         return gameService.getGame(gameId);
     }
 
 
     @GetMapping("")
-    public ArrayList<Game> getAllGames(){
+    public ArrayList<Game> getAllGames() {
         return gameService.getAllGames();
     }
 
@@ -56,12 +56,12 @@ public class GameController {
         newPlayer.setPlayerUsername(message.getPlayerName());
         newPlayer.setHost(false);
         gameService.joinGame(message.getGameId(), newPlayer);
-        messagingTemplate.convertAndSend("/game1/messages/" + message.getGameId(),message);
+        messagingTemplate.convertAndSend("/game1/messages/" + message.getGameId(), message);
         return message;
     }
 
     @MessageMapping("/chat1")
     public void send(WordleDisplayDetail wordleDisplayDetails) throws Exception {
-        messagingTemplate.convertAndSend("/game1/newQuestion/"  + wordleDisplayDetails.getGameId(), wordleDisplayDetails);
+        messagingTemplate.convertAndSend("/game1/newQuestion/" + wordleDisplayDetails.getGameId(), wordleDisplayDetails);
     }
 }

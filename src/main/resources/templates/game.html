@@ -56,19 +56,19 @@
         </div>
 
 
-
     </div>
 
-    <div  id="leaderboard">
+    <div id="leaderboard">
         <h2>Leaderboard</h2>
 
         <ol class="list-group" id="playerList">
 
 
-        <div th:each="player: ${players}">
-                <li class="list-group-item d-flex justify-content-between align-items-center" th:inline="text">[[${player.playerUsername}]]<span class="badge bg-primary rounded-pill">0</span>
+            <div th:each="player: ${players}">
+                <li class="list-group-item d-flex justify-content-between align-items-center" th:inline="text">
+                    [[${player.playerUsername}]]<span class="badge bg-primary rounded-pill">0</span>
                 </li>
-        </div>
+            </div>
 
         </ol>
 
@@ -108,14 +108,13 @@
     </div>
 
 
-
-
 </div>
 
 
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"
+        integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="/js/gameScreen.js"></script>
 </body>
 </html>

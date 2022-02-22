@@ -1,13 +1,10 @@
 package com.quizapp.enterprise.models;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Required;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -29,13 +26,13 @@ public class Question {
     @NotBlank(message = "A question must have a word to guess")
     private String wordle;
 
-    private int questionTimeLimitSeconds = 120;
+    private int questionTimeLimit = 120;
 
-    private int totalGuessesAllowed = 5;
+    private int attemptsRemaining = 5;
 
     private int quizId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name="questionid")
-    private List<Hint> hints = new ArrayList<Hint>();
+    private List<Hint> hints = new ArrayList<>();
 }

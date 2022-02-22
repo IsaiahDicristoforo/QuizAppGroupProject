@@ -2,12 +2,10 @@ package com.quizapp.enterprise;
 
 import com.quizapp.enterprise.models.game.Game;
 import com.quizapp.enterprise.models.game.GameStatus;
-import com.quizapp.enterprise.services.GameService;
 import com.quizapp.enterprise.services.IGameService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 
@@ -60,8 +58,6 @@ class EnterpriseApplicationTests {
         }
 
         assertTrue(gamePresent);
-
-
     }
 
 }

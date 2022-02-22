@@ -1,6 +1,5 @@
 package com.quizapp.enterprise.controllers;
 
-import com.quizapp.enterprise.services.GameService;
 import com.quizapp.enterprise.services.IGameService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

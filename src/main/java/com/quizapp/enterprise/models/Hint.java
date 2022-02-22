@@ -1,4 +1,5 @@
 package com.quizapp.enterprise.models;
+
 import lombok.Data;
 
 import javax.persistence.*;
