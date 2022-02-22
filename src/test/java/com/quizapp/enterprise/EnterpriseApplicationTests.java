@@ -5,7 +5,9 @@ import com.quizapp.enterprise.models.game.GameStatus;
 import com.quizapp.enterprise.services.GameService;
 import com.quizapp.enterprise.services.IGameService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 
@@ -14,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 class EnterpriseApplicationTests {
+    @Autowired
+    IGameService gameService;
 
     @Test
     void contextLoads() {
@@ -46,7 +50,7 @@ class EnterpriseApplicationTests {
         Game game = new Game();
         game.setGameCode(gameCode);
 
-        List<Game> games = GameService.getAllGames();
+        List<Game> games = gameService.getAllGames();
         boolean gamePresent = false;
         for (Game g : games) {
             if (g.getGameCode().equals(gameCode)) {

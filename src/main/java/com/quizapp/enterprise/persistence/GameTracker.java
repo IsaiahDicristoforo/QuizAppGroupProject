@@ -4,11 +4,10 @@ import com.quizapp.enterprise.models.game.Game;
 import com.quizapp.enterprise.models.game.Player;
 import lombok.Data;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
-public class GameTracker {
+public @Data class GameTracker {
 
     private static GameTracker gameTracker;
 
@@ -16,7 +15,7 @@ public class GameTracker {
 
 
     private GameTracker(){
-        games = new ArrayList<Game>();
+        games = new ArrayList<>();
     }
 
     public void addGame(Game game){
