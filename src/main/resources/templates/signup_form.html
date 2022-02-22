@@ -6,51 +6,50 @@
   <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
   <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
   <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+  <script src="https://kit.fontawesome.com/e91255cdbc.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/css/loginScreen.css">
 </head>
 <body>
-<div class="container text-center">
-  <div>
-    <h1>User Registration - Sign Up</h1>
-  </div>
-  <form th:action="@{/process_register}" th:object="${user}"
-        method="post" style="max-width: 600px; margin: 0 auto;">
-    <div class="m-3">
-      <div class="form-group row">
-        <label class="col-4 col-form-label">E-mail: </label>
-        <div class="col-8">
-          <input type="email" th:field="*{email}" class="form-control" required />
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label class="col-4 col-form-label">Password: </label>
-        <div class="col-8">
-          <input type="password" th:field="*{password}" class="form-control"
-                 required minlength="6" maxlength="10"/>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label class="col-4 col-form-label">First Name: </label>
-        <div class="col-8">
-          <input type="text" th:field="*{firstName}" class="form-control"
-                 required minlength="2" maxlength="20"/>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label class="col-4 col-form-label">Last Name: </label>
-        <div class="col-8">
-          <input type="text" th:field="*{lastName}" class="form-control"
-                 required minlength="2" maxlength="20" />
-        </div>
-      </div>
-
-      <div>
-        <button type="submit" class="btn btn-primary">Sign Up</button>
-      </div>
+<div class="container-login">
+  <div class="container-login-div">
+    <div class="wrapper">
+                <span class="login-form-logo">
+                    <i class="fa-solid fa-square-pen fa-2x"></i>
+                </span>
+        <span class="login-form-title">Create an account</span>
+        <form th:action="@{/process_register}" th:object="${user}" method="post">
+          <div class="wrapper-input validate-input" data-validate = "Enter username">
+            <i class="fa-solid fa-user"></i>
+            <input class="input" type="text" name="username" placeholder="Username" th:field="*{username}">
+          </div>
+          <div class="wrapper-input validate-input" data-validate = "Enter email">
+            <i class="fa-solid fa-user"></i>
+            <input class="input" type="email" name="username" placeholder="Email" th:field="*{email}">
+          </div>
+          <div class="wrapper-input validate-input" data-validate="Enter password">
+            <i class="fa-solid fa-lock input-focus"></i>
+            <input class="input" type="password" name="pass" placeholder="Password" th:field="*{password}">
+          </div>
+          <div class="wrapper-input validate-input" data-validate="Enter first name">
+            <i class="fa-solid fa-lock input-focus"></i>
+            <input class="input" type="text" name="pass" placeholder="First Name" th:field="*{firstName}">
+          </div>
+          <div class="wrapper-input validate-input" data-validate="Enter last name">
+            <i class="fa-solid fa-lock input-focus"></i>
+            <input class="input" type="text" name="pass" placeholder="Last Name" th:field="*{lastName}">
+          </div>
+          <div class="container-login-form-btn">
+            <button type="submit" class="login-form-btn">Register</button>
+          </div>
+          <div class="forget-password-div">
+            <a class="forget-password-text" href="/login">Already have an account?</a>
+          </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div>
 </body>
 </html>

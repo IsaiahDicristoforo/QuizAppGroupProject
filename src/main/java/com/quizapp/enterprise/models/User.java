@@ -24,7 +24,12 @@ public class User {
     private String password;
 
     @Column(unique = true)
+    @NotNull
     private String email;
+
+    @Column(unique = true)
+    @NotNull
+    private  String username;
 
     @NotNull
     private int totalPoints;
