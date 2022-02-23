@@ -47,10 +47,10 @@
             <h5  id="gameCode" style="" th:text="${gameCode}"></h5>
         </div>
 
-    <div style="height: 100%" class="row content">
+    <div style="height: 100%; min-height: 500px" class="row content">
 
         <div class="col-sm-2 sidenav" >
-            <h2>Leaderboard</h2>
+            <h2 class="h2">Leaderboard</h2>
 
             <ol class="list-group" id="playerList">
 
@@ -66,11 +66,14 @@
         </div>
 
 
-        <div class="col-sm-8 text-left">
+        <div id="mainGameArea" class="col-sm-8 text-left">
             <div id="wordleGridContainer"></div>
 
             <div id="Waiting">
-                <h2>Waiting</h2>
+                <div style="background-color: #fd7e14; padding: 30px; border-radius: 30px">
+                    <h3 class="h3">Waiting...</h3>
+
+                </div>
             </div>
             <div id="Correct">
                 <h2>Correct</h2>
@@ -85,8 +88,8 @@
 
             <div id="timer">
 
-                <div>
-                    60 sec
+                <div id="timerText">
+                    60
                 </div>
 
             </div>
@@ -107,11 +110,6 @@
 
 
 
-
-
-
-
-
     </div>
 
 
@@ -129,7 +127,6 @@
 
 
 </div>
-
 
 
 

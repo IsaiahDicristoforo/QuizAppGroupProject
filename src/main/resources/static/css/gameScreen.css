@@ -21,7 +21,7 @@ body{
 .letter{
     border: 1px solid white;
     aspect-ratio: 1;
-    background: #a4c6e5;
+    background: #ced4da;
     text-align: center;
     border-radius: 7px;
     font-size: 30px;
@@ -37,6 +37,7 @@ body{
 #timer{
     background-color: black;
     color: white;
+    font-size: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -69,6 +70,13 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+#Waiting{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
 }
 
 
