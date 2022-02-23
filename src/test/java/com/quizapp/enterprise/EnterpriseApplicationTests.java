@@ -55,7 +55,6 @@ class EnterpriseApplicationTests {
 
         assertTrue(gamePresent);
 
-
     }
 
     /**
@@ -64,19 +63,19 @@ class EnterpriseApplicationTests {
      */
     @Test
     void verifyCorrectAnswer() {
-        String userGuest = "Blubber";
+        String userGuess = "Blubber";
         String correctAnswer = "Blubber";
 
-        ArrayList<Guess> gec = new GameService().checkGuess(userGuest, correctAnswer);
-        var correct = true;
+        ArrayList<Guess> gec = new GameService().checkGuess(userGuess, correctAnswer);
         for(var guess : gec) {
             if(!guess.IsCorrectLetter) {
-                correct = false;
-                break;
+                fail("User Guess of "
+                        + guess.Letter
+                        + " was not correct");
+                return;
             }
         }
-
-        assertTrue(correct);
+        assertTrue(true);
     }
 
     /**
@@ -85,10 +84,10 @@ class EnterpriseApplicationTests {
      */
     @Test
     void verifyIncorrectAnswer() {
-        String userGuest = "Flubber";
+        String userGuess = "Flubber";
         String correctAnswer = "Blubber";
 
-        ArrayList<Guess> gec = new GameService().checkGuess(userGuest, correctAnswer);
+        ArrayList<Guess> gec = new GameService().checkGuess(userGuess, correctAnswer);
         var correct = true;
         for(var guess : gec) {
             if(!guess.IsCorrectLetter) {
