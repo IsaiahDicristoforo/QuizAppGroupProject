@@ -4,6 +4,7 @@ import com.quizapp.enterprise.models.game.Game;
 import com.quizapp.enterprise.models.game.Guess;
 import com.quizapp.enterprise.services.GameService;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
@@ -13,6 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class EnterpriseApplicationTests {
+
+    @Autowired
+    GameService gameService;
 
     @Test
     void contextLoads() {
@@ -44,7 +48,7 @@ class EnterpriseApplicationTests {
         Game game = new Game();
         game.setGameCode(gameCode);
 
-        List<Game> games = GameService.getAllGames();
+        List<Game> games = gameService.getAllGames();
         boolean gamePresent = false;
         for (Game g : games) {
             if (g.getGameCode().equals(gameCode)) {
