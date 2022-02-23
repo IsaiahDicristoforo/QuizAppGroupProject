@@ -130,15 +130,34 @@ function createGrid(wordLength, totalGuesses){
 
 }
 
+function rotateGridSabotage(){
+
+    anime({
+        targets: $("#wordleGridContainer").get(),
+        duration: 5000,
+        easing: "linear",
+        rotate: '1turn',
+        loop: true
+    })
+}
+
 function tickTimer(){
 
    let newNumber =  parseInt($("#timerText").text()) - 1
 
-    $("#timerText").text(newNumber.toString())
+    if(newNumber == 0){
+        doneWithQuestion();
+        clearInterval(interval)
+    }
 
+    $("#timerText").text(newNumber.toString())
   }
 
 
+  function doneWithQuestion(){
+    hideAll();
+    showCorrectScreen();
+  }
 
 
 function hideAll(){
@@ -147,6 +166,10 @@ function hideAll(){
 
 function showWaitingScreen(){
     $("#Waiting").show();
+}
+
+function showCorrectScreen(){
+    $("#Correct").show()
 }
 
 

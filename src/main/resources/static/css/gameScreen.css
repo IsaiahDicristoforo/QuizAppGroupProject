@@ -3,6 +3,7 @@
 body{
     margin: 0;
     height: 100vh;
+    overflow: hidden;
 }
 
 
@@ -72,7 +73,7 @@ body{
     justify-content: space-between;
 }
 
-#Waiting{
+#Waiting, #Correct{
     display: flex;
     justify-content: center;
     align-items: center;
