@@ -6,8 +6,7 @@ $(document).ready(function(){
 
     $.get("/")
 
-    displayWaitingScreen()
-
+    createGrid(5, 5)
 
     $(document).on('keydown', (event) => {
 
@@ -157,6 +156,8 @@ function connect() {
 
 
 function displayWaitingScreen(){
+
+
     $("#wordleGridContainer").hide();
     $("#Correct").hide();
     $("#Incorrect").hide();

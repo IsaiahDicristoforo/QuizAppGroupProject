@@ -12,12 +12,9 @@
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
 </head>
-<body style="background-color: #000814">
+<body style="height: 100vh">
 
-<div class="navbar">
-    <h1>The Wordle Game</h1>
-    <h5 id="gameCode" style="color: white" th:text="${gameCode}"></h5>
-</div>
+
 
 <div class="modal hide fade" id="myModal">
     <div class="modal-dialog">
@@ -40,77 +37,99 @@
     </div>
 </div>
 
-<div id="parentDiv" style="">
+<div>
 
-    <div>
-        <div id="wordleGridContainer"></div>
 
-        <div id="Waiting">
-            <h2>Waiting</h2>
-        </div>
-        <div id="Correct">
-            <h2>Correct</h2>
-        </div>
-        <div id="Incorrect">
-            <h2>Incorrect</h2>
+    <div style="height: 100%" class="container-fluid text-center">
+
+        <div class="row content" style="display: flex; padding: 20px; justify-content: space-between">
+            <h1 style="color: black; text-align: center" class="h1">KaWordle</h1>
+            <h5  id="gameCode" style="" th:text="${gameCode}"></h5>
         </div>
 
+    <div style="height: 100%" class="row content">
+
+        <div class="col-sm-2 sidenav" >
+            <h2>Leaderboard</h2>
+
+            <ol class="list-group" id="playerList">
 
 
-    </div>
+                <div th:each="player: ${players}">
+                    <li class="list-group-item d-flex justify-content-between align-items-center" th:inline="text">[[${player.playerUsername}]]<span class="badge bg-primary rounded-pill">0</span>
+                    </li>
+                </div>
 
-    <div  id="leaderboard">
-        <h2>Leaderboard</h2>
-
-        <ol class="list-group" id="playerList">
+            </ol>
 
 
-        <div th:each="player: ${players}">
-                <li class="list-group-item d-flex justify-content-between align-items-center" th:inline="text">[[${player.playerUsername}]]<span class="badge bg-primary rounded-pill">0</span>
-                </li>
         </div>
 
-        </ol>
 
+        <div class="col-sm-8 text-left">
+            <div id="wordleGridContainer"></div>
 
-    </div>
-
-    <div id="hintsList">
-
-        <div id="timer">
-
-            <div>
-                60 sec
+            <div id="Waiting">
+                <h2>Waiting</h2>
+            </div>
+            <div id="Correct">
+                <h2>Correct</h2>
+            </div>
+            <div id="Incorrect">
+                <h2>Incorrect</h2>
             </div>
 
         </div>
 
-        <div>
-            <h2>Hints</h2>
-            <ol style="padding: 0">
-                <li>This is Hint 1</li>
-                <li>This is Hint 2</li>
-                <li>This is Hint 3</li>
-                <li>This is Hint 4</li>
+        <div id="hintsList" class="col-sm-2 sidenav">
 
-            </ol>
+            <div id="timer">
+
+                <div>
+                    60 sec
+                </div>
+
+            </div>
+
+            <div style="text-align: left">
+                <h2>Hints</h2>
+
+                <div>Hint 1</div>
+                <div>Hint 2</div>
+
+
+            </div>
+
+
+
+
         </div>
+
+
+
+
+
+
 
 
     </div>
 
 
-    <div id="powerupsList">
+
+    </div>
+
+
+    <div>
 
         <h2>Powerups</h2>
 
 
+
     </div>
 
 
-
-
 </div>
+
 
 
 
