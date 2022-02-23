@@ -36,10 +36,7 @@ public class GameTracker {
     }
 
     public static synchronized GameTracker getInstance() {
-
-        if (gameTracker == null) {
-            gameTracker = new GameTracker();
-        }
+        gameTracker = (gameTracker != null) ? gameTracker : new GameTracker();
         return gameTracker;
     }
 
