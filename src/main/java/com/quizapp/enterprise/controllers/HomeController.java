@@ -16,12 +16,12 @@ public class HomeController {
     private UserRepository userRepository;
 
     @GetMapping("")
-    public String viewHomePage(){
+    public String viewHomePage() {
         return "index";
     }
 
     @GetMapping("/register")
-    public String showRegistrationForm(Model model){
+    public String showRegistrationForm(Model model) {
         model.addAttribute("user", new User());
         return "signup_form";
     }

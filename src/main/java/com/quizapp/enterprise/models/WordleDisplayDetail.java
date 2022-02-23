@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class WordleDisplayDetail {
-
     private int wordleLength;
     private int wordleTimeLimit;
     private int totalGuesses;

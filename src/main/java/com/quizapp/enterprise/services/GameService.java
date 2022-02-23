@@ -11,19 +11,17 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 @Service
-public class GameService implements IGameService{
+public class GameService implements IGameService {
     @Override
     public Game startNewGame(int quizId) {
-
         Game newGame = new Game();
-        newGame.setGameCode(UUID.randomUUID().toString().substring(0,5));
+        newGame.setGameCode(UUID.randomUUID().toString().substring(0, 5));
         newGame.setGameStatus(GameStatus.Started);
         newGame.setQuizId(quizId);
 
         GameTracker.getInstance().addGame(newGame);
 
         return newGame;
-
     }
 
     @Override
@@ -39,13 +37,13 @@ public class GameService implements IGameService{
     @Override
     public void joinGame(String gameId, Player playerToJoin) throws Exception {
 
-        if(userNameExists(playerToJoin.getPlayerUsername(), gameId)){
+        if (userNameExists(playerToJoin.getPlayerUsername(), gameId)) {
             throw new Exception("Username already exists. Please choose another username");
         }
         GameTracker.getInstance().joinGame(gameId, playerToJoin);
     }
 
-    private boolean userNameExists(String userName, String gameCode){
+    private boolean userNameExists(String userName, String gameCode) {
         return GameTracker.getInstance().getGameByCode(gameCode).getPlayers().stream().anyMatch(player -> player.getPlayerUsername().equals(userName));
     }
 
@@ -66,9 +64,9 @@ public class GameService implements IGameService{
         var userGuessList = new ArrayList<Guess>();
 
         // Loop over the characters in the guess
-        for(int i = 0; i < userGuess.length(); i++) {
+        for (int i = 0; i < userGuess.length(); i++) {
             // If guess character == correct character, letter = correct
-            if(userGuessArr[i] == correctAnswerArr[i]){
+            if (userGuessArr[i] == correctAnswerArr[i]) {
                 userGuessList.add(new Guess(true, Character.toString(userGuessArr[i])));
             } else {
                 userGuessList.add(new Guess(false, Character.toString(userGuessArr[i])));

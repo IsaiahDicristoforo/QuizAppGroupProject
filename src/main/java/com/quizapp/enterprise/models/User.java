@@ -28,5 +28,4 @@ public class User {
 
     @NotNull
     private int totalPoints;
-
 }

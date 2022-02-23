@@ -16,23 +16,21 @@ public class GameViewController {
     private IGameService gameService;
 
     @RequestMapping("gameView/{gameId}")
-    public String game(@PathVariable("gameId") String gameId, Model model){
+    public String game(@PathVariable("gameId") String gameId, Model model) {
 
-        model.addAttribute("players",gameService.getGame(gameId).getPlayers());
+        model.addAttribute("players", gameService.getGame(gameId).getPlayers());
         model.addAttribute("gameCode", gameId);
 
         return "game";
     }
 
     @GetMapping("gameView/host/{gameId}")
-    public String hostGame(@PathVariable("gameId") String gameId, Model model){
+    public String hostGame(@PathVariable("gameId") String gameId, Model model) {
 
         model.addAttribute("gameCode", gameId);
         return "hostView";
     }
-
-
-    }
+}
 
 
 

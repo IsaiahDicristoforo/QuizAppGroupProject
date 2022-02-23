@@ -10,7 +10,6 @@ import java.util.ArrayList;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Game {
-
     private String gameCode;
     private int quizId;
     private ArrayList<Player> players = new ArrayList<>();

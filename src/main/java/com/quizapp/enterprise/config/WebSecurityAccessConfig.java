@@ -59,11 +59,6 @@ public class WebSecurityAccessConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout().logoutSuccessUrl("/").permitAll();
 
-
         http.csrf().disable();
     }
-
-
-
-
 }

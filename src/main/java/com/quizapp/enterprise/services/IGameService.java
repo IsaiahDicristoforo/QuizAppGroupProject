@@ -7,10 +7,13 @@ import com.quizapp.enterprise.models.game.Player;
 import java.util.ArrayList;
 
 public interface IGameService {
+    Game startNewGame(int quizId);
 
-     Game startNewGame(int quizId);
-     ArrayList<Game> getAllGames();
-     Game getGame(String gameId);
-     void joinGame(String gameId, Player playerToJoin) throws Exception;
-     ArrayList<Guess> checkGuess(String userGuess, String correctAnswer);
+    ArrayList<Game> getAllGames();
+
+    Game getGame(String gameId);
+
+    void joinGame(String gameId, Player playerToJoin) throws Exception;
+
+    ArrayList<Guess> checkGuess(String userGuess, String correctAnswer);
 }

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Player {
-
     private String playerUsername;
     private int totalPoints;
     private boolean isHost;

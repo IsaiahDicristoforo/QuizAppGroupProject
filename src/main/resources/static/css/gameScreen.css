@@ -1,13 +1,11 @@
-
-
-body{
+body {
     font-family: 'Mochiy Pop P One', sans-serif;
     margin: 0;
     height: 100vh;
 }
 
 
-#wordleGridContainer{
+#wordleGridContainer {
     display: grid;
     grid-template-rows: auto;
     grid-row-gap: 40px;
@@ -18,8 +16,7 @@ body{
 
 }
 
-
-.letter{
+.letter {
     border: 1px solid white;
     aspect-ratio: 1;
     background: #003566;
@@ -32,10 +29,10 @@ body{
     color: white;
 }
 
-#parentDiv div{
+#parentDiv div {
 }
 
-#timer{
+#timer {
     background-color: white;
     display: flex;
     justify-content: center;
@@ -47,7 +44,7 @@ body{
     border-radius: 50%;
 }
 
-#parentDiv{
+#parentDiv {
     display: grid;
     grid-template-columns: 20% 50% 20%;
     height: 80%;
@@ -56,7 +53,7 @@ body{
     justify-content: space-evenly;
 }
 
-.navbar{
+.navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -64,25 +61,28 @@ body{
     padding: 10px;
 }
 
-#leaderboard{
+#leaderboard {
     grid-row-start: 1;
     text-align: left;
     color: #ffc300;
 }
 
-#hintsList{
-    display: flex; justify-content: center; align-items: center; flex-direction: column;
+#hintsList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
     color: #ffc300;
 }
 
-#powerupsList{
+#powerupsList {
     background-color: #003566;
     grid-row-start: 4;
     grid-column-start: 1;
     grid-column-end: 4
 }
 
-h1{
+h1 {
     color: #ffc300;
 }
 
