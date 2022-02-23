@@ -28,11 +28,17 @@ public class GameTracker {
     }
 
     public Game getGameByCode(String gameCode){
-        return games.stream().filter(g -> g.getGameCode().equals(gameCode)).findAny().get();
+        return games.stream()
+                .filter(g -> g.getGameCode().equals(gameCode))
+                .findAny()
+                .get();
     }
 
-    public void joinGame(String gameCode, Player playerToJoin){
-        getGameByCode(gameCode).getPlayers().add(playerToJoin);
+    public void joinGame(
+            String gameCode, Player playerToJoin)  {
+        getGameByCode(gameCode)
+                .getPlayers()
+                .add(playerToJoin);
     }
 
     public static synchronized GameTracker getInstance() {

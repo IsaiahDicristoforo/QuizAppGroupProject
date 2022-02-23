@@ -16,7 +16,10 @@ public class GameService implements IGameService{
     public Game startNewGame(int quizId) {
 
         Game newGame = new Game();
-        newGame.setGameCode(UUID.randomUUID().toString().substring(0,5));
+        newGame.setGameCode(UUID
+                .randomUUID()
+                .toString()
+                .substring(0, 5));
         newGame.setGameStatus(GameStatus.Started);
         newGame.setQuizId(quizId);
 
@@ -46,7 +49,13 @@ public class GameService implements IGameService{
     }
 
     private boolean userNameExists(String userName, String gameCode){
-        return GameTracker.getInstance().getGameByCode(gameCode).getPlayers().stream().anyMatch(player -> player.getPlayerUsername().equals(userName));
+        return GameTracker
+                .getInstance()
+                .getGameByCode(gameCode)
+                .getPlayers()
+                .stream()
+                .anyMatch(player -> player.getPlayerUsername()
+                        .equals(userName));
     }
 
     /***
