@@ -48,6 +48,13 @@ function saveQuiz(){
         alert("Please add at least one question to create quiz.")
     }
     else{
+
+        let theQuizTitle = $("#myQuiz").val();
+        $.post({
+            url: "/quiz",
+            contentType: "application/json",
+            data: JSON.stringify({quizName: theQuizTitle})
+        })
         alert("Quiz Created!");
     }
 }
