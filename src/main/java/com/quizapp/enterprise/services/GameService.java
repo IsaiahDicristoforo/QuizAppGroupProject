@@ -46,7 +46,11 @@ public class GameService implements IGameService{
     }
 
     private boolean userNameExists(String userName, String gameCode){
-        return GameTracker.getInstance().getGameByCode(gameCode).getPlayers().stream().anyMatch(player -> player.getPlayerUsername().equals(userName));
+        return GameTracker.getInstance()
+                .getGameByCode(gameCode)
+                .getPlayers()
+                .stream()
+                .anyMatch(player -> player.getPlayerUsername().equals(userName));
     }
 
     /**
