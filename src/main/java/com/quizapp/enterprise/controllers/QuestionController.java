@@ -22,9 +22,14 @@ public class QuestionController {
 
     @PostMapping("/questions")
     public ResponseEntity<String> addQuestion(@Valid @RequestBody Question questionToAdd){
+        try {
+            questionRepository.save(questionToAdd);
+            return ResponseEntity.ok("Valid Question");
+        }
+        catch {
+            return ResponseEntity.bad("Invalid Question");
+        }
 
-        questionRepository.save(questionToAdd);
-        return ResponseEntity.ok("Valid Question");
     }
 
 }
