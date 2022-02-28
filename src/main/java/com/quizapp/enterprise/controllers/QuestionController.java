@@ -20,11 +20,18 @@ public class QuestionController {
         return questionRepository.findAll();
     }
 
-    @PostMapping("/questions")
+    @PostMapping("/question")
     public ResponseEntity<String> addQuestion(@Valid @RequestBody Question questionToAdd){
 
         questionRepository.save(questionToAdd);
         return ResponseEntity.ok("Valid Question");
+    }
+
+    @PostMapping("/questions")
+    public ResponseEntity<String> addQuestion(@Valid @RequestBody List<Question> questionsToAdd){
+
+        questionRepository.saveAll(questionsToAdd);
+        return ResponseEntity.ok("List of questions has been saved");
     }
 
 }

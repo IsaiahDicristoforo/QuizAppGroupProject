@@ -6,6 +6,9 @@ import com.quizapp.enterprise.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Optional;
+
 @Service
 public class QuizService implements IQuizService {
 
@@ -25,6 +28,29 @@ public class QuizService implements IQuizService {
 
        return quizRepository.save(quizToAdd);
     }
+
+    @Override
+    public Quiz getQuiz(int quizId) throws Exception {
+
+        Optional<Quiz> quizToReturn =  quizRepository.findById(quizId);
+        if(quizToReturn.isEmpty()){
+            throw new Exception("Quiz with id "  + quizId +  "does not exist");
+
+        }else{
+            return quizToReturn.get();
+        }
+
+    }
+
+    @Override
+    public ArrayList<Quiz> getAllQuizzes(String username){
+        int userId =  userRepository.findUserByEmail(username).getUserID();
+
+        return quizRepository.findQuizzesByUser(userId);
+
+    }
+
+
 
 
 
