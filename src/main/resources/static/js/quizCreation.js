@@ -54,6 +54,16 @@ function saveQuiz(){
             url: "/quiz",
             contentType: "application/json",
             data: JSON.stringify({quizName: theQuizTitle})
+        }, function (data){
+            let quizId = data["quizId"];
+
+            $.post({
+                url: "/questions",
+                contentType: "application/json",
+                data: JSON.stringify(quizQuestions)
+
+            })
+
         })
         alert("Quiz Created!");
     }
