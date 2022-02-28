@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Creation</title>
+</head>
+<body>
+<script src="/js/quizCreation.js"></script>
+<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+
+
+<div class="header">
+  <h1>Create your Quiz</h1>
+</div>
+
+<h3>What would you like to name your quiz?</h3>
+<input type="text" id="myQuiz" name="myQuiz"><br>
+<h3>Do you want to have hints?</h3>
+<label for="yes"> Yes </label>
+<input type="radio" id="yes" name="hints" value="yes">
+<label for="no"> No </label>
+<input type="radio" id="no" name="hints" value="no"><br><br>
+
+<button id="save" onclick="quizAttributes()">Save Quiz Attributes</button>
+<hr><br>
+
+<section class="questions">
+  <div id="questions">
+    <form id="questionCreation" onsubmit="updateQuestionCounter(); updateCounter(); return addQuestions()">
+      <label id="questionNumber">Question 1.</label>
+      <input id="question" type="text" placeholder="Question" readonly>
+      <input id="answer" type="text" placeholder="Answer" readonly>
+      <input id="hint" type="text" placeholder="Hint" readonly>
+      <input id="addQuestion" type="submit" value="Add Question">
+    </form>
+
+  </div>
+
+  <div class="quizInfo">
+    <br><h3 id="numOfQuestions">You currently have 0 questions added</h3><br>
+  </div>
+
+</section>
+
+<button id="createQuiz" onclick="saveQuiz()" disabled>Create Quiz</button>
+
+</body>
+</html>
