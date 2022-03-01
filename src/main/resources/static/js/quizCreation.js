@@ -8,20 +8,23 @@ function quizAttributes(){
     document.getElementById('yes').disabled=true;
     document.getElementById('no').disabled=true;
     document.getElementById('question').removeAttribute('readonly');
-    document.getElementById('answer').removeAttribute('readonly');
     document.getElementById('hint').removeAttribute('readonly');
     document.getElementById('createQuiz').removeAttribute('disabled');
+    document.getElementById('timeLimit').removeAttribute('readonly');
+    document.getElementById('allowedGuesses').removeAttribute('readonly');
     document.getElementById('save').disabled=true;
 }
 
 function addQuestions(){
 
     questionValue =  document.getElementById('question').value;
-    answerValue = document.getElementById('answer').value;
     hintValue = document.getElementById('hint').value;
 
-    question = questionValue + "; " + answerValue + "; " + hintValue;
-    quizQuestions.push(question);
+    guessesAllowed = document.getElementById("allowedGuesses").value
+    timeLimit = document.getElementById("timeLimit").value
+
+    question = questionValue
+    quizQuestions.push({"wordle": questionValue, "questionTimeLimitSeconds": timeLimit, "totalGuessesAllowed": guessesAllowed});
 
     document.getElementById('questionCreation').reset();
     console.log(quizQuestions);
@@ -55,7 +58,9 @@ function saveQuiz(){
             contentType: "application/json",
             data: JSON.stringify({quizName: theQuizTitle})
         }, function (data){
-            let quizId = data["quizId"];
+            let theQuizId = data["quizId"];
+
+            quizQuestions = quizQuestions.map(quiz => ({...quiz, quizId: theQuizId}))
 
             $.post({
                 url: "/questions",

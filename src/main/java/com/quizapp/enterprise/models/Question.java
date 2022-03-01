@@ -1,10 +1,6 @@
 package com.quizapp.enterprise.models;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Required;
-
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -27,9 +23,9 @@ public class Question {
     @NotBlank(message = "A question must have a word to guess")
     private String wordle;
 
-    private int questionTimeLimitSeconds = 120;
+    private int questionTimeLimitSeconds;
 
-    private int totalGuessesAllowed = 5;
+    private int totalGuessesAllowed;
 
     private int quizId;
 

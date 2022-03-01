@@ -29,8 +29,8 @@
     <form id="questionCreation" onsubmit="updateQuestionCounter(); updateCounter(); return addQuestions()">
       <label id="questionNumber">Question 1.</label>
       <input id="question" type="text" placeholder="Word" readonly>
-      <input id="allowedGuesses" type="text" placeholder="# Allowed Guesses" readonly>
-      <input id="timeLimit" type="text" placeholder="Time Limit (sec)"  readonly>
+      <input id="allowedGuesses" type="number" placeholder="# Allowed Guesses" readonly>
+      <input id="timeLimit" type="number" placeholder="Time Limit (sec)"  readonly>
 
       <input id="hint" type="text" placeholder="Hint" readonly>
       <input id="addQuestion" type="submit" value="Add Question">
