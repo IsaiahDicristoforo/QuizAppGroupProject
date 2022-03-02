@@ -59,11 +59,11 @@ public class GameService implements IGameService{
      */
     public ArrayList<Guess> checkGuess(String userGuess, String correctAnswer) {
         // Convert guess and correct guess to a character array
-        var userGuessArr = userGuess.toCharArray();
-        var correctAnswerArr = correctAnswer.toCharArray();
+        char[] userGuessArr = userGuess.toCharArray();
+        char[] correctAnswerArr = correctAnswer.toCharArray();
 
         // Initialize the list of guesses with their respective correctness
-        var userGuessList = new ArrayList<Guess>();
+        ArrayList<Guess> userGuessList = new ArrayList<Guess>();
 
         // Loop over the characters in the guess
         for(int i = 0; i < userGuess.length(); i++) {
