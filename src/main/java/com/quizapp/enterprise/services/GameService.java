@@ -1,10 +1,13 @@
 package com.quizapp.enterprise.services;
 
+import com.quizapp.enterprise.models.Question;
 import com.quizapp.enterprise.models.game.Game;
 import com.quizapp.enterprise.models.game.GameStatus;
 import com.quizapp.enterprise.models.game.Guess;
 import com.quizapp.enterprise.models.game.Player;
 import com.quizapp.enterprise.persistence.GameTracker;
+import com.quizapp.enterprise.persistence.QuestionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -12,6 +15,10 @@ import java.util.UUID;
 
 @Service
 public class GameService implements IGameService{
+
+    @Autowired
+    private QuestionRepository questionRepository;
+
     @Override
     public Game startNewGame(int quizId) {
 
@@ -19,6 +26,7 @@ public class GameService implements IGameService{
         newGame.setGameCode(UUID.randomUUID().toString().substring(0,5));
         newGame.setGameStatus(GameStatus.Started);
         newGame.setQuizId(quizId);
+        newGame.setQuestions((ArrayList<Question>) questionRepository.findByquizId(quizId));
 
         GameTracker.getInstance().addGame(newGame);
 
@@ -76,5 +84,10 @@ public class GameService implements IGameService{
         }
 
         return userGuessList;
+    }
+
+    @Override
+    public Question nextQuestion(String gameId) {
+        return GameTracker.getInstance().getNextQuestion(gameId);
     }
 }

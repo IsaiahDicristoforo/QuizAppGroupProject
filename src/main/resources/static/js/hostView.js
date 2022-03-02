@@ -14,7 +14,7 @@ function connect() {
     stompClient.connect({}, function(frame) {
 
         $("#nextQuestion").click(function(){
-            stompClient.send("/app/chat1", {}, JSON.stringify({'wordleLength': 2, "gameId": $("#hostScreenGameCode").text()  }));
+            stompClient.send("/app/chat1", {}, JSON.stringify({ "gameId": $("#hostScreenGameCode").text()  }));
         })
 
     });

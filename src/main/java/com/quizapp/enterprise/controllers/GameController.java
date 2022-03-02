@@ -43,6 +43,11 @@ public class GameController {
         return gameService.getGame(gameId);
     }
 
+    @PostMapping(value = "/{id}/nextQuestion")
+    public Question nextQuestion(@PathVariable("id") String gameId){
+        return gameService.nextQuestion(gameId);
+    }
+
     @GetMapping("")
     public ArrayList<Game> getAllGames(){
         return gameService.getAllGames();
@@ -61,6 +66,11 @@ public class GameController {
 
     @MessageMapping("/chat1")
     public void send(WordleDisplayDetail wordleDisplayDetails) throws Exception {
+        Question newQuestion  = gameService.nextQuestion(wordleDisplayDetails.getGameId());
+        wordleDisplayDetails.setWordleLength(newQuestion.getWordle().length());
+        wordleDisplayDetails.setQuestionId(newQuestion.getQuestionId());
+        wordleDisplayDetails.setTotalGuesses(newQuestion.getTotalGuessesAllowed());
+        wordleDisplayDetails.setWordleTimeLimit(newQuestion.getQuestionTimeLimitSeconds());
         messagingTemplate.convertAndSend("/game1/newQuestion/"  + wordleDisplayDetails.getGameId(), wordleDisplayDetails);
     }
 }

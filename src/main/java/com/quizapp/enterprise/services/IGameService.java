@@ -1,5 +1,6 @@
 package com.quizapp.enterprise.services;
 
+import com.quizapp.enterprise.models.Question;
 import com.quizapp.enterprise.models.game.Game;
 import com.quizapp.enterprise.models.game.Guess;
 import com.quizapp.enterprise.models.game.Player;
@@ -13,4 +14,5 @@ public interface IGameService {
      Game getGame(String gameId);
      void joinGame(String gameId, Player playerToJoin) throws Exception;
      ArrayList<Guess> checkGuess(String userGuess, String correctAnswer);
+     Question nextQuestion(String gameId);
 }

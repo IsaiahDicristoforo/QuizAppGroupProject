@@ -29,9 +29,11 @@ function connect() {
 
         newStomClient.connect({}, function(frame) {
 
+
             newStomClient.subscribe('/game1/newQuestion/' + $("#gameCode").text() , function(messageOutput) {
-                createGrid(Math.floor(Math.random() * 10),5)
-                $("#timerText").text("60")
+                let newQuestionDetails = JSON.parse(messageOutput.body);
+                createGrid(newQuestionDetails.wordleLength, newQuestionDetails.totalGuesses)
+                $("#timerText").text(newQuestionDetails.wordleTimeLimit)
                 clearInterval(interval)
                 interval  = setInterval(tickTimer, 1000)
 
