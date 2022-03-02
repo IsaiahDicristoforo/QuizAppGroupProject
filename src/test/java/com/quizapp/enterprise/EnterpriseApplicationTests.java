@@ -40,11 +40,12 @@ class EnterpriseApplicationTests {
     @Test
     void verifyAddAndRemoveGames() {
         String gameCode =  "FIRST";
-
+        GameService gameService = new GameService();
         Game game = new Game();
         game.setGameCode(gameCode);
 
-        List<Game> games = GameService.getAllGames();
+
+        List<Game> games = gameService.getAllGames();
         boolean gamePresent = false;
         for (Game g : games) {
             if (g.getGameCode().equals(gameCode)) {
