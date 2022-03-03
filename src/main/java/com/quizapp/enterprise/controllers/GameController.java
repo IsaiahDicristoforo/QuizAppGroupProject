@@ -38,7 +38,7 @@ public class GameController {
     }
 
     @PostMapping(value = "/joinGame/{gameId}")
-    public Game joinGame(@PathVariable("gameId") String gameId, @RequestBody Player player) throws Exception{
+    public Game joinGame(@PathVariable("gameId") String gameId, @RequestBody Player player) throws Exception {
         gameService.joinGame(gameId, player);
         return gameService.getGame(gameId);
     }
@@ -55,12 +55,13 @@ public class GameController {
         newPlayer.setPlayerUsername(message.getPlayerName());
         newPlayer.setHost(false);
         gameService.joinGame(message.getGameId(), newPlayer);
-        messagingTemplate.convertAndSend("/game1/messages/" + message.getGameId(),message);
+        messagingTemplate.convertAndSend("/game1/messages/" + message.getGameId(), message);
         return message;
     }
 
     @MessageMapping("/chat1")
     public void send(WordleDisplayDetail wordleDisplayDetails) throws Exception {
-        messagingTemplate.convertAndSend("/game1/newQuestion/"  + wordleDisplayDetails.getGameId(), wordleDisplayDetails);
+        messagingTemplate.convertAndSend("/game1/newQuestion/" + wordleDisplayDetails.getGameId()
+                , wordleDisplayDetails);
     }
 }

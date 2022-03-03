@@ -18,7 +18,7 @@ public class GameViewController {
     @RequestMapping("gameView/{gameId}")
     public String game(@PathVariable("gameId") String gameId, Model model){
 
-        model.addAttribute("players",gameService.getGame(gameId).getPlayers());
+        model.addAttribute("players", gameService.getGame(gameId).getPlayers());
         model.addAttribute("gameCode", gameId);
 
         return "game";
