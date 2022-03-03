@@ -2,6 +2,7 @@ package com.quizapp.enterprise.services;
 
 import com.quizapp.enterprise.models.game.Game;
 import com.quizapp.enterprise.models.game.GameStatus;
+import com.quizapp.enterprise.models.game.Guess;
 import com.quizapp.enterprise.models.game.Player;
 import com.quizapp.enterprise.persistence.GameTracker;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ public class GameService implements IGameService{
 
     @Override
     public ArrayList<Game> getAllGames() {
-        return null;
+        return GameTracker.getInstance().getAllGames();
     }
 
     @Override
@@ -36,7 +37,44 @@ public class GameService implements IGameService{
     }
 
     @Override
-    public void joinGame(int gameId, Player playerToJoin) {
+    public void joinGame(String gameId, Player playerToJoin) throws Exception {
 
+        if(userNameExists(playerToJoin.getPlayerUsername(), gameId)){
+            throw new Exception("Username already exists. Please choose another username");
+        }
+        GameTracker.getInstance().joinGame(gameId, playerToJoin);
+    }
+
+    private boolean userNameExists(String userName, String gameCode){
+        return GameTracker.getInstance().getGameByCode(gameCode).getPlayers().stream().anyMatch(player -> player.getPlayerUsername().equals(userName));
+    }
+
+    /***
+     * Checks the user guess agains the correct answer and return ArrayList<Guess>
+     * to be verified and displayed client side.
+     *
+     * @param userGuess the users guess
+     * @param correctAnswer the correct answer
+     * @return ArrayList<Guest> (bool, string)
+     */
+    public ArrayList<Guess> checkGuess(String userGuess, String correctAnswer) {
+        // Convert guess and correct guess to a character array
+        char[] userGuessArr = userGuess.toCharArray();
+        char[] correctAnswerArr = correctAnswer.toCharArray();
+
+        // Initialize the list of guesses with their respective correctness
+        ArrayList<Guess> userGuessList = new ArrayList<Guess>();
+
+        // Loop over the characters in the guess
+        for(int i = 0; i < userGuess.length(); i++) {
+            // If guess character == correct character, letter = correct
+            if(userGuessArr[i] == correctAnswerArr[i]){
+                userGuessList.add(new Guess(true, Character.toString(userGuessArr[i])));
+            } else {
+                userGuessList.add(new Guess(false, Character.toString(userGuessArr[i])));
+            }
+        }
+
+        return userGuessList;
     }
 }

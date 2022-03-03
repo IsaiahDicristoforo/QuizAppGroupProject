@@ -1,21 +1,25 @@
 package com.quizapp.enterprise.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Set;
 
-@Data
 @Entity
+@Getter
+@Setter
 @Table(name = "quizzes")
 public class Quiz {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "quizId")
+    @Column(name = "quiz_id")
     private int quizId;
 
+    @Column(name = "name")
+    private String quizName;
+
+    @Column(name = "user_id")
+    private int userId;
 
 }

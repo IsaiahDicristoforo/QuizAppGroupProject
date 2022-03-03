@@ -7,5 +7,5 @@ public class PlayerJoinEvent {
 
     private String playerName;
 
-    private String message;
+    private String gameId;
 }

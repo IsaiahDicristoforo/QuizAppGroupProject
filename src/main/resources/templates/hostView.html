@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>KaWordle</title>
+
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/js/hostView.js"></script>
+
+</head>
+<body>
+
+<div id="hostContainer">
+
+    <div>
+        <h1 style="font-family: 'Comic Sans MS'; font-size: 100px" class="header">Code</h1>
+        <h2 id="hostScreenGameCode" style="font-family: 'Comic Sans MS'; font-size: 300px" th:text="${gameCode}"></h2>
+    </div>
+
+
+</div>
+
+
+
+<button id="nextQuestion" class="btn btn-primary">Next Question</button>
+
+</body>
+</html>

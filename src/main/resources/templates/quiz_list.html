@@ -3,10 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Quiz List</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/quiz_list.js"></script>
 </head>
 <body>
 
 <h1>Quiz List</h1>
+
+<h2>Logged in as <span th:text="${username}"/></h2>
+
+<div th:each="quiz: ${quizzes}" class="card w-50">
+    <div class="card-body">
+        <h5 th:text="${quiz.quizName}" class="card-title"></h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a th:id="${quiz.quizId}" onclick="hostGame(this.id)" class="btn btn-primary">Host</a>
+    </div>
+</div>
 
 </body>
 </html>

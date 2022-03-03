@@ -1,19 +1,33 @@
 
 let row = 1;
 let column = 0;
+let wordLength = 8;
+let wordleGridActive = false;
+let interval = null;
+
+$(document).on('keydown', (event) => {handleLetterEntered(event);})
 
 $(document).ready(function(){
-    createGrid(5, 5)
 
-    $(document).on('keydown', (event) => {
+    hideAll()
+    showWaitingScreen()
 
-        handleLetterEntered(event);
+    wordleGridActive = false;
 
-    })
+    $.get("/")
 
     $("#joinGame").click(function (){
         $('#myModal').modal('hide');
-        connect();
+        wordleGridActive = true;
+    })
+
+    anime({
+        targets: $("#timer").get(),
+        easing: 'linear',
+        direction: "alternate",
+        duration: 2000,
+        scale: ["125%", "100%"],
+        loop: true
     })
 
 })
@@ -25,57 +39,69 @@ $(window).on('load', function() {
 
 function handleLetterEntered(event){
 
-    if(event.key === "Enter"){
-        row++;
-        column = 0;
+    if(wordleGridActive){
 
-        let targetsArray = ["#row1column1", '#row1column2', '#row1column3', '#row1column4', '#row1column5']
+        if(event.key === "Enter"){
 
-        let colors =  ["#d1ccd8", '#409E51', '#D9D426' ]
+            column = 0;
 
-        let color = Math.floor(Math.random() * 11);
 
-        anime({
-            targets: targetsArray,
-            direction: "normal",
-            easing: 'easeInOutSine',
-            delay: function (el, i, l){
-                return i * 100;
-            },
-            duration: 500,
-            rotate: '1turn'
-        })
+            let targetsArray = []
+
+
+            for (let i = 1; i <= wordLength; i++){
+                targetsArray.push("#row" + row + "column" + i)
+            }
+
+            anime({
+                targets: targetsArray,
+                direction: "normal",
+                easing: 'easeInOutSine',
+                delay: function (el, i, l){
+                    return i * 100;
+                },
+                duration: 500,
+                background: "#409E51",
+                rotate: '1turn'
+            })
+
+            row++;
+
+        }
+        else if(event.key === "Backspace"){
+
+            $("#row" + row + "column" + column).empty()
+            column--;
+
+        }else if(event.keyCode >= 60 && event.keyCode <= 90){ //Checking to see if the user enters a letter.
+
+            column++;
+
+            $("#row" + row + "column" + column).text(event.key.toUpperCase())
+
+            anime({
+                targets:  $("#row" + row + "column" + column).get(),
+                scale: ["100%", "120%"],
+                border: ["1px solid white", "1px solid #1bba3d"],
+                direction: "alternate",
+                easing: 'easeInOutSine',
+                duration: 250
+
+            })
+        }
+
     }
-    else if(event.key === "Backspace"){
-
-        $("#row" + row + "column" + column).empty()
-        column--;
-
-    }else if(event.keyCode >= 60 && event.keyCode <= 90){ //Checking to see if the user enters a letter.
-
-        column++;
-
-        $("#row" + row + "column" + column).text(event.key.toUpperCase())
-
-        anime({
-            targets:  $("#row" + row + "column" + column).get(),
-            scale: ["100%", "120%"],
-            border: ["1px solid white", "1px solid #1bba3d"],
-            direction: "alternate",
-            easing: 'easeInOutSine',
-            duration: 250
-
-        })
-    }
-
-
-
 
 }
 function createGrid(wordLength, totalGuesses){
+
+    $("#Correct").hide();
+    $("#Incorrect").hide();
+    $("#Waiting").hide();
+    $("#wordleGridContainer").show()
     row = 1;
     column = 0;
-    $("#wordleGridContainer").empty();
+    $("#wordleGridContainer").empty();  
     $("#wordleGridContainer").css("grid-template-columns", "repeat(" + wordLength + ", 0.062fr")
 
     for(let i = 1; i  <= totalGuesses; i++){
@@ -104,26 +130,49 @@ function createGrid(wordLength, totalGuesses){
 
 }
 
+function rotateGridSabotage(){
 
-function connect() {
-    var socket = new SockJS('/chat');
-    let stompClient = Stomp.over(socket);
-
-        stompClient.connect({}, function(frame) {
-            console.log('Connected: ' + frame);
-            stompClient.subscribe('/game1/messages', function(messageOutput) {
-
-
-                let playerName = JSON.parse(messageOutput.body)["playerName"];
-                $("#playerList").append("<li>" + playerName +  "</li>")
-            });
-
-            stompClient.send("/app/chat", {}, JSON.stringify({'playerName': $("#playerUserNameSelection").val(), 'message': 'Player Joined'}));
-
-        });
-
-
+    anime({
+        targets: $("#wordleGridContainer").get(),
+        duration: 5000,
+        easing: "linear",
+        rotate: '1turn',
+        loop: true
+    })
 }
+
+function tickTimer(){
+
+   let newNumber =  parseInt($("#timerText").text()) - 1
+
+    if(newNumber == 0){
+        doneWithQuestion();
+        clearInterval(interval)
+    }
+
+    $("#timerText").text(newNumber.toString())
+  }
+
+
+  function doneWithQuestion(){
+    hideAll();
+    showCorrectScreen();
+  }
+
+
+function hideAll(){
+    $("#mainGameArea").children().hide()
+}
+
+function showWaitingScreen(){
+    $("#Waiting").show();
+}
+
+function showCorrectScreen(){
+    $("#Correct").show()
+}
+
+
 
 
 
