@@ -26,7 +26,6 @@ public class GameViewController {
 
     @GetMapping("gameView/host/{gameId}")
     public String hostGame(@PathVariable("gameId") String gameId, Model model){
-
         model.addAttribute("gameCode", gameId);
         return "hostView";
     }

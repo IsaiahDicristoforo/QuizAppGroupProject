@@ -43,7 +43,6 @@ public class GameController {
         return gameService.getGame(gameId);
     }
 
-
     @GetMapping("")
     public ArrayList<Game> getAllGames(){
         return gameService.getAllGames();
