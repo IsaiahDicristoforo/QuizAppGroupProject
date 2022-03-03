@@ -116,13 +116,13 @@ input:-ms-input-placeholder { color: #fff;}
     font-size: 16px;
     color: #fff;
     line-height: 1.2;
-
+    width: 35%;
     outline: none;
     border: none;
     display: inline;
     height: 45px;
     background: transparent;
-    padding: 0 5px 0 12px;
+    padding: 0 5px 0 18px;
 }
 
 .input:focus {

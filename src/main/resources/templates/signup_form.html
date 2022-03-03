@@ -20,36 +20,37 @@
                     <i class="fa-solid fa-square-pen fa-2x"></i>
                 </span>
         <span class="login-form-title">Create an account</span>
-        <form th:action="@{/process_register}" th:object="${user}" method="post">
-          <div class="wrapper-input validate-input" data-validate = "Enter username">
-            <i class="fa-solid fa-user"></i>
-            <input class="input" type="text" name="username" placeholder="Username" th:field="*{username}">
-          </div>
-          <div class="wrapper-input validate-input" data-validate = "Enter email">
-            <i class="fa-solid fa-user"></i>
-            <input class="input" type="email" name="username" placeholder="Email" th:field="*{email}">
-          </div>
-          <div class="wrapper-input validate-input" data-validate="Enter password">
-            <i class="fa-solid fa-lock input-focus"></i>
-            <input class="input" type="password" name="pass" placeholder="Password" th:field="*{password}">
-          </div>
+        <form class="submit-form" th:action="@{/process_register}" th:object="${user}" method="post">
           <div class="wrapper-input validate-input" data-validate="Enter first name">
-            <i class="fa-solid fa-lock input-focus"></i>
-            <input class="input" type="text" name="pass" placeholder="First Name" th:field="*{firstName}">
+            <i class="fa-solid fa-pen"></i>
+            <input class="input required-input" type="text" name="firstname" placeholder="First Name" th:field="*{firstName}" autocomplete="sigh">
           </div>
-          <div class="wrapper-input validate-input" data-validate="Enter last name">
+          <div class="wrapper-input" data-validate="Enter last name">
+            <i class="fa-solid fa-pen"></i>
+            <input class="input required-input" type="text" name="lastname" placeholder="Last Name" th:field="*{lastName}" autocomplete="sigh">
+          </div>
+          <div class="wrapper-input" data-validate = "Enter username">
+            <i class="fa-solid fa-user"></i>
+            <input class="input required-input" type="text" name="username" placeholder="Username" th:field="*{username}" autocomplete="off">
+          </div>
+          <div class="wrapper-input" data-validate = "Enter email">
+            <i class="fa-solid fa-envelope"></i>
+            <input class="input required-input" type="email" name="email" placeholder="Email" th:field="*{email}" autocomplete="off">
+          </div>
+          <div class="wrapper-input" data-validate="Enter password">
             <i class="fa-solid fa-lock input-focus"></i>
-            <input class="input" type="text" name="pass" placeholder="Last Name" th:field="*{lastName}">
+            <input class="input required-input" type="password" name="password" placeholder="Password" th:field="*{password}" autocomplete="off">
           </div>
           <div class="container-login-form-btn">
-            <button type="submit" class="login-form-btn">Register</button>
+            <button type="button" class="login-form-btn" onclick="checkForm()">Register</button>
           </div>
           <div class="forget-password-div">
-            <a class="forget-password-text" href="/login">Already have an account?</a>
+            <a class="forget-password-text" th:href="@{/login}">Already have an account?</a>
           </div>
       </form>
     </div>
   </div>
 </div>
+<script type="text/javascript" th:src="@{/js/FormValidation.js}"></script>
 </body>
 </html>
