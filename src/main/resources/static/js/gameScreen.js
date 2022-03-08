@@ -77,7 +77,7 @@ function handleLetterEntered(event){
             $.post({
                 url: "/games/checkGuess",
                 contentType: "application/json",
-                data: JSON.stringify({guess: getGuess(row, wordLength), questionId: currentQuestionId})
+                data: JSON.stringify({guess: getGuess(row, wordLength), questionId: currentQuestionId, gameCode: $("#gameCode").text(), playerName: playerName})
             }, function(data){
 
                 let guessResults = data.guessResults

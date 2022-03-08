@@ -57,7 +57,17 @@ public class GameController {
 
     @PostMapping("/checkGuess")
     public GuessResult checkGuess(@RequestBody Guess userGuess){
-        return gameService.GetGuessResult(userGuess.getGuess(), userGuess.getQuestionId());
+        GuessResult result = gameService.GetGuessResult(userGuess.getGuess(), userGuess.getQuestionId());
+        result.setGameId(userGuess.getGameCode());
+        result.setPlayerUsername(userGuess.getPlayerName());
+        sendGuessResult(result);
+        return result;
+    }
+
+    @MessageMapping("/playerUpdate")
+    public GuessResult sendGuessResult(GuessResult result){
+        messagingTemplate.convertAndSend("/game1/playerUpdate/" + result.getGameId(), result);
+        return result;
     }
 
     @MessageMapping("/chat")

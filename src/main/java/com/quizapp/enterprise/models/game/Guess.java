@@ -13,6 +13,11 @@ public class Guess {
     private String guess;
     private long questionId;
 
+    private String gameCode;
+    private String playerName;
+
+
+
 
     public Guess(boolean isCorrectLetter, String letter) {
         IsCorrectLetter = isCorrectLetter;

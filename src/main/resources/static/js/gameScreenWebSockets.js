@@ -1,5 +1,7 @@
 var currentQuestionId  = 0
 
+let playerName = ""
+
 $(document).ready(function(){
 
 
@@ -16,13 +18,15 @@ function connect() {
     stompClient.connect({}, function(frame) {
 
         stompClient.subscribe('/game1/messages/' + $("#gameCode").text() , function(messageOutput) {
-            let playerName = JSON.parse(messageOutput.body)["playerName"];
-            $("#playerList").append("<li class=\"list-group-item d-flex justify-content-between align-items-center\">" + playerName +  "<span class=\"badge bg-primary rounded-pill\">0</span></li>")
+             newPlayerName = JSON.parse(messageOutput.body)["playerName"];
+            $("#playerList").append("<li class=\"list-group-item d-flex justify-content-between align-items-center\">" + newPlayerName +  "<span class=\"badge bg-primary rounded-pill\">0</span></li>")
 
         });
 
 
-        stompClient.send("/app/chat", {}, JSON.stringify({'playerName': $("#playerUserNameSelection").val(), 'gameId': $("#gameCode").text()  }));
+        playerName = $("#playerUserNameSelection").val()
+
+        stompClient.send("/app/chat", {}, JSON.stringify({'playerName': playerName , 'gameId': $("#gameCode").text()  }));
 
 
 
