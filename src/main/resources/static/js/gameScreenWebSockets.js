@@ -1,3 +1,5 @@
+var currentQuestionId  = 0
+
 $(document).ready(function(){
 
 
@@ -31,7 +33,8 @@ function connect() {
 
 
             newStomClient.subscribe('/game1/newQuestion/' + $("#gameCode").text() , function(messageOutput) {
-                let newQuestionDetails = JSON.parse(messageOutput.body);
+                let newQuestionDetails = JSON.parse(messageOutput.body)
+                currentQuestionId = newQuestionDetails.questionId
                 createGrid(newQuestionDetails.wordleLength, newQuestionDetails.totalGuesses)
                 $("#timerText").text(newQuestionDetails.wordleTimeLimit)
                 clearInterval(interval)

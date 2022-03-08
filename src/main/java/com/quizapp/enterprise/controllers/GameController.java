@@ -3,6 +3,8 @@ package com.quizapp.enterprise.controllers;
 import com.quizapp.enterprise.models.Question;
 import com.quizapp.enterprise.models.WordleDisplayDetail;
 import com.quizapp.enterprise.models.game.Game;
+import com.quizapp.enterprise.models.game.Guess;
+import com.quizapp.enterprise.models.game.GuessResult;
 import com.quizapp.enterprise.models.game.Player;
 import com.quizapp.enterprise.services.IGameService;
 import com.quizapp.enterprise.webSockets.PlayerJoinEvent;
@@ -53,6 +55,11 @@ public class GameController {
         return gameService.getAllGames();
     }
 
+    @PostMapping("/checkGuess")
+    public GuessResult checkGuess(@RequestBody Guess userGuess){
+        return gameService.GetGuessResult(userGuess.getGuess(), userGuess.getQuestionId());
+    }
+
     @MessageMapping("/chat")
     public PlayerJoinEvent send(PlayerJoinEvent message) throws Exception {
         Player newPlayer = new Player();
@@ -68,7 +75,7 @@ public class GameController {
     public void send(WordleDisplayDetail wordleDisplayDetails) throws Exception {
         Question newQuestion  = gameService.nextQuestion(wordleDisplayDetails.getGameId());
         wordleDisplayDetails.setWordleLength(newQuestion.getWordle().length());
-        wordleDisplayDetails.setQuestionId(newQuestion.getQuestionId());
+        wordleDisplayDetails.setQuestionId(newQuestion.getQuestionId().intValue());
         wordleDisplayDetails.setTotalGuesses(newQuestion.getTotalGuessesAllowed());
         wordleDisplayDetails.setWordleTimeLimit(newQuestion.getQuestionTimeLimitSeconds());
         messagingTemplate.convertAndSend("/game1/newQuestion/"  + wordleDisplayDetails.getGameId(), wordleDisplayDetails);

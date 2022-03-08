@@ -17,7 +17,7 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "questionid")
-    private int questionId;
+    private Long questionId;
 
     @NotNull
     @NotBlank(message = "A question must have a word to guess")

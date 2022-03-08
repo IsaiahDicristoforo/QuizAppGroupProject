@@ -1,10 +1,7 @@
 package com.quizapp.enterprise.services;
 
 import com.quizapp.enterprise.models.Question;
-import com.quizapp.enterprise.models.game.Game;
-import com.quizapp.enterprise.models.game.GameStatus;
-import com.quizapp.enterprise.models.game.Guess;
-import com.quizapp.enterprise.models.game.Player;
+import com.quizapp.enterprise.models.game.*;
 import com.quizapp.enterprise.persistence.GameTracker;
 import com.quizapp.enterprise.persistence.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +54,28 @@ public class GameService implements IGameService{
         return GameTracker.getInstance().getGameByCode(gameCode).getPlayers().stream().anyMatch(player -> player.getPlayerUsername().equals(userName));
     }
 
+    public GuessResult GetGuessResult(String userGuess, Long questionId){
+        String correctWord = questionRepository.getById(questionId).getWordle();
+
+        GuessResult result = new GuessResult();
+
+       char[] userLetters = userGuess.toCharArray();
+
+       LetterResult[] wordResults = new LetterResult[userGuess.length()];
+
+       for(int i = 0; i < userLetters.length; i++){
+           if(userLetters[i] == correctWord.charAt(i)){
+               wordResults[i] = LetterResult.Correct;
+           }else if(correctWord.contains(Character.toString(userLetters[i]))){
+               wordResults[i] = LetterResult.WrongLocation;
+           }else{
+               wordResults[i] = LetterResult.NotInWord;
+           }
+       }
+       result.setGuessResults(wordResults);
+       return result;
+    }
+
     /***
      * Checks the user guess agains the correct answer and return ArrayList<Guess>
      * to be verified and displayed client side.
@@ -77,12 +96,11 @@ public class GameService implements IGameService{
         for(int i = 0; i < userGuess.length(); i++) {
             // If guess character == correct character, letter = correct
             if(userGuessArr[i] == correctAnswerArr[i]){
-                userGuessList.add(new Guess(true, Character.toString(userGuessArr[i])));
+                //userGuessList.add(new Guess(true, Character.toString(userGuessArr[i])));
             } else {
-                userGuessList.add(new Guess(false, Character.toString(userGuessArr[i])));
+                //userGuessList.add(new Guess(false, Character.toString(userGuessArr[i])));
             }
         }
-
         return userGuessList;
     }
 
