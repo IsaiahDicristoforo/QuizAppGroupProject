@@ -73,7 +73,7 @@ class EnterpriseApplicationTests {
         String correctAnswer = "Blubber";
 
 
-        ArrayList<Guess> gec = new GameService().checkGuess(userGuest, correctAnswer);
+        ArrayList<Guess> gec = new GameService().checkGuess(userGuess, correctAnswer);
         boolean correct = true;
         for(Guess guess : gec) {
 
@@ -97,7 +97,7 @@ class EnterpriseApplicationTests {
         String correctAnswer = "Blubber";
 
 
-        ArrayList<Guess> gec = new GameService().checkGuess(userGuest, correctAnswer);
+        ArrayList<Guess> gec = new GameService().checkGuess(userGuess, correctAnswer);
         boolean correct = true;
         for(Guess guess : gec) {
             if(!guess.IsCorrectLetter) {
