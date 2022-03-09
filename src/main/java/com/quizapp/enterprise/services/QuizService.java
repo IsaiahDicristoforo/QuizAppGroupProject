@@ -33,7 +33,7 @@ public class QuizService implements IQuizService {
     public Quiz getQuiz(int quizId) throws Exception {
 
         Optional<Quiz> quizToReturn =  quizRepository.findById(quizId);
-        if(quizToReturn.isEmpty()){
+        if(!quizToReturn.isPresent()){
             throw new Exception("Quiz with id "  + quizId +  "does not exist");
 
         }else{

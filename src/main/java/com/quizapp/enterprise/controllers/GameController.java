@@ -3,6 +3,8 @@ package com.quizapp.enterprise.controllers;
 import com.quizapp.enterprise.models.Question;
 import com.quizapp.enterprise.models.WordleDisplayDetail;
 import com.quizapp.enterprise.models.game.Game;
+import com.quizapp.enterprise.models.game.Guess;
+import com.quizapp.enterprise.models.game.GuessResult;
 import com.quizapp.enterprise.models.game.Player;
 import com.quizapp.enterprise.services.IGameService;
 import com.quizapp.enterprise.webSockets.PlayerJoinEvent;
@@ -43,9 +45,29 @@ public class GameController {
         return gameService.getGame(gameId);
     }
 
+    @PostMapping(value = "/{id}/nextQuestion")
+    public Question nextQuestion(@PathVariable("id") String gameId){
+        return gameService.nextQuestion(gameId);
+    }
+
     @GetMapping("")
     public ArrayList<Game> getAllGames(){
         return gameService.getAllGames();
+    }
+
+    @PostMapping("/checkGuess")
+    public GuessResult checkGuess(@RequestBody Guess userGuess){
+        GuessResult result = gameService.GetGuessResult(userGuess.getGuess(), userGuess.getQuestionId());
+        result.setGameId(userGuess.getGameCode());
+        result.setPlayerUsername(userGuess.getPlayerName());
+        sendGuessResult(result);
+        return result;
+    }
+
+    @MessageMapping("/playerUpdate")
+    public GuessResult sendGuessResult(GuessResult result){
+        messagingTemplate.convertAndSend("/game1/playerUpdate/" + result.getGameId(), result);
+        return result;
     }
 
     @MessageMapping("/chat")
@@ -61,7 +83,12 @@ public class GameController {
 
     @MessageMapping("/chat1")
     public void send(WordleDisplayDetail wordleDisplayDetails) throws Exception {
-        messagingTemplate.convertAndSend("/game1/newQuestion/" + wordleDisplayDetails.getGameId()
-                , wordleDisplayDetails);
+        Question newQuestion  = gameService.nextQuestion(wordleDisplayDetails.getGameId());
+        wordleDisplayDetails.setWordleLength(newQuestion.getWordle().length());
+        wordleDisplayDetails.setQuestionId(newQuestion.getQuestionId().intValue());
+        wordleDisplayDetails.setTotalGuesses(newQuestion.getTotalGuessesAllowed());
+        wordleDisplayDetails.setWordleTimeLimit(newQuestion.getQuestionTimeLimitSeconds());
+        messagingTemplate.convertAndSend("/game1/newQuestion/"  + wordleDisplayDetails.getGameId(), wordleDisplayDetails);
+
     }
 }

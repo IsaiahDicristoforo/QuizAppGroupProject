@@ -5,6 +5,7 @@ let wordLength = 8;
 let wordleGridActive = false;
 let interval = null;
 
+
 $(document).on('keydown', (event) => {handleLetterEntered(event);})
 
 $(document).ready(function(){
@@ -37,6 +38,28 @@ $(window).on('load', function() {
     $('#myModal').modal('show');
 });
 
+function getGuess(rowNumber, wordLength){
+    let guess = "";
+
+    for(let i = 1; i <= wordLength; i++){
+        guess += $("#row" + rowNumber + "column" + i).text().toString().toLowerCase()
+
+    }
+    return guess;
+}
+
+
+function getLetterFlipAnimation(target, color){
+   return {
+        targets: target,
+        direction: "normal", easing: 'easeInOutSine',
+        duration: 300,
+        background: color,
+        rotate: '1turn'
+
+    }
+}
+
 function handleLetterEntered(event){
 
     if(wordleGridActive){
@@ -47,22 +70,37 @@ function handleLetterEntered(event){
 
 
             let targetsArray = []
-
-
             for (let i = 1; i <= wordLength; i++){
                 targetsArray.push("#row" + row + "column" + i)
             }
 
-            anime({
-                targets: targetsArray,
-                direction: "normal",
-                easing: 'easeInOutSine',
-                delay: function (el, i, l){
-                    return i * 100;
-                },
-                duration: 500,
-                background: "#409E51",
-                rotate: '1turn'
+            $.post({
+                url: "/games/checkGuess",
+                contentType: "application/json",
+                data: JSON.stringify({guess: getGuess(row, wordLength), questionId: currentQuestionId, gameCode: $("#gameCode").text(), playerName: playerName})
+            }, function(data){
+
+                let guessResults = data.guessResults
+                let animeTimeline1 = anime.timeline({autoplay: false, duration: 500});
+
+
+                for(let i = 0; i < targetsArray.length; i++){
+
+                    let color = ""
+
+                    if(guessResults[i] == "Correct"){
+                        color = "#65c465"
+                    }else if(guessResults[i] == "WrongLocation"){
+                        color = "#FFD700"
+                    }else{
+                        color = "#c7c9c1"
+                    }
+                    animeTimeline1.add(getLetterFlipAnimation(targetsArray[i], color))
+                }
+
+                animeTimeline1.play()
+
+
             })
 
             row++;
@@ -93,6 +131,8 @@ function handleLetterEntered(event){
     }
 
 }
+
+
 function createGrid(wordLength, totalGuesses){
 
     $("#Correct").hide();

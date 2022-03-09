@@ -14,7 +14,7 @@ body{
     grid-column-start: 2;
     grid-column-end: 3;
     grid-column-gap: 5px;
-    margin-top: 100px;
+    padding: 30px;
 }
 
 

@@ -1,5 +1,6 @@
 package com.quizapp.enterprise.models.game;
 
+import com.quizapp.enterprise.models.Question;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,7 @@ public class Game {
     private int quizId;
     private ArrayList<Player> players = new ArrayList<>();
     private GameStatus gameStatus;
+    private ArrayList<Question> questions;
+    private int currentQuestionNumber;
+
 }
