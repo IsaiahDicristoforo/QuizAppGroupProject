@@ -69,19 +69,22 @@ class EnterpriseApplicationTests {
      */
     @Test
     void verifyCorrectAnswer() {
-        String userGuest = "Blubber";
+        String userGuess = "Blubber";
         String correctAnswer = "Blubber";
+
 
         ArrayList<Guess> gec = new GameService().checkGuess(userGuest, correctAnswer);
         boolean correct = true;
         for(Guess guess : gec) {
-            if(!guess.IsCorrectLetter) {
-                correct = false;
-                break;
+
+          if(!guess.IsCorrectLetter) {
+                fail("User Guess of "
+                        + guess.Letter
+                        + " was not correct");
+                return;
             }
         }
-
-        assertTrue(correct);
+        assertTrue(true);
     }
 
     /**
@@ -90,8 +93,9 @@ class EnterpriseApplicationTests {
      */
     @Test
     void verifyIncorrectAnswer() {
-        String userGuest = "Flubber";
+        String userGuess = "Flubber";
         String correctAnswer = "Blubber";
+
 
         ArrayList<Guess> gec = new GameService().checkGuess(userGuest, correctAnswer);
         boolean correct = true;

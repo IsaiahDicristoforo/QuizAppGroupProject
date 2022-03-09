@@ -24,6 +24,7 @@ public class QuestionController {
     public ResponseEntity<String> addQuestion(@Valid @RequestBody Question questionToAdd){
         questionService.addQuestion(questionToAdd);
         return ResponseEntity.ok("Valid Question");
+
     }
 
     @PostMapping("/questions")

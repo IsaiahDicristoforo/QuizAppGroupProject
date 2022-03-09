@@ -30,8 +30,10 @@ public class QuizController {
     @RequestMapping("/quizzes")
     public String userQuizes(Model model, Principal principal){
 
+
         model.addAttribute("username",principal.getName());
         model.addAttribute("quizzes", quizService.getAllQuizzes(principal.getName()));
+      
         return "quiz_list";
     }
 

@@ -20,7 +20,10 @@ public class GameService implements IGameService{
     public Game startNewGame(int quizId) {
 
         Game newGame = new Game();
-        newGame.setGameCode(UUID.randomUUID().toString().substring(0,5));
+        newGame.setGameCode(UUID
+                .randomUUID()
+                .toString()
+                .substring(0, 5));
         newGame.setGameStatus(GameStatus.Started);
         newGame.setQuizId(quizId);
         newGame.setQuestions((ArrayList<Question>) questionRepository.findByquizId(quizId));
@@ -51,7 +54,15 @@ public class GameService implements IGameService{
     }
 
     private boolean userNameExists(String userName, String gameCode){
-        return GameTracker.getInstance().getGameByCode(gameCode).getPlayers().stream().anyMatch(player -> player.getPlayerUsername().equals(userName));
+
+      return GameTracker
+                .getInstance()
+                .getGameByCode(gameCode)
+                .getPlayers()
+                .stream()
+                .anyMatch(player -> player.getPlayerUsername()
+                        .equals(userName));
+
     }
 
     public GuessResult GetGuessResult(String userGuess, Long questionId){
@@ -78,11 +89,12 @@ public class GameService implements IGameService{
 
     /***
      * Checks the user guess agains the correct answer and return ArrayList<Guess>
+
      * to be verified and displayed client side.
      *
      * @param userGuess the users guess
      * @param correctAnswer the correct answer
-     * @return ArrayList<Guest> (bool, string)
+     * @return ArrayList<Guess> (bool, string)
      */
     public ArrayList<Guess> checkGuess(String userGuess, String correctAnswer) {
         // Convert guess and correct guess to a character array
