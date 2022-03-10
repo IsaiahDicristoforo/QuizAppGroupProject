@@ -60,7 +60,10 @@ public class GameController {
         GuessResult result = gameService.GetGuessResult(userGuess.getGuess(), userGuess.getQuestionId());
         result.setGameId(userGuess.getGameCode());
         result.setPlayerUsername(userGuess.getPlayerName());
-        sendGuessResult(result);
+
+        if(result.isWordCorrect()){
+            sendGuessResult(result);
+        }
         return result;
     }
 

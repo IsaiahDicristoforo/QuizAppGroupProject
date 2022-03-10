@@ -50,7 +50,7 @@ public class WebSecurityAccessConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/quizzes")
                 .authenticated()
-                .antMatchers("/gameView/{gameId}")
+                .antMatchers("/game/{gameId}")
                 .permitAll()
                 .anyRequest()
                 .permitAll()

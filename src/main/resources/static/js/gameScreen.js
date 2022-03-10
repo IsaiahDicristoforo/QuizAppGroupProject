@@ -4,9 +4,9 @@ let column = 0;
 let wordLength = 8;
 let wordleGridActive = false;
 let interval = null;
+let totalAllowedGuesses = 0
 
-
-$(document).on('keydown', (event) => {handleLetterEntered(event);})
+$(document).on('keydown', (event) => {handleKeyPressEvent(event);})
 
 $(document).ready(function(){
 
@@ -22,14 +22,7 @@ $(document).ready(function(){
         wordleGridActive = true;
     })
 
-    anime({
-        targets: $("#timer").get(),
-        easing: 'linear',
-        direction: "alternate",
-        duration: 2000,
-        scale: ["125%", "100%"],
-        loop: true
-    })
+    startTimerAnimation($("#timer").get())
 
 })
 
@@ -49,87 +42,85 @@ function getGuess(rowNumber, wordLength){
 }
 
 
-function getLetterFlipAnimation(target, color){
-   return {
-        targets: target,
-        direction: "normal", easing: 'easeInOutSine',
-        duration: 300,
-        background: color,
-        rotate: '1turn'
 
-    }
-}
-
-function handleLetterEntered(event){
+function handleKeyPressEvent(event){
 
     if(wordleGridActive){
 
         if(event.key === "Enter"){
-
-            column = 0;
-
-
-            let targetsArray = []
-            for (let i = 1; i <= wordLength; i++){
-                targetsArray.push("#row" + row + "column" + i)
-            }
-
-            $.post({
-                url: "/games/checkGuess",
-                contentType: "application/json",
-                data: JSON.stringify({guess: getGuess(row, wordLength), questionId: currentQuestionId, gameCode: $("#gameCode").text(), playerName: playerName})
-            }, function(data){
-
-                let guessResults = data.guessResults
-                let animeTimeline1 = anime.timeline({autoplay: false, duration: 500});
-
-
-                for(let i = 0; i < targetsArray.length; i++){
-
-                    let color = ""
-
-                    if(guessResults[i] == "Correct"){
-                        color = "#65c465"
-                    }else if(guessResults[i] == "WrongLocation"){
-                        color = "#FFD700"
-                    }else{
-                        color = "#c7c9c1"
-                    }
-                    animeTimeline1.add(getLetterFlipAnimation(targetsArray[i], color))
-                }
-
-                animeTimeline1.play()
-
-
-            })
-
-            row++;
-
+         wordSubmitted()
         }
         else if(event.key === "Backspace"){
 
-            $("#row" + row + "column" + column).empty()
-            column--;
+         backspacePressed()
 
         }else if(event.keyCode >= 60 && event.keyCode <= 90){ //Checking to see if the user enters a letter.
-
-            column++;
-
-            $("#row" + row + "column" + column).text(event.key.toUpperCase())
-
-            anime({
-                targets:  $("#row" + row + "column" + column).get(),
-                scale: ["100%", "120%"],
-                border: ["1px solid white", "1px solid #1bba3d"],
-                direction: "alternate",
-                easing: 'easeInOutSine',
-                duration: 250
-
-            })
+            letterEntered()
         }
+    }
+}
 
+function letterEntered(){
+    column++;
+    $("#row" + row + "column" + column).text(event.key.toUpperCase())
+    let targetLetter = $("#row" + row + "column" + column).get()
+    startLetterEnteredAnimation(targetLetter)
+}
+
+function backspacePressed(){
+    $("#row" + row + "column" + column).empty()
+    column--;
+}
+function wordSubmitted(){
+    column = 0;
+    let targetsArray = []
+    for (let i = 1; i <= wordLength; i++){
+        targetsArray.push("#row" + row + "column" + i)
     }
 
+    $.post({
+        url: "/games/checkGuess",
+        contentType: "application/json",
+        data: JSON.stringify({guess: getGuess(row, wordLength), questionId: currentQuestionId, gameCode: $("#gameCode").text(), playerName: playerName})
+    }, function(data){
+
+        let guessResults = data.guessResults;
+        let wordCorrect = data.wordCorrect
+        let animeTimeline1 = anime.timeline({autoplay: false, duration: 500});
+
+        for(let i = 0; i < targetsArray.length; i++){
+
+            let color = ""
+
+            if(guessResults[i] == "Correct"){
+                color = "#65c465"
+            }else if(guessResults[i] == "WrongLocation"){
+                color = "#FFD700"
+            }else{
+                color = "#c7c9c1"
+            }
+            let resultAnimation = getLetterFlipAnimation(targetsArray[i], color)
+
+            animeTimeline1.add(resultAnimation)
+
+        }
+        if(wordCorrect){
+            animeTimeline1.complete = function(anim){
+                hideAll()
+                showCorrectScreen()
+            }
+        }
+        else if(!wordCorrect && row > totalAllowedGuesses){
+            animeTimeline1.complete = function(anim){
+                hideAll()
+                showFailScreen()
+            }
+        }
+        animeTimeline1.play()
+
+    })
+
+    row++;
 }
 
 
@@ -150,17 +141,9 @@ function createGrid(wordLength, totalGuesses){
             let newElement = document.createElement("div");
             newElement.innerHTML = "&nbsp"
             newElement.classList.add("letter");
-
             newElement.id = ("row" + i + "column" + j);
 
-
-            anime({
-                targets: newElement,
-                opacity: ['0','1'],
-                duration: 700,
-                scale: ["0%", "100%"],
-                easing: 'easeInOutSine'
-            })
+            fadeInAnimation(newElement)
 
             document.getElementById("wordleGridContainer").appendChild(newElement)
         }
@@ -170,16 +153,6 @@ function createGrid(wordLength, totalGuesses){
 
 }
 
-function rotateGridSabotage(){
-
-    anime({
-        targets: $("#wordleGridContainer").get(),
-        duration: 5000,
-        easing: "linear",
-        rotate: '1turn',
-        loop: true
-    })
-}
 
 function tickTimer(){
 
@@ -196,7 +169,7 @@ function tickTimer(){
 
   function doneWithQuestion(){
     hideAll();
-    showCorrectScreen();
+    showFailScreen();
   }
 
 
@@ -210,6 +183,10 @@ function showWaitingScreen(){
 
 function showCorrectScreen(){
     $("#Correct").show()
+}
+
+function showFailScreen(){
+    $("#Incorrect").show()
 }
 
 

@@ -9,5 +9,6 @@ public class GuessResult {
     private LetterResult[] guessResults; //The length of the array should be the length of the word.
     private String playerUsername;
     private String gameId;
+    private boolean wordCorrect;
 
 }

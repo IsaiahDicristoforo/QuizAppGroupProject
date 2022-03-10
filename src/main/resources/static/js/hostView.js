@@ -1,9 +1,11 @@
 
-let currentQuestionNumber = 1;
+let currentQuestionNumber = 0;
 
 $(document).ready(function(){
 
     connect()
+
+    $("#joinGameLink").append(window.location.host + "/game/" + $("#hostScreenGameCode").text())
 })
 
 
@@ -35,15 +37,7 @@ function connect() {
         })
     })
 }
-
-function playerStatusUpdateReceived(player){
-
-
-
-}
-
 function nextQuestionClicked(){
-
     currentQuestionNumber += 1
     $("#questionCount").text("Question " + currentQuestionNumber + " / " + totalQuestions)
 }
