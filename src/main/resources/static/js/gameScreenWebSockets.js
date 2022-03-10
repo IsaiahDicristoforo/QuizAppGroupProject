@@ -28,13 +28,10 @@ function connect() {
 
         stompClient.send("/app/chat", {}, JSON.stringify({'playerName': playerName , 'gameId': $("#gameCode").text()  }));
 
-
-
         var newSocket = new SockJS('/chat1');
         let newStomClient = Stomp.over(newSocket);
 
         newStomClient.connect({}, function(frame) {
-
 
             newStomClient.subscribe('/game1/newQuestion/' + $("#gameCode").text() , function(messageOutput) {
                 let newQuestionDetails = JSON.parse(messageOutput.body)
@@ -43,7 +40,7 @@ function connect() {
                 $("#timerText").text(newQuestionDetails.wordleTimeLimit)
                 clearInterval(interval)
                 interval  = setInterval(tickTimer, 1000)
-
+                totalAllowedGuesses = newQuestionDetails.totalGuesses
             });
         });
     });

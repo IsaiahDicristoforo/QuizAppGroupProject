@@ -4,7 +4,7 @@ let column = 0;
 let wordLength = 8;
 let wordleGridActive = false;
 let interval = null;
-
+let totalAllowedGuesses = 0
 
 $(document).on('keydown', (event) => {handleKeyPressEvent(event);})
 
@@ -84,7 +84,8 @@ function wordSubmitted(){
         data: JSON.stringify({guess: getGuess(row, wordLength), questionId: currentQuestionId, gameCode: $("#gameCode").text(), playerName: playerName})
     }, function(data){
 
-        let guessResults = data.guessResults
+        let guessResults = data.guessResults;
+        let wordCorrect = data.wordCorrect
         let animeTimeline1 = anime.timeline({autoplay: false, duration: 500});
 
         for(let i = 0; i < targetsArray.length; i++){
@@ -98,9 +99,25 @@ function wordSubmitted(){
             }else{
                 color = "#c7c9c1"
             }
-            animeTimeline1.add(getLetterFlipAnimation(targetsArray[i], color))
+            let resultAnimation = getLetterFlipAnimation(targetsArray[i], color)
+
+            animeTimeline1.add(resultAnimation)
+
+        }
+        if(wordCorrect){
+            animeTimeline1.complete = function(anim){
+                hideAll()
+                showCorrectScreen()
+            }
+        }
+        else if(!wordCorrect && row > totalAllowedGuesses){
+            animeTimeline1.complete = function(anim){
+                hideAll()
+                showFailScreen()
+            }
         }
         animeTimeline1.play()
+
     })
 
     row++;
@@ -152,7 +169,7 @@ function tickTimer(){
 
   function doneWithQuestion(){
     hideAll();
-    showCorrectScreen();
+    showFailScreen();
   }
 
 
@@ -166,6 +183,10 @@ function showWaitingScreen(){
 
 function showCorrectScreen(){
     $("#Correct").show()
+}
+
+function showFailScreen(){
+    $("#Incorrect").show()
 }
 
 

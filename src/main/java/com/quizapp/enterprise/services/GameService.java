@@ -74,16 +74,21 @@ public class GameService implements IGameService{
 
        LetterResult[] wordResults = new LetterResult[userGuess.length()];
 
+       boolean wordCorrect = true; //Tracks if the whole word is correct, not just the individual letters.
+
        for(int i = 0; i < userLetters.length; i++){
            if(userLetters[i] == correctWord.charAt(i)){
                wordResults[i] = LetterResult.Correct;
            }else if(correctWord.contains(Character.toString(userLetters[i]))){
                wordResults[i] = LetterResult.WrongLocation;
+               wordCorrect = false;
            }else{
                wordResults[i] = LetterResult.NotInWord;
+               wordCorrect = false;
            }
        }
        result.setGuessResults(wordResults);
+       result.setWordCorrect(wordCorrect);
        return result;
     }
 

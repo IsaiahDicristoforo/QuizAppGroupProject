@@ -72,14 +72,34 @@ body{
     justify-content: space-between;
 }
 
-#Waiting, #Correct{
+#Waiting, #Correct, #Incorrect{
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100%;
+    height: 50%;
+    width: 50%;
 }
 
+#Correct{
+    background-color: limegreen;
+    border-radius: 10px;
+    border: 4px solid gold;
 
+}
+
+#mainGameArea{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+
+#Incorrect{
+    background-color: #ff3131;
+    border-radius: 10px;
+    border: 4px solid gold;
+    height: 50%;
+    width: 50%;
+}
 
 
 

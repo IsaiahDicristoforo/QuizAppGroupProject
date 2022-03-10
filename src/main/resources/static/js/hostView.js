@@ -1,5 +1,5 @@
 
-let currentQuestionNumber = 1;
+let currentQuestionNumber = 0;
 
 $(document).ready(function(){
 
@@ -37,15 +37,7 @@ function connect() {
         })
     })
 }
-
-function playerStatusUpdateReceived(player){
-
-
-
-}
-
 function nextQuestionClicked(){
-
     currentQuestionNumber += 1
     $("#questionCount").text("Question " + currentQuestionNumber + " / " + totalQuestions)
 }
