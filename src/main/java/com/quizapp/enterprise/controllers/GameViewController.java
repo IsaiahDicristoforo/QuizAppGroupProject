@@ -15,7 +15,7 @@ public class GameViewController {
     @Autowired
     private IGameService gameService;
 
-    @RequestMapping("gameView/{gameId}")
+    @RequestMapping("game/{gameId}")
     public String game(@PathVariable("gameId") String gameId, Model model){
 
         model.addAttribute("players", gameService.getGame(gameId).getPlayers());

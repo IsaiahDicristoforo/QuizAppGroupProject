@@ -4,6 +4,8 @@ let currentQuestionNumber = 1;
 $(document).ready(function(){
 
     connect()
+
+    $("#joinGameLink").append(window.location.host + "/game/" + $("#hostScreenGameCode").text())
 })
 
 
