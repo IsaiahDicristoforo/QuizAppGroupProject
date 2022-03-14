@@ -19,16 +19,6 @@ function startTimerAnimation(timer){
     })
 }
 
-function getLetterFlipAnimation(target, color){
-    return {
-        targets: target,
-        direction: "normal", easing: 'easeInOutSine',
-        duration: 300,
-        background: color,
-        rotate: '1turn'
-    }
-}
-
 function startLetterEnteredAnimation(targetElement){
     anime({
         targets:  targetElement,

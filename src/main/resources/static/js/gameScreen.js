@@ -86,8 +86,10 @@ function wordSubmitted(){
 
         let guessResults = data.guessResults;
         let wordCorrect = data.wordCorrect
-        let animeTimeline1 = anime.timeline({autoplay: false, duration: 500});
-
+        let rotateLetterAnimation = anime.timeline({
+            autoplay: false,
+            easing: 'easeInOutQuad',
+        })
         for(let i = 0; i < targetsArray.length; i++){
 
             let color = ""
@@ -97,26 +99,55 @@ function wordSubmitted(){
             }else if(guessResults[i] == "WrongLocation"){
                 color = "#FFD700"
             }else{
-                color = "#c7c9c1"
+                color = "#83867c"
             }
-            let resultAnimation = getLetterFlipAnimation(targetsArray[i], color)
-
-            animeTimeline1.add(resultAnimation)
+            rotateLetterAnimation.add({'targets': targetsArray[i],border: "0px solid white", rotate: '1turn', easing: 'easeInOutSine', 'background': color}, '-=500')
 
         }
+            rotateLetterAnimation.play()
+
         if(wordCorrect){
-            animeTimeline1.complete = function(anim){
-                hideAll()
-                showCorrectScreen()
+            stopTimer()
+            rotateLetterAnimation.complete = function(anim){
+
+                gridAnimation =  {
+                    targets: '#wordleGridContainer .letter',
+                    scale: [
+                        {value: .1, easing: 'easeOutSine', duration: 500},
+                        {value: 1, easing: 'easeInOutQuad', duration: 1200}
+                    ],
+                    opacity: [1,0],
+                    delay: anime.stagger(200, {grid: [totalAllowedGuesses, wordLength], from: 'center'})
+
+                };
+                gridAnimation.complete = function(anim){
+                    hideAll()
+                    showCorrectScreen()
+                    anime({
+                        targets: '#Correct',
+                        easing: 'spring(1, 80, 10, 0)',
+                        scale: [0,1],
+
+                    });
+
+                    anime({
+                        targets: "#pointsEarned",
+                        value: [0, 1000],
+                        round: 1,
+                        easing: 'easeInOutExpo'
+                    })
+                }
+                anime(gridAnimation)
+
             }
         }
         else if(!wordCorrect && row > totalAllowedGuesses){
-            animeTimeline1.complete = function(anim){
+            rotateLetterAnimation.complete = function(anim){
                 hideAll()
                 showFailScreen()
             }
         }
-        animeTimeline1.play()
+        rotateLetterAnimation.play()
 
     })
 
@@ -160,11 +191,16 @@ function tickTimer(){
 
     if(newNumber == 0){
         doneWithQuestion();
-        clearInterval(interval)
+        stopTimer()
     }
 
     $("#timerText").text(newNumber.toString())
   }
+
+  function stopTimer(){
+    clearInterval(interval)
+}
+
 
 
   function doneWithQuestion(){
