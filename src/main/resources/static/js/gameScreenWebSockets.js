@@ -18,9 +18,10 @@ function connect() {
     stompClient.connect({}, function(frame) {
 
         stompClient.subscribe('/game1/messages/' + $("#gameCode").text() , function(messageOutput) {
-             newPlayerName = JSON.parse(messageOutput.body)["playerName"];
-            $("#playerList").append("<li class=\"list-group-item d-flex justify-content-between align-items-center\">" + newPlayerName +  "<span class=\"badge bg-primary rounded-pill\">0</span></li>")
-
+            let newPlayerName = JSON.parse(messageOutput.body)["playerName"];
+            $("#leaderboardTableBody").append("<tr><th scope=\"row\">0</th>    " +
+                "<td>" + newPlayerName + "</td>" +
+                "<td><span class=\"badge bg-primary rounded-pill\">0</span></td></tr>")
         });
 
 
@@ -33,6 +34,13 @@ function connect() {
 
         newStomClient.connect({}, function(frame) {
 
+
+            newStomClient.subscribe("/game1/gameOver/3", function(messageOutput){
+                finalStandings = messageOutput.body
+               endGame()
+
+            })
+
             newStomClient.subscribe('/game1/newQuestion/' + $("#gameCode").text() , function(messageOutput) {
                 let newQuestionDetails = JSON.parse(messageOutput.body)
                 currentQuestionId = newQuestionDetails.questionId
@@ -43,6 +51,22 @@ function connect() {
                 totalAllowedGuesses = newQuestionDetails.totalGuesses
             });
         });
+
+        var newSocket3 = new SockJS('/chat1');
+        let newStomClient3 = Stomp.over(newSocket3);
+
+        newStomClient3.connect({}, function(frame) {
+
+            newStomClient3.subscribe("/game1/roundOver/" + $("#gameCode").text(), function(messageOutput){
+
+                displayLeaderboard(JSON.parse(messageOutput.body))
+
+            });
+
+
+        })
     });
+
+
 }
 

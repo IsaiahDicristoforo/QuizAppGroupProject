@@ -23,7 +23,6 @@ function startLetterEnteredAnimation(targetElement){
     anime({
         targets:  targetElement,
         scale: ["100%", "120%"],
-        border: ["1px solid white", "1px solid #1bba3d"],
         direction: "alternate",
         easing: 'easeInOutSine',
         duration: 250

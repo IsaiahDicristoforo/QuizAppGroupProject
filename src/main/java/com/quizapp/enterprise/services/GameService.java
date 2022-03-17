@@ -1,5 +1,8 @@
 package com.quizapp.enterprise.services;
 
+import com.quizapp.enterprise.events.GameOverEventPublisher;
+import com.quizapp.enterprise.events.RoundOverEvent;
+import com.quizapp.enterprise.events.RoundOverEventPublisher;
 import com.quizapp.enterprise.models.Question;
 import com.quizapp.enterprise.models.game.*;
 import com.quizapp.enterprise.persistence.GameTracker;
@@ -15,6 +18,11 @@ public class GameService implements IGameService{
 
     @Autowired
     private QuestionRepository questionRepository;
+
+    @Autowired
+    private RoundOverEventPublisher roundOverEventPublisher;
+
+    @Autowired private GameOverEventPublisher gameOverEventPublisher;
 
     @Override
     public Game startNewGame(int quizId) {
@@ -47,6 +55,8 @@ public class GameService implements IGameService{
     @Override
     public void joinGame(String gameId, Player playerToJoin) throws Exception {
 
+        playerToJoin.setRound(new PlayerRound());
+
         if(userNameExists(playerToJoin.getPlayerUsername(), gameId)){
             throw new Exception("Username already exists. Please choose another username");
         }
@@ -65,8 +75,10 @@ public class GameService implements IGameService{
 
     }
 
-    public GuessResult GetGuessResult(String userGuess, Long questionId){
-        String correctWord = questionRepository.getById(questionId).getWordle();
+    public GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName) {
+
+        Question question = questionRepository.getById(questionId);
+        String correctWord = question.getWordle();
 
         GuessResult result = new GuessResult();
 
@@ -79,6 +91,7 @@ public class GameService implements IGameService{
        for(int i = 0; i < userLetters.length; i++){
            if(userLetters[i] == correctWord.charAt(i)){
                wordResults[i] = LetterResult.Correct;
+
            }else if(correctWord.contains(Character.toString(userLetters[i]))){
                wordResults[i] = LetterResult.WrongLocation;
                wordCorrect = false;
@@ -89,7 +102,43 @@ public class GameService implements IGameService{
        }
        result.setGuessResults(wordResults);
        result.setWordCorrect(wordCorrect);
+
+       if(wordCorrect){
+           GameTracker.getInstance().updatePlayerRound(gameCode, playerName, true, true);
+           Player player = GameTracker.getInstance().getPlayer(gameCode, playerName);
+           player.setTotalPoints(player.getTotalPoints() + 1000);
+       }else{
+
+
+           int totalAllowedGuesses = question.getTotalGuessesAllowed();
+           int guessesTaken = GameTracker.getInstance().getPlayer(gameCode, playerName).getRound().getTotalGuessesTaken();
+           guessesTaken += 1;
+           GameTracker.getInstance().getPlayer(gameCode, playerName).getRound().setTotalGuessesTaken(guessesTaken);
+
+           if(totalAllowedGuesses == guessesTaken){
+               GameTracker.getInstance().updatePlayerRound(gameCode, playerName, false, true);
+           }
+       }
+
+       GameStatus status = GameTracker.getInstance().getGameByCode(gameCode).getGameStatus();
+      dispatchGameOrRoundOverEvents(status, gameCode);
        return result;
+    }
+
+    @Override
+    public void processPlayerTimeExpirationEvent(String playerName, String gameId) {
+        GameTracker.getInstance().updatePlayerRound(gameId, playerName, false, true);
+        dispatchGameOrRoundOverEvents(GameTracker.getInstance().getGameByCode(gameId).getGameStatus(), gameId);
+    }
+
+    private void dispatchGameOrRoundOverEvents(GameStatus gameStatus, String gameCode){
+        if(gameStatus == GameStatus.GameEnded){
+            gameOverEventPublisher.publishGameOverEvent(gameCode, GameTracker.getInstance().getLeaderboard(gameCode));
+            roundOverEventPublisher.publishRoundOverEvent(gameCode, GameTracker.getInstance().getLeaderboard(gameCode));
+
+        }else if(gameStatus == GameStatus.RoundEnded){
+            roundOverEventPublisher.publishRoundOverEvent(gameCode, GameTracker.getInstance().getLeaderboard(gameCode));
+        }
     }
 
     /***
@@ -123,6 +172,8 @@ public class GameService implements IGameService{
 
     @Override
     public Question nextQuestion(String gameId) {
+        //A new round has started, so we need to reset the game state
+        GameTracker.getInstance().updateGameState(GameStatus.Started, gameId);
         return GameTracker.getInstance().getNextQuestion(gameId);
     }
 }

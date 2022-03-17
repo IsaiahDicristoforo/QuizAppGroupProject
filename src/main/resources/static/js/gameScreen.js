@@ -5,6 +5,7 @@ let wordLength = 8;
 let wordleGridActive = false;
 let interval = null;
 let totalAllowedGuesses = 0
+let finalStandings = null
 
 $(document).on('keydown', (event) => {handleKeyPressEvent(event);})
 
@@ -110,7 +111,7 @@ function wordSubmitted(){
             stopTimer()
             rotateLetterAnimation.complete = function(anim){
 
-                gridAnimation =  {
+              let gridAnimation =  {
                     targets: '#wordleGridContainer .letter',
                     scale: [
                         {value: .1, easing: 'easeOutSine', duration: 500},
@@ -140,11 +141,14 @@ function wordSubmitted(){
                 anime(gridAnimation)
 
             }
+
+
         }
         else if(!wordCorrect && row > totalAllowedGuesses){
             rotateLetterAnimation.complete = function(anim){
                 hideAll()
                 showFailScreen()
+                stopTimer()
             }
         }
         rotateLetterAnimation.play()
@@ -206,11 +210,30 @@ function tickTimer(){
   function doneWithQuestion(){
     hideAll();
     showFailScreen();
+    $.post({
+        url: "/games/" + $("#gameCode").text() + "/timeUp?playerName=" + playerName,
+    }, function(data){
+
+    })
+
+
+  }
+
+  function displayLeaderboard(players){
+
+    $("#leaderboardTableBody").empty()
+
+      let counter = 1
+    players.forEach(player => {
+        $("#leaderboardTableBody").append("<tr> <th scope=\"row\">" + counter + "</th> <td>" + player.playerUsername  + "</td> <td><span className=\"badge bg-primary rounded-pill\">" + player.totalPoints +  "</span></td> </tr>");
+        counter++
+    });
   }
 
 
 function hideAll(){
     $("#mainGameArea").children().hide()
+    $("#resultsScreen").hide()
 }
 
 function showWaitingScreen(){
@@ -225,7 +248,60 @@ function showFailScreen(){
     $("#Incorrect").show()
 }
 
+function endGame(){
+
+    $("#resultsScreen").children().hide()
+
+    anime({
+        targets: "#mainGameScreen",
+        opacity: [1, 0],
+        easing: 'linear',
+        background: "#030000",
+        duration: 1000
+    }).complete = function(){
+        $("#mainGameScreen").hide()
+        $("#resultsScreen").show()
+        anime({
+            targets: "#resultsScreen",
+            background: "#030000",
+            easing: 'linear',
+            opacity: [0, 1],
+            duration: 2000
+        }).complete = function (){
+
+            $("#resultsScreen").children().show()
 
 
+            var textWrapper = document.querySelector('.ml6 .letters');
+            textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='resultLetter'>$&</span>");
+
+            anime.timeline({loop: false})
+                .add({
+                    targets: '.ml6 .resultLetter',
+                    translateY: ["1.1em", 0],
+                    translateZ: 0,
+                    duration: 750,
+                    delay: (el, i) => 50 * i
+                }).add({
+                targets: '.ml6',
+                duration: 1000,
+                easing: "easeOutExpo",
+                delay: 1000
+            }).complete = function (){
+
+                $("#resultsScreen").append("<h1 style='color: white'>Final Standings</h1>")
+
+                JSON.parse(finalStandings).forEach(player => {
+                    $("#resultsScreen").append("<div style='color: white'>" + player.playerUsername + "</div>")
+                })
+            };
+        }
+    }
+
+
+
+
+
+}
 
 
