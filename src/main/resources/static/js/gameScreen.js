@@ -1,107 +1,149 @@
+
 let row = 1;
 let column = 0;
+let wordLength = 8;
+let wordleGridActive = false;
+let interval = null;
+let totalAllowedGuesses = 0
 
-$(document).ready(function () {
+$(document).on('keydown', (event) => {handleKeyPressEvent(event);})
+
+$(document).ready(function(){
+
+    hideAll()
+    showWaitingScreen()
+
+    wordleGridActive = false;
 
     $.get("/")
 
-    displayWaitingScreen()
-
-
-    $(document).on('keydown', (event) => {
-
-        handleLetterEntered(event);
-
-    })
-
-    $("#joinGame").click(function () {
+    $("#joinGame").click(function (){
         $('#myModal').modal('hide');
-
-        connect();
+        wordleGridActive = true;
     })
+
+    startTimerAnimation($("#timer").get())
 
 })
 
 
-$(window).on('load', function () {
+$(window).on('load', function() {
     $('#myModal').modal('show');
 });
 
-function handleLetterEntered(event) {
+function getGuess(rowNumber, wordLength){
+    let guess = "";
 
-    if (event.key === "Enter") {
-        row++;
-        column = 0;
+    for(let i = 1; i <= wordLength; i++){
+        guess += $("#row" + rowNumber + "column" + i).text().toString().toLowerCase()
 
-        let targetsArray = ["#row1column1", '#row1column2', '#row1column3', '#row1column4', '#row1column5']
-
-        let colors = ["#d1ccd8", '#409E51', '#D9D426']
-
-        let color = Math.floor(Math.random() * 11);
-
-        anime({
-            targets: targetsArray,
-            direction: "normal",
-            easing: 'easeInOutSine',
-            delay: function (el, i, l) {
-                return i * 100;
-            },
-            duration: 500,
-            rotate: '1turn'
-        })
-    } else if (event.key === "Backspace") {
-
-        $("#row" + row + "column" + column).empty()
-        column--;
-
-    } else if (event.keyCode >= 60 && event.keyCode <= 90) { //Checking to see if the user enters a letter.
-
-        column++;
-
-        $("#row" + row + "column" + column).text(event.key.toUpperCase())
-
-        anime({
-            targets: $("#row" + row + "column" + column).get(),
-            scale: ["100%", "120%"],
-            border: ["1px solid white", "1px solid #1bba3d"],
-            direction: "alternate",
-            easing: 'easeInOutSine',
-            duration: 250
-
-        })
     }
-
-
+    return guess;
 }
 
-function createGrid(wordLength, totalGuesses) {
+
+
+function handleKeyPressEvent(event){
+
+    if(wordleGridActive){
+
+        if(event.key === "Enter"){
+         wordSubmitted()
+        }
+        else if(event.key === "Backspace"){
+
+         backspacePressed()
+
+        }else if(event.keyCode >= 60 && event.keyCode <= 90){ //Checking to see if the user enters a letter.
+            letterEntered()
+        }
+    }
+}
+
+function letterEntered(){
+    column++;
+    $("#row" + row + "column" + column).text(event.key.toUpperCase())
+    let targetLetter = $("#row" + row + "column" + column).get()
+    startLetterEnteredAnimation(targetLetter)
+}
+
+function backspacePressed(){
+    $("#row" + row + "column" + column).empty()
+    column--;
+}
+function wordSubmitted(){
+    column = 0;
+    let targetsArray = []
+    for (let i = 1; i <= wordLength; i++){
+        targetsArray.push("#row" + row + "column" + i)
+    }
+
+    $.post({
+        url: "/games/checkGuess",
+        contentType: "application/json",
+        data: JSON.stringify({guess: getGuess(row, wordLength), questionId: currentQuestionId, gameCode: $("#gameCode").text(), playerName: playerName})
+    }, function(data){
+
+        let guessResults = data.guessResults;
+        let wordCorrect = data.wordCorrect
+        let animeTimeline1 = anime.timeline({autoplay: false, duration: 500});
+
+        for(let i = 0; i < targetsArray.length; i++){
+
+            let color = ""
+
+            if(guessResults[i] == "Correct"){
+                color = "#65c465"
+            }else if(guessResults[i] == "WrongLocation"){
+                color = "#FFD700"
+            }else{
+                color = "#c7c9c1"
+            }
+            let resultAnimation = getLetterFlipAnimation(targetsArray[i], color)
+
+            animeTimeline1.add(resultAnimation)
+
+        }
+        if(wordCorrect){
+            animeTimeline1.complete = function(anim){
+                hideAll()
+                showCorrectScreen()
+            }
+        }
+        else if(!wordCorrect && row > totalAllowedGuesses){
+            animeTimeline1.complete = function(anim){
+                hideAll()
+                showFailScreen()
+            }
+        }
+        animeTimeline1.play()
+
+    })
+
+    row++;
+}
+
+
+function createGrid(wordLength, totalGuesses){
 
     $("#Correct").hide();
     $("#Incorrect").hide();
     $("#Waiting").hide();
+    $("#wordleGridContainer").show()
     row = 1;
     column = 0;
-    $("#wordleGridContainer").empty();
-    $("#wordleGridContainer").show();
+    $("#wordleGridContainer").empty();  
     $("#wordleGridContainer").css("grid-template-columns", "repeat(" + wordLength + ", 0.062fr")
 
-    for (let i = 1; i <= totalGuesses; i++) {
+    for(let i = 1; i  <= totalGuesses; i++){
 
-        for (let j = 1; j <= wordLength; j++) {
+        for(let j = 1; j <= wordLength; j++){
             let newElement = document.createElement("div");
             newElement.innerHTML = "&nbsp"
             newElement.classList.add("letter");
-
             newElement.id = ("row" + i + "column" + j);
 
-
-            anime({
-                targets: newElement,
-                opacity: ['0', '1'],
-                duration: 700,
-                scale: ["0%", "100%"],
-                easing: 'easeInOutSine'
-            })
+            fadeInAnimation(newElement)
 
             document.getElementById("wordleGridContainer").appendChild(newElement)
         }
@@ -112,67 +154,41 @@ function createGrid(wordLength, totalGuesses) {
 }
 
 
-function connect() {
-    var socket = new SockJS('/chat');
-    let stompClient = Stomp.over(socket);
+function tickTimer(){
 
-    stompClient.connect({}, function (frame) {
+   let newNumber =  parseInt($("#timerText").text()) - 1
 
-        stompClient.subscribe('/game1/messages/' + $("#gameCode").text(), function (messageOutput) {
-            let playerName = JSON.parse(messageOutput.body)["playerName"];
-            $("#playerList").append("<li class=\"list-group-item d-flex justify-content-between align-items-center\">" + playerName + "<span class=\"badge bg-primary rounded-pill\">0</span></li>")
+    if(newNumber == 0){
+        doneWithQuestion();
+        clearInterval(interval)
+    }
 
-        });
-
-
-        stompClient.send("/app/chat", {}, JSON.stringify({
-            'playerName': $("#playerUserNameSelection").val(),
-            'gameId': $("#gameCode").text()
-        }));
+    $("#timerText").text(newNumber.toString())
+  }
 
 
-        var newSocket = new SockJS('/chat1');
-        let newStomClient = Stomp.over(newSocket);
+  function doneWithQuestion(){
+    hideAll();
+    showFailScreen();
+  }
 
-        newStomClient.connect({}, function (frame) {
 
-            newStomClient.subscribe('/game1/newQuestion/' + $("#gameCode").text(), function (messageOutput) {
-                createGrid(Math.floor(Math.random() * 10), 5)
-            });
-        });
-    });
+function hideAll(){
+    $("#mainGameArea").children().hide()
 }
 
-
-function displayWaitingScreen() {
-    $("#wordleGridContainer").hide();
-    $("#Correct").hide();
-    $("#Incorrect").hide();
+function showWaitingScreen(){
     $("#Waiting").show();
 }
 
-
-function displayWaitingScreen() {
-    $("#wordleGridContainer").hide();
-    $("#Correct").hide();
-    $("#Incorrect").hide();
-    $("#Waiting").show();
+function showCorrectScreen(){
+    $("#Correct").show()
 }
 
-function displayCorrectScreen() {
-    $("#wordleGridContainer").hide();
-    $("#Correct").show();
-    $("#Incorrect").hide();
-    $("#Waiting").hide();
+function showFailScreen(){
+    $("#Incorrect").show()
 }
 
-
-function displayIncorrectScreen() {
-    $("#wordleGridContainer").hide();
-    $("#Correct").hide();
-    $("#Incorrect").show();
-    $("#Waiting").hide();
-}
 
 
 

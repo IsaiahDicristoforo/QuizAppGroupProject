@@ -6,29 +6,59 @@
 
     <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"
-            integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/js/hostView.js"></script>
 
 </head>
 <body>
 
-<div id="hostContainer">
+<div id="hostContainer" style="display: flex; align-items: center; flex-direction: column">
 
     <div>
-        <h1 style="font-family: 'Comic Sans MS'; font-size: 100px" class="header">Code</h1>
-        <h2 id="hostScreenGameCode" style="font-family: 'Comic Sans MS'; font-size: 300px" th:text="${gameCode}"></h2>
+        <h1 style="font-family: 'Comic Sans MS'; font-size: 50px" class="header">Welcome To Wordle</h1>
+        <h4 id="joinGameLink">Join Game: </h4>
+
+        <h2 id="hostScreenGameCode" style="font-family: 'Comic Sans MS'; text-align: center " th:text="${gameCode}"></h2>
+    </div>
+
+    <div>
+        <h2 id="questionCount"> Question 1 / <span th:text="${totalQuestions}"></span></h2>
+    </div>
+
+    <div id="playerStatus">
+
+
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6" style="background-color:rgba(92,151,191,0.49); padding: 20px">
+                    <h1>Playing</h1>
+                    <ul class="list-group playing">
+
+                    </ul>
+                </div>
+                <div class="col-sm-6" style="background-color:#5cd55c; padding: 20px">
+                    <h1>Complete</h1>
+                    <ul class="list-group complete">
+                </div>
+            </div>
+        </div>
+
+
+
     </div>
 
 
 </div>
 
 
-<button id="nextQuestion" class="btn btn-primary">Next Question</button>
+<button id="nextQuestion" onclick="nextQuestionClicked()" class="btn btn-primary">Next Question</button>
+
+<script th:inline="javascript">
+    let totalQuestions = [[${totalQuestions}]];
+</script>
 
 </body>
 </html>

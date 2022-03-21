@@ -1,9 +1,5 @@
 package com.quizapp.enterprise.models;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -12,7 +8,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "questions")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Question {
@@ -20,19 +17,19 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "questionid")
-    private int questionId;
+    private Long questionId;
 
     @NotNull
     @NotBlank(message = "A question must have a word to guess")
     private String wordle;
 
-    private int questionTimeLimit = 120;
+    private int questionTimeLimitSeconds;
 
-    private int attemptsRemaining = 5;
+    private int totalGuessesAllowed;
 
     private int quizId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name="questionid")
-    private List<Hint> hints = new ArrayList<>();
+    private List<Hint> hints = new ArrayList<Hint>();
 }

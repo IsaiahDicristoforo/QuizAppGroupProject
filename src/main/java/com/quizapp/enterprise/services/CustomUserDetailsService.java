@@ -1,5 +1,7 @@
-package com.quizapp.enterprise.models;
+package com.quizapp.enterprise.services;
 
+import com.quizapp.enterprise.models.CustomUserDetails;
+import com.quizapp.enterprise.models.User;
 import com.quizapp.enterprise.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,9 +1,14 @@
-$(document).ready(function () {
+function hostGame(id){
 
-    $("#hostGame").click(function () {
-        $.post("/games/newGame/1", function (data, status) { //Start a new game. Once the game code is generated, redirect the host to their game screen.
+    let quizId = id
+    console.log(id)
+        $.post({
+            url: "/games/newGame/" + quizId,
+        }, function (data){
+
+            console.log(data)
+
             window.location.href = "/gameView/host/" + data.gameCode
-        })
-    })
 
-})
+        })
+}

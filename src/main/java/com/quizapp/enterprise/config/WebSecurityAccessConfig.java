@@ -1,6 +1,6 @@
 package com.quizapp.enterprise.config;
 
-import com.quizapp.enterprise.models.CustomUserDetailsService;
+import com.quizapp.enterprise.services.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,16 +48,21 @@ public class WebSecurityAccessConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/quizzes").authenticated()
-                .antMatchers("/gameView/{gameId}").permitAll()
-                .anyRequest().permitAll()
+                .antMatchers("/quizzes")
+                .authenticated()
+                .antMatchers("/game/{gameId}")
+                .permitAll()
+                .anyRequest()
+                .permitAll()
                 .and()
                 .formLogin()
                 .usernameParameter("email")
                 .defaultSuccessUrl("/quizzes")
                 .permitAll()
                 .and()
-                .logout().logoutSuccessUrl("/").permitAll();
+                .logout()
+                .logoutSuccessUrl("/")
+                .permitAll();
 
 
         http.csrf().disable();

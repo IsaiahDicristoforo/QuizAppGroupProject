@@ -14,10 +14,10 @@ public class GameViewController {
     @Autowired
     private IGameService gameService;
 
-    @RequestMapping("gameView/{gameId}")
+    @RequestMapping("game/{gameId}")
     public String game(@PathVariable("gameId") String gameId, Model model){
 
-        model.addAttribute("players",gameService.getGame(gameId).getPlayers());
+        model.addAttribute("players", gameService.getGame(gameId).getPlayers());
         model.addAttribute("gameCode", gameId);
 
         return "game";
@@ -25,8 +25,8 @@ public class GameViewController {
 
     @GetMapping("gameView/host/{gameId}")
     public String hostGame(@PathVariable("gameId") String gameId, Model model){
-
         model.addAttribute("gameCode", gameId);
+        model.addAttribute("totalQuestions", gameService.getGame(gameId).getQuestions().size());
         return "hostView";
     }
 
