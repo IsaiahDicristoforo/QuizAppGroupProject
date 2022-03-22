@@ -31,5 +31,5 @@ public class Question {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name="questionid")
-    private List<Hint> hints = new ArrayList<Hint>();
+    private List<Hint> hints = new ArrayList<>();
 }

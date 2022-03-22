@@ -1,6 +1,5 @@
 package com.quizapp.enterprise.models.game;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,8 +14,6 @@ public class Guess {
 
     private String gameCode;
     private String playerName;
-
-
 
 
     public Guess(boolean isCorrectLetter, String letter) {

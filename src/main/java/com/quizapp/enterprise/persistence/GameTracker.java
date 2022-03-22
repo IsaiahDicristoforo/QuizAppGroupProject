@@ -14,7 +14,7 @@ public class GameTracker {
 
 
     private GameTracker(){
-        games = new ArrayList<Game>();
+        games = new ArrayList<>();
     }
 
     public void addGame(Game game){
@@ -42,7 +42,7 @@ public class GameTracker {
     public Question getNextQuestion(String gameCode){
         Game game = getGameByCode(gameCode);
 
-        Question newQuestion = null;
+        Question newQuestion;
         if(game.getCurrentQuestionNumber() == 0){
             newQuestion = game.getQuestions().get(0);
         }else{
