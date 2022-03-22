@@ -292,7 +292,8 @@ function endGame(){
                 $("#resultsScreen").append("<h1 style='color: white'>Final Standings</h1>")
 
                 JSON.parse(finalStandings).forEach(player => {
-                    $("#resultsScreen").append("<div style='color: white'>" + player.playerUsername + "</div>")
+                    $("#resultsScreen").append("<div style='color: white'>" + player.playerUsername + "  " + player.totalPoints +  "</div>")
+
                 })
             };
         }
