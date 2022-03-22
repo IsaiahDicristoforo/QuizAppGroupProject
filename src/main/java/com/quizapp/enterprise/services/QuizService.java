@@ -20,9 +20,9 @@ public class QuizService implements IQuizService {
 
 
     @Override
-    public Quiz createQuiz(Quiz quizToAdd, String username) {
+    public Quiz createQuiz(Quiz quizToAdd, String email) {
 
-       int userId =  userRepository.findUserByEmail(username).getUserID();
+       int userId =  userRepository.findUserByEmail(email).getUserID();
 
        quizToAdd.setUserId(userId);
 
