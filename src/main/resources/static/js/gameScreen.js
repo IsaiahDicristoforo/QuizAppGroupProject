@@ -1,4 +1,3 @@
-
 let row = 1;
 let column = 0;
 let wordLength = 8;
@@ -6,9 +5,11 @@ let wordleGridActive = false;
 let interval = null;
 let totalAllowedGuesses = 0
 
-$(document).on('keydown', (event) => {handleKeyPressEvent(event);})
+$(document).on('keydown', (event) => {
+    handleKeyPressEvent(event);
+})
 
-$(document).ready(function(){
+$(document).ready(function () {
 
     hideAll()
     showWaitingScreen()
@@ -17,7 +18,7 @@ $(document).ready(function(){
 
     $.get("/")
 
-    $("#joinGame").click(function (){
+    $("#joinGame").click(function () {
         $('#myModal').modal('hide');
         wordleGridActive = true;
     })
@@ -27,14 +28,14 @@ $(document).ready(function(){
 })
 
 
-$(window).on('load', function() {
+$(window).on('load', function () {
     $('#myModal').modal('show');
 });
 
-function getGuess(rowNumber, wordLength){
+function getGuess(rowNumber, wordLength) {
     let guess = "";
 
-    for(let i = 1; i <= wordLength; i++){
+    for (let i = 1; i <= wordLength; i++) {
         guess += $("#row" + rowNumber + "column" + i).text().toString().toLowerCase()
 
     }
@@ -42,76 +43,82 @@ function getGuess(rowNumber, wordLength){
 }
 
 
+function handleKeyPressEvent(event) {
 
-function handleKeyPressEvent(event){
+    if (wordleGridActive) {
 
-    if(wordleGridActive){
+        if (event.key === "Enter") {
+            wordSubmitted()
+        } else if (event.key === "Backspace") {
 
-        if(event.key === "Enter"){
-         wordSubmitted()
-        }
-        else if(event.key === "Backspace"){
+            backspacePressed()
 
-         backspacePressed()
-
-        }else if(event.keyCode >= 60 && event.keyCode <= 90){ //Checking to see if the user enters a letter.
+        } else if (event.keyCode >= 60 && event.keyCode <= 90) { //Checking to see if the user enters a letter.
             letterEntered()
         }
     }
 }
 
-function letterEntered(){
+function letterEntered() {
     column++;
     $("#row" + row + "column" + column).text(event.key.toUpperCase())
     let targetLetter = $("#row" + row + "column" + column).get()
     startLetterEnteredAnimation(targetLetter)
 }
 
-function backspacePressed(){
+function backspacePressed() {
     $("#row" + row + "column" + column).empty()
     column--;
 }
-function wordSubmitted(){
+
+function wordSubmitted() {
     column = 0;
     let targetsArray = []
-    for (let i = 1; i <= wordLength; i++){
+    for (let i = 1; i <= wordLength; i++) {
         targetsArray.push("#row" + row + "column" + i)
     }
 
     $.post({
         url: "/games/checkGuess",
         contentType: "application/json",
-        data: JSON.stringify({guess: getGuess(row, wordLength), questionId: currentQuestionId, gameCode: $("#gameCode").text(), playerName: playerName})
-    }, function(data){
+        data: JSON.stringify({
+            guess: getGuess(row, wordLength),
+            questionId: currentQuestionId,
+            gameCode: $("#gameCode").text(),
+            playerName: playerName
+        })
+    }, function (data) {
 
         let guessResults = data.guessResults;
         let wordCorrect = data.wordCorrect
         let animeTimeline1 = anime.timeline({autoplay: false, duration: 500});
 
-        for(let i = 0; i < targetsArray.length; i++){
+        for (let i = 0; i < targetsArray.length; i++) {
 
             let color = ""
-
-            if(guessResults[i] == "Correct"){
-                color = "#65c465"
-            }else if(guessResults[i] == "WrongLocation"){
-                color = "#FFD700"
-            }else{
-                color = "#c7c9c1"
+            switch (guessResults[i]) {
+                case "Correct":
+                    color = "#65c465";
+                    break;
+                case "WrongLocation":
+                    color = "#FFD700";
+                    break;
+                default:
+                    color = "#c7c9c1"
             }
+
             let resultAnimation = getLetterFlipAnimation(targetsArray[i], color)
 
             animeTimeline1.add(resultAnimation)
 
         }
-        if(wordCorrect){
-            animeTimeline1.complete = function(anim){
+        if (wordCorrect) {
+            animeTimeline1.complete = function (anim) {
                 hideAll()
                 showCorrectScreen()
             }
-        }
-        else if(!wordCorrect && row > totalAllowedGuesses){
-            animeTimeline1.complete = function(anim){
+        } else if (!wordCorrect && row > totalAllowedGuesses) {
+            animeTimeline1.complete = function (anim) {
                 hideAll()
                 showFailScreen()
             }
@@ -124,7 +131,7 @@ function wordSubmitted(){
 }
 
 
-function createGrid(wordLength, totalGuesses){
+function createGrid(wordLength, totalGuesses) {
 
     $("#Correct").hide();
     $("#Incorrect").hide();
@@ -132,12 +139,12 @@ function createGrid(wordLength, totalGuesses){
     $("#wordleGridContainer").show()
     row = 1;
     column = 0;
-    $("#wordleGridContainer").empty();  
+    $("#wordleGridContainer").empty();
     $("#wordleGridContainer").css("grid-template-columns", "repeat(" + wordLength + ", 0.062fr")
 
-    for(let i = 1; i  <= totalGuesses; i++){
+    for (let i = 1; i <= totalGuesses; i++) {
 
-        for(let j = 1; j <= wordLength; j++){
+        for (let j = 1; j <= wordLength; j++) {
             let newElement = document.createElement("div");
             newElement.innerHTML = "&nbsp"
             newElement.classList.add("letter");
@@ -154,38 +161,38 @@ function createGrid(wordLength, totalGuesses){
 }
 
 
-function tickTimer(){
+function tickTimer() {
 
-   let newNumber =  parseInt($("#timerText").text()) - 1
+    let newNumber = parseInt($("#timerText").text()) - 1
 
-    if(newNumber == 0){
+    if (newNumber == 0) {
         doneWithQuestion();
         clearInterval(interval)
     }
 
     $("#timerText").text(newNumber.toString())
-  }
+}
 
 
-  function doneWithQuestion(){
+function doneWithQuestion() {
     hideAll();
     showFailScreen();
-  }
+}
 
 
-function hideAll(){
+function hideAll() {
     $("#mainGameArea").children().hide()
 }
 
-function showWaitingScreen(){
+function showWaitingScreen() {
     $("#Waiting").show();
 }
 
-function showCorrectScreen(){
+function showCorrectScreen() {
     $("#Correct").show()
 }
 
-function showFailScreen(){
+function showFailScreen() {
     $("#Incorrect").show()
 }
 

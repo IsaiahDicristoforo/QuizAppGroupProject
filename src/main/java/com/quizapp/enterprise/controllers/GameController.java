@@ -10,9 +10,7 @@ import com.quizapp.enterprise.services.IGameService;
 import com.quizapp.enterprise.webSockets.PlayerJoinEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -86,11 +84,11 @@ public class GameController {
 
     @MessageMapping("/chat1")
     public void send(WordleDisplayDetail wordleDisplayDetails) throws Exception {
-        Question newQuestion  = gameService.nextQuestion(wordleDisplayDetails.getGameId());
+        Question newQuestion = gameService.nextQuestion(wordleDisplayDetails.getGameId());
         wordleDisplayDetails.setWordleLength(newQuestion.getWordle().length());
         wordleDisplayDetails.setQuestionId(newQuestion.getQuestionId().intValue());
-        wordleDisplayDetails.setTotalGuesses(newQuestion.getTotalGuessesAllowed());
-        wordleDisplayDetails.setWordleTimeLimit(newQuestion.getQuestionTimeLimitSeconds());
+        wordleDisplayDetails.setTotalGuesses(newQuestion.getAttemptsRemaining());
+        wordleDisplayDetails.setWordleTimeLimit(newQuestion.getTimeLimitSeconds());
         messagingTemplate.convertAndSend("/game1/newQuestion/"  + wordleDisplayDetails.getGameId(), wordleDisplayDetails);
 
     }
