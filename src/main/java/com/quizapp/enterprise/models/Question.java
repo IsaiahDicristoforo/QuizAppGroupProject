@@ -23,9 +23,9 @@ public class Question {
     @NotBlank(message = "A question must have a word to guess")
     private String wordle;
 
-    private int questionTimeLimitSeconds;
+    private int timeLimitSeconds;
 
-    private int totalGuessesAllowed;
+    private int attemptsRemaining;
 
     private int quizId;
 

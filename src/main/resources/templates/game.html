@@ -12,7 +12,9 @@
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"
+            integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/js/gameScreen.js"></script>
     <script src="/js/gameScreenWebSockets.js"></script>
     <script src="/js/animations.js"></script>
@@ -48,68 +50,69 @@
 
         <div class="row content" style="display: flex; padding: 20px; justify-content: space-between">
             <h1 style="color: black; text-align: center" class="h1">KaWordle</h1>
-            <h5  id="gameCode" style="" th:text="${gameCode}"></h5>
+            <h5 id="gameCode" style="" th:text="${gameCode}"></h5>
         </div>
 
-    <div style="height: 100%; min-height: 500px" class="row content">
+        <div style="height: 100%; min-height: 500px" class="row content">
 
-        <div class="col-sm-2 sidenav" >
-            <h2 class="h2">Leaderboard</h2>
+            <div class="col-sm-2 sidenav">
+                <h2 class="h2">Leaderboard</h2>
 
-            <ol class="list-group" id="playerList">
+                <ol class="list-group" id="playerList">
 
 
-                <div th:each="player: ${players}">
-                    <li class="list-group-item d-flex justify-content-between align-items-center" th:inline="text">[[${player.playerUsername}]]<span class="badge bg-primary rounded-pill">0</span>
-                    </li>
+                    <div th:each="player: ${players}">
+                        <li class="list-group-item d-flex justify-content-between align-items-center" th:inline="text">
+                            [[${player.playerUsername}]]<span class="badge bg-primary rounded-pill">0</span>
+                        </li>
+                    </div>
+
+                </ol>
+
+
+            </div>
+
+
+            <div id="mainGameArea" class="col-sm-8 text-left">
+                <div id="wordleGridContainer"></div>
+
+                <div id="Waiting">
+                    <div style="background-color: #fd7e14; padding: 30px; border-radius: 30px">
+                        <h3 class="h3">Waiting...</h3>
+
+                    </div>
                 </div>
-
-            </ol>
-
-
-        </div>
-
-
-        <div id="mainGameArea" class="col-sm-8 text-left">
-            <div id="wordleGridContainer"></div>
-
-            <div id="Waiting">
-                <div style="background-color: #fd7e14; padding: 30px; border-radius: 30px">
-                    <h3 class="h3">Waiting...</h3>
-
+                <div id="Correct">
+                    <h2>Correct</h2>
                 </div>
-            </div>
-            <div id="Correct">
-                <h2>Correct</h2>
-            </div>
-            <div id="Incorrect">
-                <h2>Incorrect</h2>
-            </div>
-
-        </div>
-
-        <div id="hintsList" class="col-sm-2 sidenav">
-
-            <div id="timer">
-
-                <div id="timerText">
-                    60
+                <div id="Incorrect">
+                    <h2>Incorrect</h2>
                 </div>
 
             </div>
 
-            <div style="text-align: left">
-                <h2>Hints</h2>
+            <div id="hintsList" class="col-sm-2 sidenav">
 
-                <div>Hint 1</div>
-                <div>Hint 2</div>
+                <div id="timer">
 
+                    <div id="timerText">
+                        60
+                    </div>
+
+                </div>
+
+                <div style="text-align: left">
+                    <h2>Hints</h2>
+
+                    <div>Hint 1</div>
+                    <div>Hint 2</div>
+
+
+                </div>
 
             </div>
 
         </div>
-
-    </div>
 
     </div>
 
@@ -121,11 +124,10 @@
 
             <button type="button" class="btn  btn-outline-success">Free Letter <br/><small>500 pts</small></button>
             <button type="button" class="btn  btn-outline-success">Extra Guess<br/><small>1000 pts</small></button>
-            <button type="button" class="btn  btn-outline-danger">Rotating Grid Sabotage<br/><small>1000 pts</small></button>
-            <button type="button" class="btn  btn-outline-danger">Player Loses Half Their Time<br/><small>1000 pts</small></button>
-
-
-
+            <button type="button" class="btn  btn-outline-danger">Rotating Grid Sabotage<br/><small>1000 pts</small>
+            </button>
+            <button type="button" class="btn  btn-outline-danger">Player Loses Half Their Time<br/><small>1000
+                pts</small></button>
 
 
         </div>
