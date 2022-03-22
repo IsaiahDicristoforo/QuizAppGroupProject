@@ -78,9 +78,10 @@ class EnterpriseApplicationTests {
         for(Guess guess : gec) {
 
           if(!guess.IsCorrectLetter) {
-                fail("User Guess of "
-                        + guess.Letter
-                        + " was not correct");
+              StringBuilder failedLetterGuessString = new StringBuilder("User Guess of ")
+                      .append(guess.Letter)
+                      .append(" was not correct");
+                fail(failedLetterGuessString.toString());
                 return;
             }
         }

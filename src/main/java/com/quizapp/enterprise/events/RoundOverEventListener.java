@@ -17,7 +17,9 @@ public class RoundOverEventListener {
     @EventListener
     @MessageMapping("/chat1")
     public void onApplicationEvent(RoundOverEvent event) {
-        messagingTemplate.convertAndSend("/game1/roundOver/" + event.gameCode , event.leaderboard);
+        StringBuilder roundOverCodeString = new StringBuilder("/game1/roundOver/")
+                .append(event.gameCode);
+        messagingTemplate.convertAndSend(roundOverCodeString.toString(), event.leaderboard);
 
     }
 }

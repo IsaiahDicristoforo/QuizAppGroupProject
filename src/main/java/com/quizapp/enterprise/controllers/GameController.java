@@ -79,7 +79,9 @@ public class GameController {
 
     @MessageMapping("/playerUpdate")
     public GuessResult sendGuessResult(GuessResult result){
-        messagingTemplate.convertAndSend("/game1/playerUpdate/" + result.getGameId(), result);
+        StringBuilder playerUpdateIdString = new StringBuilder("/game1/playerUpdate/")
+                .append(result.getGameId());
+        messagingTemplate.convertAndSend(playerUpdateIdString.toString(), result);
         return result;
     }
 
@@ -90,7 +92,9 @@ public class GameController {
         newPlayer.setPlayerUsername(message.getPlayerName());
         newPlayer.setHost(false);
         gameService.joinGame(message.getGameId(), newPlayer);
-        messagingTemplate.convertAndSend("/game1/messages/" + message.getGameId(), message);
+        StringBuilder messagesGameIdString = new StringBuilder("/game1/messages/")
+                .append(message.getGameId());
+        messagingTemplate.convertAndSend(messagesGameIdString.toString(), message);
         return message;
     }
 
@@ -101,8 +105,9 @@ public class GameController {
         wordleDisplayDetails.setQuestionId(newQuestion.getQuestionId().intValue());
         wordleDisplayDetails.setTotalGuesses(newQuestion.getTotalGuessesAllowed());
         wordleDisplayDetails.setWordleTimeLimit(newQuestion.getQuestionTimeLimitSeconds());
-        messagingTemplate.convertAndSend("/game1/newQuestion/"  + wordleDisplayDetails.getGameId(), wordleDisplayDetails);
-
+        StringBuilder newQuestionDetailsIdString = new StringBuilder("/game1/newQuestion/")
+                .append(wordleDisplayDetails.getGameId());
+        messagingTemplate.convertAndSend(newQuestionDetailsIdString.toString(), wordleDisplayDetails);
     }
 
 }

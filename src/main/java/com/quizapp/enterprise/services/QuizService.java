@@ -34,8 +34,10 @@ public class QuizService implements IQuizService {
 
         Optional<Quiz> quizToReturn =  quizRepository.findById(quizId);
         if(!quizToReturn.isPresent()){
-            throw new Exception("Quiz with id "  + quizId +  "does not exist");
-
+            StringBuilder missingQuizException = new StringBuilder("Quiz with id ")
+                    .append(quizId)
+                    .append("does not exist");
+            throw new Exception(missingQuizException.toString());
         }else{
             return quizToReturn.get();
         }

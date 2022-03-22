@@ -16,6 +16,8 @@ public class GameOverEventListener {
     @EventListener
     @MessageMapping("/chat")
     public void onApplicationEvent(GameOverEvent event) {
-        messagingTemplate.convertAndSend("/game1/gameOver/" + event.gameCode, event.leaderboard);
+        StringBuilder gameOverCodeString = new StringBuilder("/game1/gameOver/")
+                .append(event.gameCode);
+        messagingTemplate.convertAndSend(gameOverCodeString.toString(), event.leaderboard);
     }
 }
