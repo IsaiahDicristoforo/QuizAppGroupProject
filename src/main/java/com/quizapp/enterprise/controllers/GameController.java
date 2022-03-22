@@ -6,13 +6,12 @@ import com.quizapp.enterprise.models.game.Game;
 import com.quizapp.enterprise.models.game.Guess;
 import com.quizapp.enterprise.models.game.GuessResult;
 import com.quizapp.enterprise.models.game.Player;
+import com.quizapp.enterprise.persistence.GameTracker;
 import com.quizapp.enterprise.services.IGameService;
 import com.quizapp.enterprise.webSockets.PlayerJoinEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -57,7 +56,7 @@ public class GameController {
 
     @PostMapping("/checkGuess")
     public GuessResult checkGuess(@RequestBody Guess userGuess){
-        GuessResult result = gameService.GetGuessResult(userGuess.getGuess(), userGuess.getQuestionId());
+        GuessResult result = gameService.ProcessPlayerGuess(userGuess.getGuess(),userGuess.getGameCode(), userGuess.getQuestionId(), userGuess.getPlayerName());
         result.setGameId(userGuess.getGameCode());
         result.setPlayerUsername(userGuess.getPlayerName());
 
@@ -65,6 +64,17 @@ public class GameController {
             sendGuessResult(result);
         }
         return result;
+    }
+
+    @PostMapping("/{gameId}/timeUp")
+    public void playerFailEvent(@RequestParam("playerName") String playerName, @PathVariable("gameId") String gameId){
+        gameService.processPlayerTimeExpirationEvent(playerName, gameId);
+    }
+
+    @MessageMapping("/gameOver")
+    public void sendGameOveNotification(String gameId){
+        ArrayList<Player> leaderboard = GameTracker.getInstance().getLeaderboard(gameId);
+        messagingTemplate.convertAndSend("/game1/gameOver/3" , leaderboard );
     }
 
     @MessageMapping("/playerUpdate")
@@ -84,7 +94,7 @@ public class GameController {
         return message;
     }
 
-    @MessageMapping("/chat1")
+    @MessageMapping("/chat1/nextQuestion")
     public void send(WordleDisplayDetail wordleDisplayDetails) throws Exception {
         Question newQuestion  = gameService.nextQuestion(wordleDisplayDetails.getGameId());
         wordleDisplayDetails.setWordleLength(newQuestion.getWordle().length());
@@ -94,4 +104,5 @@ public class GameController {
         messagingTemplate.convertAndSend("/game1/newQuestion/"  + wordleDisplayDetails.getGameId(), wordleDisplayDetails);
 
     }
+
 }
