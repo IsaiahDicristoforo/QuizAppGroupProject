@@ -57,12 +57,9 @@ public class GameTracker {
         if(!(game.getCurrentQuestionNumber() == game.getQuestions().size())){
             game.getPlayers().forEach(x -> x.setRound(new PlayerRound()));
 
-            Question newQuestion = null;
-            if(game.getCurrentQuestionNumber() == 0){
-                newQuestion = game.getQuestions().get(0);
-            }else{
-                newQuestion = game.getQuestions().get(game.getCurrentQuestionNumber());
-            }
+            Question newQuestion = (game.getCurrentQuestionNumber() == 0)
+                    ? game.getQuestions().get(0)
+                    : game.getQuestions().get(game.getCurrentQuestionNumber());
 
             game.setCurrentQuestionNumber(game.getCurrentQuestionNumber() + 1);
             game.setGameStatus(GameStatus.Started);
@@ -121,11 +118,7 @@ public class GameTracker {
          Collections.sort(players, new Comparator<Player>() {
             @Override
             public int compare(Player o1, Player o2) {
-                if(o1.getTotalPoints() > o2.getTotalPoints()){
-                    return -1;
-                }else {
-                    return 1;
-                }
+                return (o1.getTotalPoints() > o2.getTotalPoints()) ? -1 : 1;
             }
         });
 
