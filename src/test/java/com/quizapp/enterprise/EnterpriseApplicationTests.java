@@ -76,7 +76,6 @@ class EnterpriseApplicationTests {
         ArrayList<Guess> gec = new GameService().checkGuess(userGuess, correctAnswer);
         boolean correct = true;
         for(Guess guess : gec) {
-
           if(!guess.IsCorrectLetter) {
               StringBuilder failedLetterGuessString = new StringBuilder("User Guess of ")
                       .append(guess.Letter)

@@ -123,9 +123,16 @@ public class GameService implements IGameService{
 
 
            int totalAllowedGuesses = question.getTotalGuessesAllowed();
-           int guessesTaken = GameTracker.getInstance().getPlayer(gameCode, playerName).getRound().getTotalGuessesTaken();
+           int guessesTaken = GameTracker
+                   .getInstance()
+                   .getPlayer(gameCode, playerName)
+                   .getRound()
+                   .getTotalGuessesTaken();
            guessesTaken += 1;
-           GameTracker.getInstance().getPlayer(gameCode, playerName).getRound().setTotalGuessesTaken(guessesTaken);
+           GameTracker.getInstance()
+                   .getPlayer(gameCode, playerName)
+                   .getRound()
+                   .setTotalGuessesTaken(guessesTaken);
 
            if(totalAllowedGuesses == guessesTaken){
                GameTracker.getInstance().updatePlayerRound(gameCode, playerName, false, true);

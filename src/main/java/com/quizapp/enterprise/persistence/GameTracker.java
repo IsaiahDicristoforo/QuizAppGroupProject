@@ -76,7 +76,12 @@ public class GameTracker {
 
     public void updatePlayerRound(String gameCode, String playerName, boolean correct, boolean setComplete){
         Game game = getGameByCode(gameCode);
-        Player playerToUpdate =  game.getPlayers().stream().filter(player -> player.getPlayerUsername().equals(playerName)).findFirst().get();
+        Player playerToUpdate = game.getPlayers()
+                .stream()
+                .filter(player -> player.getPlayerUsername()
+                        .equals(playerName))
+                .findFirst()
+                .get();
         playerToUpdate.getRound().setComplete(setComplete);
         updateGameState(gameCode);
     }
@@ -85,7 +90,10 @@ public class GameTracker {
     private void updateGameState(String gameCode){
 
         Game game = getGameByCode(gameCode);
-        if(game.getPlayers().stream().allMatch(player -> player.getRound().isComplete())){
+        if(game.getPlayers()
+                .stream()
+                .allMatch(player -> player.getRound()
+                        .isComplete())){
             game.setGameStatus(GameStatus.RoundEnded);
             if(game.getCurrentQuestionNumber() == game.getQuestions().size()){
                 game.setGameStatus(GameStatus.GameEnded);
@@ -99,7 +107,13 @@ public class GameTracker {
     }
 
     public Player getPlayer(String gameCode, String username){
-        return getGameByCode(gameCode).getPlayers().stream().filter(p -> p.getPlayerUsername().equals(username)).findFirst().get();
+        return getGameByCode(gameCode)
+                .getPlayers()
+                .stream()
+                .filter(p -> p.getPlayerUsername()
+                        .equals(username))
+                .findFirst()
+                .get();
     }
 
     public ArrayList<Player> getLeaderboard(String gameId){
