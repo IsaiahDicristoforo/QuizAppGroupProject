@@ -28,7 +28,7 @@ public class GameController {
 
 
     @PostMapping(value = "/newGame/{quizId}")
-    public Game startNewGame(@PathVariable("quizId") int quizId){
+    public Game startNewGame(@PathVariable("quizId") int quizId) throws Exception {
         return gameService.startNewGame(quizId);
     }
 
@@ -45,7 +45,7 @@ public class GameController {
     }
 
     @PostMapping(value = "/{id}/nextQuestion")
-    public Question nextQuestion(@PathVariable("id") String gameId){
+    public Question nextQuestion(@PathVariable("id") String gameId) throws Exception {
         return gameService.nextQuestion(gameId);
     }
 
@@ -55,8 +55,11 @@ public class GameController {
     }
 
     @PostMapping("/checkGuess")
-    public GuessResult checkGuess(@RequestBody Guess userGuess){
-        GuessResult result = gameService.ProcessPlayerGuess(userGuess.getGuess(),userGuess.getGameCode(), userGuess.getQuestionId(), userGuess.getPlayerName());
+    public GuessResult checkGuess(@RequestBody Guess userGuess) throws Exception {
+        GuessResult result = gameService.ProcessPlayerGuess(userGuess.getGuess()
+                ,userGuess.getGameCode()
+                , userGuess.getQuestionId()
+                , userGuess.getPlayerName());
         result.setGameId(userGuess.getGameCode());
         result.setPlayerUsername(userGuess.getPlayerName());
 

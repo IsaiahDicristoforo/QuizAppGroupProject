@@ -28,7 +28,7 @@ public class QuizController {
 
 
     @RequestMapping("/quizzes")
-    public String userQuizes(Model model, Principal principal){
+    public String userQuizes(Model model, Principal principal) throws Exception {
 
 
         model.addAttribute("username",principal.getName());
@@ -44,7 +44,7 @@ public class QuizController {
 
     @PostMapping("/quiz")
     @ResponseBody
-    public Quiz createNewQuiz(@RequestBody Quiz quizToAdd, Authentication authenticationDetails){
+    public Quiz createNewQuiz(@RequestBody Quiz quizToAdd, Authentication authenticationDetails) throws Exception {
         return quizService.createQuiz(quizToAdd, authenticationDetails.getName());
     }
 

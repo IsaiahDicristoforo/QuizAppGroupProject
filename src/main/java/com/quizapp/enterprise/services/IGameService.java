@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 public interface IGameService {
 
-     Game startNewGame(int quizId);
+     Game startNewGame(int quizId) throws Exception;
      ArrayList<Game> getAllGames();
      Game getGame(String gameId);
      void joinGame(String gameId, Player playerToJoin) throws Exception;
      ArrayList<Guess> checkGuess(String userGuess, String correctAnswer);
-     Question nextQuestion(String gameId);
-     GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName);
+     Question nextQuestion(String gameId) throws Exception;
+     GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName) throws Exception;
      void processPlayerTimeExpirationEvent(String playerName, String gameId);
 }

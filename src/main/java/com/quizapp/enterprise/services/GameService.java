@@ -25,7 +25,12 @@ public class GameService implements IGameService{
     @Autowired private GameOverEventPublisher gameOverEventPublisher;
 
     @Override
-    public Game startNewGame(int quizId) {
+    public Game startNewGame(int quizId) throws Exception {
+
+        ArrayList<Question> questions = (ArrayList<Question>) questionRepository.findByquizId(quizId);
+        if(questions == null){
+            throw new Exception("quiz not found");
+        }
 
         Game newGame = new Game();
         newGame.setGameCode(UUID
@@ -34,7 +39,7 @@ public class GameService implements IGameService{
                 .substring(0, 5));
         newGame.setGameStatus(GameStatus.Started);
         newGame.setQuizId(quizId);
-        newGame.setQuestions((ArrayList<Question>) questionRepository.findByquizId(quizId));
+        newGame.setQuestions(questions);
 
         GameTracker.getInstance().addGame(newGame);
 
@@ -75,9 +80,16 @@ public class GameService implements IGameService{
 
     }
 
-    public GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName) {
+    public GuessResult ProcessPlayerGuess(String userGuess,
+                                          String gameCode,
+                                          Long questionId,
+                                          String playerName) throws Exception {
 
         Question question = questionRepository.getById(questionId);
+        if(question == null){
+            throw new Exception("question not found");
+        }
+
         String correctWord = question.getWordle();
 
         GuessResult result = new GuessResult();
@@ -171,7 +183,7 @@ public class GameService implements IGameService{
     }
 
     @Override
-    public Question nextQuestion(String gameId) {
+    public Question nextQuestion(String gameId) throws Exception {
         //A new round has started, so we need to reset the game state
         GameTracker.getInstance().updateGameState(GameStatus.Started, gameId);
         return GameTracker.getInstance().getNextQuestion(gameId);

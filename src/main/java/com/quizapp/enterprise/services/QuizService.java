@@ -1,6 +1,7 @@
 package com.quizapp.enterprise.services;
 
 import com.quizapp.enterprise.models.Quiz;
+import com.quizapp.enterprise.models.User;
 import com.quizapp.enterprise.persistence.QuizRepository;
 import com.quizapp.enterprise.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,13 @@ public class QuizService implements IQuizService {
 
 
     @Override
-    public Quiz createQuiz(Quiz quizToAdd, String username) {
+    public Quiz createQuiz(Quiz quizToAdd, String username) throws Exception {
 
-       int userId =  userRepository.findUserByEmail(username).getUserID();
-
-       quizToAdd.setUserId(userId);
+       User user = userRepository.findUserByEmail(username);
+       if(user == null){
+           throw new Exception("user not found");
+       }
+       quizToAdd.setUserId(user.getUserID());
 
        return quizRepository.save(quizToAdd);
     }
@@ -45,10 +48,13 @@ public class QuizService implements IQuizService {
     }
 
     @Override
-    public ArrayList<Quiz> getAllQuizzes(String username){
-        int userId =  userRepository.findUserByEmail(username).getUserID();
+    public ArrayList<Quiz> getAllQuizzes(String username) throws Exception {
+        User user = userRepository.findUserByEmail(username);
+        if(user == null){
+            throw new Exception("user not found");
+        }
 
-        return quizRepository.findQuizzesByUser(userId);
+        return quizRepository.findQuizzesByUser(user.getUserID());
 
     }
 

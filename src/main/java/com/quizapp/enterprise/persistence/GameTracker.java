@@ -47,9 +47,12 @@ public class GameTracker {
                 .add(playerToJoin);
     }
 
-    public Question getNextQuestion(String gameCode){
+    public Question getNextQuestion(String gameCode) throws Exception {
 
         Game game = getGameByCode(gameCode);
+      if(game == null){
+          throw new Exception("game cannot be null");
+      }
 
         if(!(game.getCurrentQuestionNumber() == game.getQuestions().size())){
             game.getPlayers().forEach(x -> x.setRound(new PlayerRound()));
