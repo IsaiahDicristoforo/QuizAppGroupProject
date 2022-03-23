@@ -1,14 +1,19 @@
 package com.quizapp.enterprise;
 
 import com.quizapp.enterprise.controllers.GameController;
+import com.quizapp.enterprise.models.Question;
+import com.quizapp.enterprise.models.Quiz;
+import com.quizapp.enterprise.models.User;
 import com.quizapp.enterprise.models.game.Game;
 import com.quizapp.enterprise.models.game.Guess;
 import com.quizapp.enterprise.services.GameService;
 import com.quizapp.enterprise.services.IGameService;
+import com.quizapp.enterprise.services.QuizService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,6 +36,15 @@ class EnterpriseApplicationTests {
         Game game = new Game();
         game.setGameCode(gameCode);
         assertEquals(gameCode, game.getGameCode());
+    }
+
+    @Test
+    void verifyUserProperties() {
+        String email =  "TEST";
+
+        User user = new User();
+        user.setEmail(email);
+        assertEquals(email, user.getEmail());
     }
 
     /**
