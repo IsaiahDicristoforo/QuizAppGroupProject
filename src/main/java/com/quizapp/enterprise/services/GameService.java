@@ -151,11 +151,11 @@ public class GameService implements IGameService{
     }
 
     private void dispatchGameOrRoundOverEvents(GameStatus gameStatus, String gameCode){
-        if(gameStatus == GameStatus.GameEnded){
+        if(gameStatus.equals(GameStatus.GameEnded)){
             gameOverEventPublisher.publishGameOverEvent(gameCode, GameTracker.getInstance().getLeaderboard(gameCode));
             roundOverEventPublisher.publishRoundOverEvent(gameCode, GameTracker.getInstance().getLeaderboard(gameCode));
 
-        }else if(gameStatus == GameStatus.RoundEnded){
+        }else if(gameStatus.equals(GameStatus.RoundEnded)){
             roundOverEventPublisher.publishRoundOverEvent(gameCode, GameTracker.getInstance().getLeaderboard(gameCode));
         }
     }
