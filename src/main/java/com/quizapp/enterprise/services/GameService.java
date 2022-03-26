@@ -34,7 +34,7 @@ public class GameService implements IGameService{
                 .substring(0, 5));
         newGame.setGameStatus(GameStatus.Started);
         newGame.setQuizId(quizId);
-        newGame.setQuestions((ArrayList<Question>) questionRepository.findByquizId(quizId));
+        newGame.setQuestions((ArrayList<Question>) questionRepository.findByQuizId(quizId));
 
         GameTracker.getInstance().addGame(newGame);
 
