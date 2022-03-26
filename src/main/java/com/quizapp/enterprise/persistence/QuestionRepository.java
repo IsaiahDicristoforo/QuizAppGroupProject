@@ -10,7 +10,7 @@ import java.util.List;
 public interface QuestionRepository extends JpaRepository<Question, Long > {
 
 
-    List<Question> findByquizId(Integer quizId);
+    List<Question> findByQuizId(Integer quizId);
 
 
 
