@@ -101,14 +101,11 @@ public class GameTracker {
 
     public ArrayList<Player> getLeaderboard(String gameId){
         ArrayList<Player> players = getGameByCode(gameId).getPlayers();
-         Collections.sort(players, new Comparator<Player>() {
-            @Override
-            public int compare(Player o1, Player o2) {
-                if(o1.getTotalPoints() > o2.getTotalPoints()){
-                    return -1;
-                }else {
-                    return 1;
-                }
+        Collections.sort(players, (o1, o2) -> {
+            if (o1.getTotalPoints() > o2.getTotalPoints()) {
+                return -1;
+            } else {
+                return 1;
             }
         });
 
