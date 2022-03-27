@@ -125,6 +125,10 @@ class EnterpriseApplicationTests {
         assertTrue(correct);
     }
 
+    /**
+     * Scenario: User guesses a word and said word is verified to be a word
+     * @author Christian Turner
+     */
     @Test
     void verifyIsWord() throws IOException {
         var word = "word";
@@ -133,6 +137,10 @@ class EnterpriseApplicationTests {
         assertTrue(gs.isWord(word));
     }
 
+    /**
+     * Scenario: User guesses a word and said word is verified to not be a word
+     * @author Christian Turner
+     */
     @Test
     void verifyIsNotWord() throws IOException {
         var word = "werdzz";

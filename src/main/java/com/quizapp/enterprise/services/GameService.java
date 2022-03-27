@@ -180,14 +180,29 @@ public class GameService implements IGameService{
         return userGuessList;
     }
 
+    /***
+     * Checks the user guess against the word list
+     * to be verified as a word or not as a word.
+     *
+     * @param word the users guess
+     * @return boolean (is word/is not word)
+     */
     public boolean isWord(String word) throws IOException {
+        // Get the word file path
         Path path = Paths.get("words.txt");
+
+        // Read the words into a byte stream
         byte[] readBytes = Files.readAllBytes(path);
+
+        // Convert the list to a string and set all words to lower case
         String wordListContents = new String(readBytes, StandardCharsets.UTF_8).toLowerCase();
+
+        // Convert words to a list and add it to our hash set
         String[] words = wordListContents.split("\n");
         var wordsSet = new HashSet<>();
         Collections.addAll(wordsSet, words);
 
+        // Do the comparison
         if(wordsSet.contains(word.toLowerCase())){
             return true;
         } else {
