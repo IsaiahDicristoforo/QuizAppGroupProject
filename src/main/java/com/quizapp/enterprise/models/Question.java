@@ -1,13 +1,6 @@
 package com.quizapp.enterprise.models;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Required;
-
+import lombok.*;
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -15,7 +8,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "questions")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Question {
@@ -23,15 +17,15 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "questionid")
-    private int questionId;
+    private Long questionId;
 
     @NotNull
     @NotBlank(message = "A question must have a word to guess")
     private String wordle;
 
-    private int questionTimeLimitSeconds = 120;
+    private int questionTimeLimitSeconds;
 
-    private int totalGuessesAllowed = 5;
+    private int totalGuessesAllowed;
 
     private int quizId;
 

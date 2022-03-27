@@ -21,8 +21,15 @@ public class WebSocketConfig extends AbstractSecurityWebSocketMessageBrokerConfi
         registry.addEndpoint("/chat");
         registry.addEndpoint("/chat").withSockJS();
 
+        registry.addEndpoint("/gameOver");
+        registry.addEndpoint("/gameOver").withSockJS();
+
         registry.addEndpoint("/chat1");
         registry.addEndpoint("/chat1").withSockJS();
+
+        registry.addEndpoint("/playerUpdate");
+        registry.addEndpoint("/playerUpdate").withSockJS();
+
 
     }
 

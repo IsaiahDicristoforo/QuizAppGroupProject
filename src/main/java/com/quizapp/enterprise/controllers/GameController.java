@@ -3,14 +3,15 @@ package com.quizapp.enterprise.controllers;
 import com.quizapp.enterprise.models.Question;
 import com.quizapp.enterprise.models.WordleDisplayDetail;
 import com.quizapp.enterprise.models.game.Game;
+import com.quizapp.enterprise.models.game.Guess;
+import com.quizapp.enterprise.models.game.GuessResult;
 import com.quizapp.enterprise.models.game.Player;
+import com.quizapp.enterprise.persistence.GameTracker;
 import com.quizapp.enterprise.services.IGameService;
 import com.quizapp.enterprise.webSockets.PlayerJoinEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -38,15 +39,48 @@ public class GameController {
     }
 
     @PostMapping(value = "/joinGame/{gameId}")
-    public Game joinGame(@PathVariable("gameId") String gameId, @RequestBody Player player) throws Exception{
+    public Game joinGame(@PathVariable("gameId") String gameId, @RequestBody Player player) throws Exception {
         gameService.joinGame(gameId, player);
         return gameService.getGame(gameId);
     }
 
+    @PostMapping(value = "/{id}/nextQuestion")
+    public Question nextQuestion(@PathVariable("id") String gameId){
+        return gameService.nextQuestion(gameId);
+    }
 
     @GetMapping("")
     public ArrayList<Game> getAllGames(){
         return gameService.getAllGames();
+    }
+
+    @PostMapping("/checkGuess")
+    public GuessResult checkGuess(@RequestBody Guess userGuess){
+        GuessResult result = gameService.ProcessPlayerGuess(userGuess.getGuess(),userGuess.getGameCode(), userGuess.getQuestionId(), userGuess.getPlayerName());
+        result.setGameId(userGuess.getGameCode());
+        result.setPlayerUsername(userGuess.getPlayerName());
+
+        if(result.isWordCorrect()){
+            sendGuessResult(result);
+        }
+        return result;
+    }
+
+    @PostMapping("/{gameId}/timeUp")
+    public void playerFailEvent(@RequestParam("playerName") String playerName, @PathVariable("gameId") String gameId){
+        gameService.processPlayerTimeExpirationEvent(playerName, gameId);
+    }
+
+    @MessageMapping("/gameOver")
+    public void sendGameOveNotification(String gameId){
+        ArrayList<Player> leaderboard = GameTracker.getInstance().getLeaderboard(gameId);
+        messagingTemplate.convertAndSend("/game1/gameOver/3" , leaderboard );
+    }
+
+    @MessageMapping("/playerUpdate")
+    public GuessResult sendGuessResult(GuessResult result){
+        messagingTemplate.convertAndSend("/game1/playerUpdate/" + result.getGameId(), result);
+        return result;
     }
 
     @MessageMapping("/chat")
@@ -56,12 +90,19 @@ public class GameController {
         newPlayer.setPlayerUsername(message.getPlayerName());
         newPlayer.setHost(false);
         gameService.joinGame(message.getGameId(), newPlayer);
-        messagingTemplate.convertAndSend("/game1/messages/" + message.getGameId(),message);
+        messagingTemplate.convertAndSend("/game1/messages/" + message.getGameId(), message);
         return message;
     }
 
-    @MessageMapping("/chat1")
+    @MessageMapping("/chat1/nextQuestion")
     public void send(WordleDisplayDetail wordleDisplayDetails) throws Exception {
+        Question newQuestion  = gameService.nextQuestion(wordleDisplayDetails.getGameId());
+        wordleDisplayDetails.setWordleLength(newQuestion.getWordle().length());
+        wordleDisplayDetails.setQuestionId(newQuestion.getQuestionId().intValue());
+        wordleDisplayDetails.setTotalGuesses(newQuestion.getTotalGuessesAllowed());
+        wordleDisplayDetails.setWordleTimeLimit(newQuestion.getQuestionTimeLimitSeconds());
         messagingTemplate.convertAndSend("/game1/newQuestion/"  + wordleDisplayDetails.getGameId(), wordleDisplayDetails);
+
     }
+
 }

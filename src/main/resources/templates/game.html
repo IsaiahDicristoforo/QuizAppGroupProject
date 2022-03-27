@@ -11,13 +11,14 @@
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/js/gameScreen.js"></script>
+    <script src="/js/gameScreenWebSockets.js"></script>
+    <script src="/js/animations.js"></script>
 </head>
-<body style="background-color: #000814">
+<body style="height: 100vh">
 
-<div class="navbar">
-    <h1>The Wordle Game</h1>
-    <h5 id="gameCode" style="color: white" th:text="${gameCode}"></h5>
-</div>
 
 <div class="modal hide fade" id="myModal">
     <div class="modal-dialog">
@@ -40,82 +41,113 @@
     </div>
 </div>
 
-<div id="parentDiv" style="">
 
-    <div>
-        <div id="wordleGridContainer"></div>
+<div id="mainGameScreen">
 
-        <div id="Waiting">
-            <h2>Waiting</h2>
-        </div>
-        <div id="Correct">
-            <h2>Correct</h2>
-        </div>
-        <div id="Incorrect">
-            <h2>Incorrect</h2>
+
+    <div style="height: 100%" class="container-fluid text-center">
+
+        <div class="row content" style="display: flex; padding: 20px; justify-content: space-between">
+            <h1 style="color: black; text-align: center" class="h1">KaWordle</h1>
+            <h5  id="gameCode" style="" th:text="${gameCode}"></h5>
         </div>
 
+    <div style="height: 100%; min-height: 500px" class="row content">
 
+        <div class="col-sm-2 sidenav" >
+            <h2 class="h2">Leaderboard</h2>
 
-    </div>
-
-    <div  id="leaderboard">
-        <h2>Leaderboard</h2>
-
-        <ol class="list-group" id="playerList">
-
-
-        <div th:each="player: ${players}">
-                <li class="list-group-item d-flex justify-content-between align-items-center" th:inline="text">[[${player.playerUsername}]]<span class="badge bg-primary rounded-pill">0</span>
-                </li>
+            <table  class="table table-borderless table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Player</th>
+                    <th scope="col">Points</th>
+                </tr>
+                </thead>
+                <tbody id="leaderboardTableBody">
+                <tr th:each="player: ${players}">
+                    <th scope="row">0</th>
+                    <td th:inline="text">[[${player.playerUsername}]]</td>
+                    <td><span class="badge bg-primary rounded-pill">0</span></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
-        </ol>
 
+        <div id="mainGameArea" class="col-sm-8 text-left">
+            <div id="wordleGridContainer"></div>
 
-    </div>
+            <div id="Waiting">
+                <div style="background-color: #fd7e14; padding: 30px; border-radius: 30px">
+                    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+                    <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_OYpJ8h.json"  background="transparent"  speed="1"  style="width: 100px; height: 100px;"  loop  autoplay></lottie-player>
 
-    <div id="hintsList">
-
-        <div id="timer">
-
-            <div>
-                60 sec
+                </div>
+            </div>
+            <div id="Correct">
+                <h2>Correct</h2>
+                <input style="border: none" class="readonly form-control-sm" id="pointsEarned" type="text">
+            </div>
+            <div id="Incorrect">
+                <h2>Incorrect</h2>
             </div>
 
         </div>
 
-        <div>
-            <h2>Hints</h2>
-            <ol style="padding: 0">
-                <li>This is Hint 1</li>
-                <li>This is Hint 2</li>
-                <li>This is Hint 3</li>
-                <li>This is Hint 4</li>
+        <div id="hintsList" class="col-sm-2 sidenav">
 
-            </ol>
+            <div id="timer">
+
+                <div id="timerText">
+                    60
+                </div>
+
+            </div>
+
+            <div style="text-align: left">
+                <h2>Hints</h2>
+
+                <div>Hint 1</div>
+                <div>Hint 2</div>
+
+
+            </div>
+
         </div>
 
+    </div>
 
     </div>
 
+    <div>
 
-    <div id="powerupsList">
+        <h2 style="text-align: center" class="h2">PowerUps</h2>
 
-        <h2>Powerups</h2>
+        <div style="display: flex; justify-content: space-evenly">
 
+            <button type="button" class="btn  btn-outline-success">Free Letter <br/><small>500 pts</small></button>
+            <button type="button" class="btn  btn-outline-success">Extra Guess<br/><small>1000 pts</small></button>
+            <button type="button" class="btn  btn-outline-danger">Rotating Grid Sabotage<br/><small>1000 pts</small></button>
+            <button type="button" class="btn  btn-outline-danger">Player Loses Half Their Time<br/><small>1000 pts</small></button>
+        </div>
 
     </div>
 
+</div>
 
+<div id="resultsScreen">
+
+    <h1 class="ml6">
+  <span class="text-wrapper">
+    <span class="letters">Game Over!</span>
+  </span>
+    </h1>
 
 
 </div>
 
 
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="/js/gameScreen.js"></script>
 </body>
 </html>
