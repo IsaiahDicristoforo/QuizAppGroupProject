@@ -16,7 +16,7 @@ public class Question {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "questionid")
+    @Column(name = "question_id")
     private Long questionId;
 
     @NotNull
@@ -30,6 +30,6 @@ public class Question {
     private int quizId;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
-    @JoinColumn(name="questionid")
+    @JoinColumn(name="question_id")
     private List<Hint> hints = new ArrayList<Hint>();
 }
