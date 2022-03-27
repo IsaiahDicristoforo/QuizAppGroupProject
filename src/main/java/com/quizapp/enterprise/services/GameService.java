@@ -34,7 +34,7 @@ public class GameService implements IGameService{
                 .substring(0, 5));
         newGame.setGameStatus(GameStatus.Started);
         newGame.setQuizId(quizId);
-        newGame.setQuestions((ArrayList<Question>) questionRepository.findByquizId(quizId));
+        newGame.setQuestions((ArrayList<Question>) questionRepository.findByQuizId(quizId));
 
         GameTracker.getInstance().addGame(newGame);
 
@@ -139,35 +139,6 @@ public class GameService implements IGameService{
         }else if(gameStatus == GameStatus.RoundEnded){
             roundOverEventPublisher.publishRoundOverEvent(gameCode, GameTracker.getInstance().getLeaderboard(gameCode));
         }
-    }
-
-    /***
-     * Checks the user guess agains the correct answer and return ArrayList<Guess>
-
-     * to be verified and displayed client side.
-     *
-     * @param userGuess the users guess
-     * @param correctAnswer the correct answer
-     * @return ArrayList<Guess> (bool, string)
-     */
-    public ArrayList<Guess> checkGuess(String userGuess, String correctAnswer) {
-        // Convert guess and correct guess to a character array
-        char[] userGuessArr = userGuess.toCharArray();
-        char[] correctAnswerArr = correctAnswer.toCharArray();
-
-        // Initialize the list of guesses with their respective correctness
-        ArrayList<Guess> userGuessList = new ArrayList<Guess>();
-
-        // Loop over the characters in the guess
-        for(int i = 0; i < userGuess.length(); i++) {
-            // If guess character == correct character, letter = correct
-            if(userGuessArr[i] == correctAnswerArr[i]){
-                //userGuessList.add(new Guess(true, Character.toString(userGuessArr[i])));
-            } else {
-                //userGuessList.add(new Guess(false, Character.toString(userGuessArr[i])));
-            }
-        }
-        return userGuessList;
     }
 
     @Override
