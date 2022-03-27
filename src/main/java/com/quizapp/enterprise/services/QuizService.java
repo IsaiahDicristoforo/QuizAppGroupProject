@@ -21,38 +21,26 @@ public class QuizService implements IQuizService {
 
     @Override
     public Quiz createQuiz(Quiz quizToAdd, String email) {
-
-       int userId =  userRepository.findUserByEmail(email).getUserID();
-
+       int userId =  userRepository.findUserByEmail(email).getUserId();
        quizToAdd.setUserId(userId);
-
        return quizRepository.save(quizToAdd);
     }
 
     @Override
     public Quiz getQuiz(int quizId) throws Exception {
-
         Optional<Quiz> quizToReturn =  quizRepository.findById(quizId);
         if(!quizToReturn.isPresent()){
             throw new Exception("Quiz with id "  + quizId +  "does not exist");
-
-        }else{
+        }
+        else{
             return quizToReturn.get();
         }
-
     }
 
     @Override
     public ArrayList<Quiz> getAllQuizzes(String username){
-        int userId =  userRepository.findUserByEmail(username).getUserID();
-
+        int userId =  userRepository.findUserByEmail(username).getUserId();
         return quizRepository.findQuizzesByUser(userId);
-
     }
-
-
-
-
-
 
 }
