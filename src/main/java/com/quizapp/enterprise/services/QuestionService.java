@@ -38,7 +38,7 @@ public class QuestionService implements IQuestionService{
 
     @Override
     public ArrayList<Question> getAllQuestions(int quizId) {
-        return (ArrayList<Question>) questionRepository.findByquizId(quizId);
+        return (ArrayList<Question>) questionRepository.findByQuizId(quizId);
     }
 
     @Override
