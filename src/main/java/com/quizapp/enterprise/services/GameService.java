@@ -7,8 +7,12 @@ import com.quizapp.enterprise.models.game.Player;
 import com.quizapp.enterprise.persistence.GameTracker;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.UUID;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 @Service
 public class GameService implements IGameService{
@@ -70,11 +74,28 @@ public class GameService implements IGameService{
             // If guess character == correct character, letter = correct
             if(userGuessArr[i] == correctAnswerArr[i]){
                 userGuessList.add(new Guess(true, Character.toString(userGuessArr[i])));
-            } else {
+            } else if(correctAnswer.contains(Character.toString(userGuessArr[i]))){
                 userGuessList.add(new Guess(false, Character.toString(userGuessArr[i])));
+            } else {
+                userGuessList.add(new Guess(null, Character.toString(userGuessArr[i])));
             }
         }
 
         return userGuessList;
+    }
+
+    public boolean isWord(String word) throws IOException {
+        Path path = Paths.get("words.txt");
+        byte[] readBytes = Files.readAllBytes(path);
+        String wordListContents = new String(readBytes, StandardCharsets.UTF_8).toLowerCase();
+        String[] words = wordListContents.split("\n");
+        var wordsSet = new HashSet<>();
+        Collections.addAll(wordsSet, words);
+
+        if(wordsSet.contains(word.toLowerCase())){
+            return true;
+        } else {
+            return false;
+        }
     }
 }
