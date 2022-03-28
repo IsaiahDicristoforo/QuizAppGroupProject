@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Wordle</title>
+    <title>Wordle Multiplayer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -22,22 +22,19 @@
                 </span>
                 <span class="login-form-title">Login</span>
                 <div class="alert text-center" th:if="${errorMessage}">Username or password was not found.</div>
-                <div class="wrapper-input" data-validate = "Enter username">
+                <div class="wrapper-input">
                     <i class="fa-solid fa-user"></i>
-                    <input class="input required-input" id="username" type="text" name="username" placeholder="Username" autocomplete="off">
+                    <input class="input" id="username" type="text" name="username" placeholder="Username" autocomplete="off">
                 </div>
-                <div class="wrapper-input" data-validate="Enter password">
+                <div class="wrapper-input">
                     <i class="fa-solid fa-lock input-focus"></i>
-                    <input class="input required-input" id="password" type="password" name="password" placeholder="Password">
+                    <input class="input" id="password" type="password" name="password" placeholder="Password">
                 </div>
                 <div class="container-login-form-btn">
                     <button type="submit" name="login" class="login-form-btn">Login</button>
                 </div>
                 <div class="container-login-form-btn" style="margin-top: 30px">
                     <button type="button" class="login-form-btn">Login With Google</button>
-                </div>
-                <div class="forget-password-div">
-                    <a class="forget-password-text" th:href="@{/forgot_password.html}">Forgot Password?</a>
                 </div>
             </form>
         </div>

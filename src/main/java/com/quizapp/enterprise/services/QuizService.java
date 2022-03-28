@@ -22,7 +22,7 @@ public class QuizService implements IQuizService {
     @Override
     public Quiz createQuiz(Quiz quizToAdd, String username) {
 
-       int userId =  userRepository.findUserByEmail(username).getUserID();
+       int userId =  userRepository.findUserByUsername(username).getUserID();
 
        quizToAdd.setUserId(userId);
 
@@ -44,7 +44,7 @@ public class QuizService implements IQuizService {
 
     @Override
     public ArrayList<Quiz> getAllQuizzes(String username){
-        int userId =  userRepository.findUserByEmail(username).getUserID();
+        int userId =  userRepository.findUserByUsername(username).getUserID();
 
         return quizRepository.findQuizzesByUser(userId);
 
