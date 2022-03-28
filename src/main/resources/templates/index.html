@@ -1,42 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
     <title>Wordle Multiplayer</title>
-    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/loginScreen.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script src="https://kit.fontawesome.com/e91255cdbc.js" crossorigin="anonymous"></script>
 </head>
-<body style="height: 100vh; margin: 0">
-
-
-<div style="height: 100vh; padding: 20px; display: grid; align-items: center; background-color: #3f8be0;  grid-template-columns: repeat(2, 1fr)">
-
-    <div>
-        <h1 class="display-1">Wordle Multiplayer</h1>
-
+<body>
+<div class="container-login">
+    <div class="container-login-div">
+        <div class="wrapper">
+            <form class="login-form validate-form" th:action="@{/gameView/}" method="post">
+                <span class="login-form-logo">
+                    <i class="fa-solid fa-square-pen fa-2x"></i>
+                </span>
+                <span class="login-form-title">Wordle Multiplayer</span>
+                <div class="wrapper-input">
+                    <input class="input" id="username" type="text" name="gameCode" placeholder="Enter A Game Code" autocomplete="sigh" style="width: 100% !important;">
+                </div>
+                <div class="container-login-form-btn">
+                    <button type="button" class="login-form-btn">Enter</button>
+                </div>
+                <div class="forget-password-div">
+                    <a class="forget-password-text" th:href="@{/login}">Login?</a>
+                    <span class="forget-password-text">or</span>
+                    <a class="forget-password-text" th:href="@{/register}">Register?</a>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <div style="display: flex; padding: 5px; flex-direction: column; align-items: center">
-
-        <a style="font-size: 50px;  padding: 5px; border-radius: 5px; border: 2px solid orange; text-decoration: none; color: white" th:href="@{/login}">Login</a>
-
-        <br>
-        <a style="font-size: 50px; padding: 5px; border-radius: 5px; border: 2px solid orange; text-decoration: none; color: white" th:href="@{/register}">Register</a>
-
-
-        <br>
-
-        <label style="color: white" class="form-label">Join A Game</label>
-        <input placeholder="Game Code" class="form-control'">
-
-
-
-    </div>
-
-
 </div>
-
+<div>
 </body>
 </html>
