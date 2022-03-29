@@ -6,12 +6,13 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Mochiy+Pop+P+One&family=Montserrat:wght@700&display=swap');
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
     <link type="text/css" href="/css/gameScreen.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
     <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
     <script src="/webjars/sockjs-client/sockjs.min.js"></script>
     <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/js/gameScreen.js"></script>
     <script src="/js/gameScreenWebSockets.js"></script>
@@ -108,11 +109,8 @@
 
             <div style="text-align: left">
                 <h2>Hints</h2>
-
                 <div>Hint 1</div>
                 <div>Hint 2</div>
-
-
             </div>
 
         </div>
@@ -121,16 +119,34 @@
 
     </div>
 
-    <div>
+    <div style="padding-top: 30px">
 
-        <h2 style="text-align: center" class="h2">PowerUps</h2>
+        <div style="display: flex; justify-content: space-evenly; align-items: center";>
+            <div class="dropup">
+                <button  id="sabotageDropdownDiv" class="btn btn-secondary dropdown-toggle btn-danger" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Sabotage
+                </button>
+                <ul id="dropdownSabotage" class="dropdown-menu sabotagePlayerList" aria-labelledby="dropdownMenuButton1"></ul>
+            </div>
 
-        <div style="display: flex; justify-content: space-evenly">
+            <div id="gameEventNotificationScreen" style="background-color: #f3f3f3; width: 50%; height: 75px;">
 
-            <button type="button" class="btn  btn-outline-success">Free Letter <br/><small>500 pts</small></button>
-            <button type="button" class="btn  btn-outline-success">Extra Guess<br/><small>1000 pts</small></button>
-            <button type="button" class="btn  btn-outline-danger">Rotating Grid Sabotage<br/><small>1000 pts</small></button>
-            <button type="button" class="btn  btn-outline-danger">Player Loses Half Their Time<br/><small>1000 pts</small></button>
+                <h4 id="gameMessage">
+
+                </h4>
+            </div>
+
+            <div class="dropup">
+                <button  id="powerupDropdownDiv" class="btn btn-secondary dropdown-toggle btn-success" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Powerups
+                </button>
+                <ul id="dropdownPowerup" class="dropdown-menu sabotagePlayerList" aria-labelledby="dropdownMenuButton1">
+                    <a class="dropdown-item" href="#">Free Letter</a>
+                    <a class="dropdown-item" href="#">+ 15 second bonus</a>
+                    <a class="dropdown-item" href="#">Extra Guess</a>
+                </ul>
+            </div>
+
         </div>
 
     </div>

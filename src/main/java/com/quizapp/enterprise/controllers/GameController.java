@@ -32,6 +32,10 @@ public class GameController {
         return gameService.startNewGame(quizId);
     }
 
+    @GetMapping(value = "/{gameId}/players")
+    public ArrayList<Player> getPlayers(@PathVariable("gameId") String gameId){
+        return gameService.getGame(gameId).getPlayers();
+    }
 
     @GetMapping(value = "/{gameId}")
     public Game getGame(@PathVariable("gameId") String gameId){

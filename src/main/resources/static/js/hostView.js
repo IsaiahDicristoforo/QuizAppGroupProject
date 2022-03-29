@@ -62,10 +62,9 @@ function connect() {
             let name = JSON.parse(messageOutput.body)["playerUsername"];
             $(".complete").append("<li class=\"list-group-item d-flex justify-content-between align-items-center\">" + name +  "<span class=\"badge bg-primary rounded-pill\">0</span></li>")
             $("#" + name).remove()
-
         })
-
             })
+
 }
 function nextQuestionClicked(){
     currentQuestionNumber += 1

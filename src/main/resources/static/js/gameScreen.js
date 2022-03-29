@@ -23,6 +23,25 @@ $(document).ready(function(){
         wordleGridActive = true;
     })
 
+    $("#sabotageDropdownDiv").click(function(){
+        $.get("/games/" + $("#gameCode").text() + "/players", function (data){
+
+            $("#dropdownSabotage").empty()
+            data.forEach(player => {
+
+                if(player.playerUsername != playerName){
+                    let elementId = player.playerUsername + "sabotage"
+                    $("#dropdownSabotage").append("<li><a class=\"dropdown-item\" href=\"#\"id=\"" + elementId  +   "\">" + player.playerUsername + "</a></li>")
+
+                    $("#" + elementId).click(function (event){
+                        $.post("/sabotage/" + player.playerUsername + "/" + $("#gameCode").text() + "?saboteur=" + playerName)
+                    })
+                }
+
+            })
+        })
+    })
+
     startTimerAnimation($("#timer").get())
 
 })

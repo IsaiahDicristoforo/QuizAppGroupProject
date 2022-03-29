@@ -39,3 +39,21 @@ function startRotateGridSabotage(target){
         loop: true
     })
 }
+
+function startSabotageNotificationAnimation(sabotuer, sabotageType, target){
+    if(sabotageType == 'RotatingGrid'){
+        $("#gameMessage").text("You were sabotaged by " + sabotuer)
+        startRotateGridSabotage($("#wordleGridContainer").get())
+        anime({
+            targets: target,
+            duration: 1500,
+            scale: [0, 1],
+            background: "rgb(245, 78, 66)",
+            opacity: [0,1],
+            width: [0, '50%'],
+            easing: 'easeInOutSine'
+
+        })
+    }
+
+}

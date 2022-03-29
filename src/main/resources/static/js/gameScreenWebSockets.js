@@ -59,11 +59,26 @@ function connect() {
 
             newStomClient3.subscribe("/game1/roundOver/" + $("#gameCode").text(), function(messageOutput){
 
+                anime.remove($("#wordleGridContainer").get())
+
+                $("#wordleGridContainer").css("transform", "")
+
                 displayLeaderboard(JSON.parse(messageOutput.body))
 
             });
 
 
+        })
+        var sabotageSocket = new SockJS('/playerSabotage');
+        let sabotageClient = Stomp.over(sabotageSocket);
+
+        sabotageClient.connect({}, function(frame){
+            let subscribeText = '/game1/' + $("#gameCode").text() + '/' + playerName + '/sabotage/'
+            sabotageClient.subscribe(subscribeText, function (messageOutput){
+                console.log("Output" + messageOutput)
+                let output = JSON.parse(messageOutput.body)
+                startSabotageNotificationAnimation(output.saboteur, output.sabotageType, $("#gameEventNotificationScreen").get())
+            })
         })
     });
 

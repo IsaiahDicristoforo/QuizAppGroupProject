@@ -30,6 +30,9 @@ public class WebSocketConfig extends AbstractSecurityWebSocketMessageBrokerConfi
         registry.addEndpoint("/playerUpdate");
         registry.addEndpoint("/playerUpdate").withSockJS();
 
+        registry.addEndpoint("/playerSabotage");
+        registry.addEndpoint("/playerSabotage").withSockJS();
+
 
     }
 
