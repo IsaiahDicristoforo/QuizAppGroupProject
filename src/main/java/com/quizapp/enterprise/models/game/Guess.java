@@ -7,7 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Guess {
-    public boolean IsCorrectLetter;
+    // doing it this way beacuse java doens't have nullable bools for no reason
+    // -1 = not in word, 0 = wrong position, 1 = correct position
+    public int IsCorrectLetter;
     public String Letter;
 
     private String guess;
@@ -16,7 +18,7 @@ public class Guess {
     private String gameCode;
     private String playerName;
 
-    public Guess(Boolean isCorrectLetter, String letter) {
+    public Guess(int isCorrectLetter, String letter) {
         IsCorrectLetter = isCorrectLetter;
         Letter = letter;
     }

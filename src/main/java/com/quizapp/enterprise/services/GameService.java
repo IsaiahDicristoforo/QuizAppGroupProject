@@ -168,11 +168,11 @@ public class GameService implements IGameService{
         for(int i = 0; i < userGuess.length(); i++) {
             // If guess character == correct character, letter = correct
             if(userGuessArr[i] == correctAnswerArr[i]){
-                userGuessList.add(new Guess(true, Character.toString(userGuessArr[i])));
+                userGuessList.add(new Guess(1, Character.toString(userGuessArr[i])));
             } else if(correctAnswer.contains(Character.toString(userGuessArr[i]))){
-                userGuessList.add(new Guess(false, Character.toString(userGuessArr[i])));
+                userGuessList.add(new Guess(0, Character.toString(userGuessArr[i])));
             } else {
-                userGuessList.add(new Guess(null, Character.toString(userGuessArr[i])));
+                userGuessList.add(new Guess(-1, Character.toString(userGuessArr[i])));
             }
         }
 

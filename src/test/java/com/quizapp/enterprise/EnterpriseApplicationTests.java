@@ -9,7 +9,6 @@ import com.quizapp.enterprise.models.game.Guess;
 import com.quizapp.enterprise.services.GameService;
 import com.quizapp.enterprise.services.IGameService;
 import com.quizapp.enterprise.services.QuizService;
-import lombok.var;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -93,7 +92,7 @@ class EnterpriseApplicationTests {
         boolean correct = true;
         for(Guess guess : gec) {
 
-          if(!guess.IsCorrectLetter) {
+          if(guess.IsCorrectLetter != 1) {
                 fail("User Guess of "
                         + guess.Letter
                         + " was not correct");
@@ -116,13 +115,13 @@ class EnterpriseApplicationTests {
         ArrayList<Guess> gec = new GameService().checkGuess(userGuess, correctAnswer);
         boolean correct = true;
         for(Guess guess : gec) {
-            if(!guess.IsCorrectLetter) {
+            if(guess.IsCorrectLetter != 1) {
                 correct = false;
                 break;
             }
         }
 
-        assertTrue(correct);
+        assertFalse(correct);
     }
 
     /**
@@ -131,7 +130,7 @@ class EnterpriseApplicationTests {
      */
     @Test
     void verifyIsWord() throws IOException {
-        var word = "word";
+        String word = "word";
 
         GameService gs = new GameService();
         assertTrue(gs.isWord(word));
@@ -143,7 +142,7 @@ class EnterpriseApplicationTests {
      */
     @Test
     void verifyIsNotWord() throws IOException {
-        var word = "werdzz";
+        String word = "werdzz";
 
         GameService gs = new GameService();
         assertFalse(gs.isWord(word));
