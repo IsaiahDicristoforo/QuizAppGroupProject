@@ -12,6 +12,6 @@ public class Player {
     private String playerUsername;
     private int totalPoints;
     private boolean isHost;
+    private PlayerRound round;
 
-    //TODO list of available sabotages
 }

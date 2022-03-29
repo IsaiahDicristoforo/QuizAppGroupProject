@@ -1,14 +1,21 @@
 package com.quizapp.enterprise;
 
 import com.quizapp.enterprise.controllers.GameController;
+import com.quizapp.enterprise.models.Question;
+import com.quizapp.enterprise.models.Quiz;
+import com.quizapp.enterprise.models.User;
 import com.quizapp.enterprise.models.game.Game;
 import com.quizapp.enterprise.models.game.Guess;
 import com.quizapp.enterprise.services.GameService;
 import com.quizapp.enterprise.services.IGameService;
+import com.quizapp.enterprise.services.QuizService;
+import lombok.var;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,6 +38,15 @@ class EnterpriseApplicationTests {
         Game game = new Game();
         game.setGameCode(gameCode);
         assertEquals(gameCode, game.getGameCode());
+    }
+
+    @Test
+    void verifyUserProperties() {
+        String email =  "TEST";
+
+        User user = new User();
+        user.setEmail(email);
+        assertEquals(email, user.getEmail());
     }
 
     /**
@@ -59,6 +75,8 @@ class EnterpriseApplicationTests {
         assertTrue(gamePresent);
 */
 
+        assertTrue(true);
+
     }
 
     /**
@@ -67,10 +85,35 @@ class EnterpriseApplicationTests {
      */
     @Test
     void verifyCorrectAnswer() {
-        String userGuest = "Blubber";
+        String userGuess = "Blubber";
         String correctAnswer = "Blubber";
 
-        ArrayList<Guess> gec = new GameService().checkGuess(userGuest, correctAnswer);
+
+        ArrayList<Guess> gec = new GameService().checkGuess(userGuess, correctAnswer);
+        boolean correct = true;
+        for(Guess guess : gec) {
+
+          if(!guess.IsCorrectLetter) {
+                fail("User Guess of "
+                        + guess.Letter
+                        + " was not correct");
+                return;
+            }
+        }
+        assertTrue(true);
+    }
+
+    /**
+     * Scenario: User guesses incorrect answer
+     * @author Christian Turner
+     */
+    @Test
+    void verifyIncorrectAnswer() {
+        String userGuess = "Flubber";
+        String correctAnswer = "Blubber";
+
+
+        ArrayList<Guess> gec = new GameService().checkGuess(userGuess, correctAnswer);
         boolean correct = true;
         for(Guess guess : gec) {
             if(!guess.IsCorrectLetter) {
@@ -83,23 +126,26 @@ class EnterpriseApplicationTests {
     }
 
     /**
-     * Scenario: User guesses incorrect answer
+     * Scenario: User guesses a word and said word is verified to be a word
      * @author Christian Turner
      */
     @Test
-    void verifyIncorrectAnswer() {
-        String userGuest = "Flubber";
-        String correctAnswer = "Blubber";
+    void verifyIsWord() throws IOException {
+        var word = "word";
 
-        ArrayList<Guess> gec = new GameService().checkGuess(userGuest, correctAnswer);
-        boolean correct = true;
-        for(Guess guess : gec) {
-            if(!guess.IsCorrectLetter) {
-                correct = false;
-                break;
-            }
-        }
+        GameService gs = new GameService();
+        assertTrue(gs.isWord(word));
+    }
 
-        assertFalse(correct);
+    /**
+     * Scenario: User guesses a word and said word is verified to not be a word
+     * @author Christian Turner
+     */
+    @Test
+    void verifyIsNotWord() throws IOException {
+        var word = "werdzz";
+
+        GameService gs = new GameService();
+        assertFalse(gs.isWord(word));
     }
 }

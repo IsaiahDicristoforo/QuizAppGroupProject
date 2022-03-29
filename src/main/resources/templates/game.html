@@ -15,6 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha512-z4OUqw38qNLpn1libAN9BsoDx6nbNFio5lA6CuTp9NlK83b89hgyCVq+N5FdBJptINztxn1Z3SaKSKUS5UP60Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="/js/gameScreen.js"></script>
     <script src="/js/gameScreenWebSockets.js"></script>
+    <script src="/js/animations.js"></script>
 </head>
 <body style="height: 100vh">
 
@@ -40,7 +41,8 @@
     </div>
 </div>
 
-<div>
+
+<div id="mainGameScreen">
 
 
     <div style="height: 100%" class="container-fluid text-center">
@@ -55,17 +57,22 @@
         <div class="col-sm-2 sidenav" >
             <h2 class="h2">Leaderboard</h2>
 
-            <ol class="list-group" id="playerList">
-
-
-                <div th:each="player: ${players}">
-                    <li class="list-group-item d-flex justify-content-between align-items-center" th:inline="text">[[${player.playerUsername}]]<span class="badge bg-primary rounded-pill">0</span>
-                    </li>
-                </div>
-
-            </ol>
-
-
+            <table  class="table table-borderless table-sm">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Player</th>
+                    <th scope="col">Points</th>
+                </tr>
+                </thead>
+                <tbody id="leaderboardTableBody">
+                <tr th:each="player: ${players}">
+                    <th scope="row">0</th>
+                    <td th:inline="text">[[${player.playerUsername}]]</td>
+                    <td><span class="badge bg-primary rounded-pill">0</span></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
 
 
@@ -74,12 +81,14 @@
 
             <div id="Waiting">
                 <div style="background-color: #fd7e14; padding: 30px; border-radius: 30px">
-                    <h3 class="h3">Waiting...</h3>
+                    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+                    <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_OYpJ8h.json"  background="transparent"  speed="1"  style="width: 100px; height: 100px;"  loop  autoplay></lottie-player>
 
                 </div>
             </div>
             <div id="Correct">
                 <h2>Correct</h2>
+                <input style="border: none" class="readonly form-control-sm" id="pointsEarned" type="text">
             </div>
             <div id="Incorrect">
                 <h2>Incorrect</h2>
@@ -122,16 +131,23 @@
             <button type="button" class="btn  btn-outline-success">Extra Guess<br/><small>1000 pts</small></button>
             <button type="button" class="btn  btn-outline-danger">Rotating Grid Sabotage<br/><small>1000 pts</small></button>
             <button type="button" class="btn  btn-outline-danger">Player Loses Half Their Time<br/><small>1000 pts</small></button>
-
-
-
-
-
         </div>
 
     </div>
 
 </div>
+
+<div id="resultsScreen">
+
+    <h1 class="ml6">
+  <span class="text-wrapper">
+    <span class="letters">Game Over!</span>
+  </span>
+    </h1>
+
+
+</div>
+
 
 </body>
 </html>
