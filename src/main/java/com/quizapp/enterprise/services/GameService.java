@@ -7,7 +7,6 @@ import com.quizapp.enterprise.models.Question;
 import com.quizapp.enterprise.models.game.*;
 import com.quizapp.enterprise.persistence.GameTracker;
 import com.quizapp.enterprise.persistence.QuestionRepository;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -199,7 +198,7 @@ public class GameService implements IGameService{
 
         // Convert words to a list and add it to our hash set
         String[] words = wordListContents.split("\n");
-        var wordsSet = new HashSet<>();
+        HashSet<String> wordsSet = new HashSet<>();
         Collections.addAll(wordsSet, words);
 
         // Do the comparison
