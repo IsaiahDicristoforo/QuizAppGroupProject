@@ -12,21 +12,21 @@ import java.util.Optional;
 @Service
 public class QuizService implements IQuizService {
 
-        @Autowired
-        private QuizRepository quizRepository;
+    @Autowired
+    private QuizRepository quizRepository;
 
-        @Autowired
-        private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
 
     @Override
-    public Quiz createQuiz(Quiz quizToAdd, String email) {
+    public Quiz createQuiz(Quiz quizToAdd, String username) {
 
-       int userId =  userRepository.findUserByEmail(email).getUserID();
+        int userId =  userRepository.findUserByUsername(username).getUserID();
 
-       quizToAdd.setUserId(userId);
+        quizToAdd.setUserId(userId);
 
-       return quizRepository.save(quizToAdd);
+        return quizRepository.save(quizToAdd);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class QuizService implements IQuizService {
 
     @Override
     public ArrayList<Quiz> getAllQuizzes(String username){
-        int userId =  userRepository.findUserByEmail(username).getUserID();
+        int userId =  userRepository.findUserByUsername(username).getUserID();
 
         return quizRepository.findQuizzesByUser(userId);
 

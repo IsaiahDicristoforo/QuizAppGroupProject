@@ -4,11 +4,23 @@
   <meta charset="ISO-8859-1">
   <title>Registration Success</title>
   <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
+  <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+  <script src="https://kit.fontawesome.com/e91255cdbc.js" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/css/loginScreen.css">
 </head>
 <body>
-<div class="container text-center">
-  <h3>You have signed up successfully!</h3>
-  <h4><a th:href="@{/login}">Click here to Login</a></h4>
+<div class="container-login">
+  <div class="container-login-div">
+    <div class="wrapper">
+        <div class="forget-password-div">
+          <a class="forget-password-text" th:href="@{/login}">Click here to Login</a>
+        </div>
+    </div>
+  </div>
 </div>
 
 </body>
