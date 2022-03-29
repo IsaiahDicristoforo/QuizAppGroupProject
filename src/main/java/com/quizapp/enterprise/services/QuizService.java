@@ -12,28 +12,28 @@ import java.util.Optional;
 @Service
 public class QuizService implements IQuizService {
 
-        @Autowired
-        private QuizRepository quizRepository;
+    @Autowired
+    private QuizRepository quizRepository;
 
-        @Autowired
-        private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
 
     @Override
     public Quiz createQuiz(Quiz quizToAdd, String username) {
 
-       int userId =  userRepository.findUserByUsername(username).getUserID();
+        int userId =  userRepository.findUserByUsername(username).getUserID();
 
-       quizToAdd.setUserId(userId);
+        quizToAdd.setUserId(userId);
 
-       return quizRepository.save(quizToAdd);
+        return quizRepository.save(quizToAdd);
     }
 
     @Override
     public Quiz getQuiz(int quizId) throws Exception {
 
         Optional<Quiz> quizToReturn =  quizRepository.findById(quizId);
-        if(quizToReturn.isEmpty()){
+        if(!quizToReturn.isPresent()){
             throw new Exception("Quiz with id "  + quizId +  "does not exist");
 
         }else{
@@ -49,6 +49,7 @@ public class QuizService implements IQuizService {
         return quizRepository.findQuizzesByUser(userId);
 
     }
+
 
 
 
