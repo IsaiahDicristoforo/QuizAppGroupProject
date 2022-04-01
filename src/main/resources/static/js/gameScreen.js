@@ -101,7 +101,7 @@ function wordSubmitted(){
     $.post({
         url: "/games/checkGuess",
         contentType: "application/json",
-        data: JSON.stringify({guess: getGuess(row, wordLength), questionId: currentQuestionId, gameCode: $("#gameCode").text(), playerName: playerName})
+        data: JSON.stringify({guess: getGuess(row, wordLength), questionId: currentQuestionId, gameCode: $("#gameCode").text(), playerName: playerName, secondsRemaining: parseInt($("#timerText").text())})
     }, function(data){
 
         let guessResults = data.guessResults;
@@ -152,7 +152,7 @@ function wordSubmitted(){
 
                     anime({
                         targets: "#pointsEarned",
-                        value: [0, 1000],
+                        value: [0, data.totalPoints],
                         round: 1,
                         easing: 'easeInOutExpo'
                     })

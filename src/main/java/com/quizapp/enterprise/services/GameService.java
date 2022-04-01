@@ -75,7 +75,7 @@ public class GameService implements IGameService{
 
     }
 
-    public GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName) {
+    public GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining) {
 
         Question question = questionRepository.getById(questionId);
         String correctWord = question.getWordle();
@@ -104,22 +104,21 @@ public class GameService implements IGameService{
        result.setWordCorrect(wordCorrect);
 
        if(wordCorrect){
-           GameTracker.getInstance().updatePlayerRound(gameCode, playerName, true, true);
            Player player = GameTracker.getInstance().getPlayer(gameCode, playerName);
-           player.setTotalPoints(player.getTotalPoints() + 1000);
+           int totalPoints = (int)(((double) secondsRemaining / question.getQuestionTimeLimitSeconds()) * 100);
+           player.setTotalPoints(player.getTotalPoints() +  totalPoints);
+           result.setTotalPoints(totalPoints);
+           GameTracker.getInstance().updatePlayerRound(gameCode, playerName, true, true, totalPoints );
        }else{
-
-
            int totalAllowedGuesses = question.getTotalGuessesAllowed();
            int guessesTaken = GameTracker.getInstance().getPlayer(gameCode, playerName).getRound().getTotalGuessesTaken();
            guessesTaken += 1;
            GameTracker.getInstance().getPlayer(gameCode, playerName).getRound().setTotalGuessesTaken(guessesTaken);
 
            if(totalAllowedGuesses == guessesTaken){
-               GameTracker.getInstance().updatePlayerRound(gameCode, playerName, false, true);
+               GameTracker.getInstance().updatePlayerRound(gameCode, playerName, false, true, 0);
            }
        }
-
        GameStatus status = GameTracker.getInstance().getGameByCode(gameCode).getGameStatus();
       dispatchGameOrRoundOverEvents(status, gameCode);
        return result;
@@ -127,7 +126,7 @@ public class GameService implements IGameService{
 
     @Override
     public void processPlayerTimeExpirationEvent(String playerName, String gameId) {
-        GameTracker.getInstance().updatePlayerRound(gameId, playerName, false, true);
+        GameTracker.getInstance().updatePlayerRound(gameId, playerName, false, true, 0);
         dispatchGameOrRoundOverEvents(GameTracker.getInstance().getGameByCode(gameId).getGameStatus(), gameId);
     }
 

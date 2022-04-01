@@ -71,7 +71,7 @@ public class GameTracker {
 
     }
 
-    public void updatePlayerRound(String gameCode, String playerName, boolean correct, boolean setComplete){
+    public void updatePlayerRound(String gameCode, String playerName, boolean correct, boolean setComplete, int totalPoints){
         Game game = getGameByCode(gameCode);
         Player playerToUpdate =  game.getPlayers().stream().filter(player -> player.getPlayerUsername().equals(playerName)).findFirst().get();
         playerToUpdate.getRound().setComplete(setComplete);

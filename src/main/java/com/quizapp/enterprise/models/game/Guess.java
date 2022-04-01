@@ -15,6 +15,7 @@ public class Guess {
 
     private String gameCode;
     private String playerName;
+    private int secondsRemaining;
 
 
 

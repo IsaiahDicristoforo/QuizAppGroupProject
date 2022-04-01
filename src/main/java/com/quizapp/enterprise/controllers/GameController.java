@@ -60,7 +60,7 @@ public class GameController {
 
     @PostMapping("/checkGuess")
     public GuessResult checkGuess(@RequestBody Guess userGuess){
-        GuessResult result = gameService.ProcessPlayerGuess(userGuess.getGuess(),userGuess.getGameCode(), userGuess.getQuestionId(), userGuess.getPlayerName());
+        GuessResult result = gameService.ProcessPlayerGuess(userGuess.getGuess(),userGuess.getGameCode(), userGuess.getQuestionId(), userGuess.getPlayerName(), userGuess.getSecondsRemaining());
         result.setGameId(userGuess.getGameCode());
         result.setPlayerUsername(userGuess.getPlayerName());
 
