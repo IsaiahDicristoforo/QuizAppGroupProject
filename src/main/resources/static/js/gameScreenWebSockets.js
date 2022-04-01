@@ -4,6 +4,8 @@ let playerName = ""
 
 $(document).ready(function(){
 
+    $("#sabotageDiv").hide()
+    $("#powerupDiv").hide()
 
     $("#joinGame").click(function (){
         connect();
@@ -49,6 +51,9 @@ function connect() {
                 clearInterval(interval)
                 interval  = setInterval(tickTimer, 1000)
                 totalAllowedGuesses = newQuestionDetails.totalGuesses
+
+                $("#sabotageDiv").show()
+                $("#powerupDiv").show()
             });
         });
 
@@ -62,6 +67,11 @@ function connect() {
                 anime.remove($("#wordleGridContainer").get())
 
                 $("#wordleGridContainer").css("transform", "")
+                $("#wordleGridContainer").css("opacity", "100%")
+
+
+                $("#sabotageDiv").hide()
+                $("#powerupDiv").hide()
 
                 displayLeaderboard(JSON.parse(messageOutput.body))
 
@@ -75,7 +85,6 @@ function connect() {
         sabotageClient.connect({}, function(frame){
             let subscribeText = '/game1/' + $("#gameCode").text() + '/' + playerName + '/sabotage/'
             sabotageClient.subscribe(subscribeText, function (messageOutput){
-                console.log("Output" + messageOutput)
                 let output = JSON.parse(messageOutput.body)
                 startSabotageNotificationAnimation(output.saboteur, output.sabotageType, $("#gameEventNotificationScreen").get())
             })

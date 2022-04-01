@@ -267,6 +267,7 @@ function showFailScreen(){
     $("#Incorrect").show()
 }
 
+
 function endGame(){
 
     $("#resultsScreen").children().hide()
