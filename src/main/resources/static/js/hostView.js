@@ -48,7 +48,7 @@ function connect() {
 
         newStomClient.subscribe("/game1/roundOver/" + $("#hostScreenGameCode").text(), function(messageOutput){
             $("#nextQuestion").show()
-
+            $(".complete").empty()
         });
 
 
