@@ -16,6 +16,6 @@ public interface IGameService {
      void joinGame(String gameId, Player playerToJoin) throws Exception;
      ArrayList<Guess> checkGuess(String userGuess, String correctAnswer);
      Question nextQuestion(String gameId);
-     GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName);
+     GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining );
      void processPlayerTimeExpirationEvent(String playerName, String gameId);
 }

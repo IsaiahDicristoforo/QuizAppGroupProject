@@ -32,6 +32,10 @@ public class GameController {
         return gameService.startNewGame(quizId);
     }
 
+    @GetMapping(value = "/{gameId}/players")
+    public ArrayList<Player> getPlayers(@PathVariable("gameId") String gameId){
+        return gameService.getGame(gameId).getPlayers();
+    }
 
     @GetMapping(value = "/{gameId}")
     public Game getGame(@PathVariable("gameId") String gameId){
@@ -56,7 +60,7 @@ public class GameController {
 
     @PostMapping("/checkGuess")
     public GuessResult checkGuess(@RequestBody Guess userGuess){
-        GuessResult result = gameService.ProcessPlayerGuess(userGuess.getGuess(),userGuess.getGameCode(), userGuess.getQuestionId(), userGuess.getPlayerName());
+        GuessResult result = gameService.ProcessPlayerGuess(userGuess.getGuess(),userGuess.getGameCode(), userGuess.getQuestionId(), userGuess.getPlayerName(), userGuess.getSecondsRemaining());
         result.setGameId(userGuess.getGameCode());
         result.setPlayerUsername(userGuess.getPlayerName());
 

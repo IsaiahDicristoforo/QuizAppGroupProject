@@ -23,6 +23,25 @@ $(document).ready(function(){
         wordleGridActive = true;
     })
 
+    $("#sabotageDropdownDiv").click(function(){
+        $.get("/games/" + $("#gameCode").text() + "/players", function (data){
+
+            $("#dropdownSabotage").empty()
+            data.forEach(player => {
+
+                if(player.playerUsername != playerName){
+                    let elementId = player.playerUsername + "sabotage"
+                    $("#dropdownSabotage").append("<li><a class=\"dropdown-item\" href=\"#\"id=\"" + elementId  +   "\">" + player.playerUsername + "</a></li>")
+
+                    $("#" + elementId).click(function (event){
+                        $.post("/sabotage/" + player.playerUsername + "/" + $("#gameCode").text() + "?saboteur=" + playerName)
+                    })
+                }
+
+            })
+        })
+    })
+
     startTimerAnimation($("#timer").get())
 
 })
@@ -82,7 +101,7 @@ function wordSubmitted(){
     $.post({
         url: "/games/checkGuess",
         contentType: "application/json",
-        data: JSON.stringify({guess: getGuess(row, wordLength), questionId: currentQuestionId, gameCode: $("#gameCode").text(), playerName: playerName})
+        data: JSON.stringify({guess: getGuess(row, wordLength), questionId: currentQuestionId, gameCode: $("#gameCode").text(), playerName: playerName, secondsRemaining: parseInt($("#timerText").text())})
     }, function(data){
 
         let guessResults = data.guessResults;
@@ -133,7 +152,7 @@ function wordSubmitted(){
 
                     anime({
                         targets: "#pointsEarned",
-                        value: [0, 1000],
+                        value: [0, data.totalPoints],
                         round: 1,
                         easing: 'easeInOutExpo'
                     })
@@ -248,6 +267,7 @@ function showFailScreen(){
     $("#Incorrect").show()
 }
 
+
 function endGame(){
 
     $("#resultsScreen").children().hide()
@@ -292,7 +312,8 @@ function endGame(){
                 $("#resultsScreen").append("<h1 style='color: white'>Final Standings</h1>")
 
                 JSON.parse(finalStandings).forEach(player => {
-                    $("#resultsScreen").append("<div style='color: white'>" + player.playerUsername + "</div>")
+                    $("#resultsScreen").append("<div style='color: white'>" + player.playerUsername + "  " + player.totalPoints +  "</div>")
+
                 })
             };
         }
