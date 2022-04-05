@@ -22,7 +22,7 @@ public class UserAuthenticationController {
             return "login";
         }
 
-        return "redirect:/quiz_list";
+        return "redirect:/quizzes";
     }
 
     @GetMapping("/login-error")
