@@ -34,6 +34,6 @@ public class HomeController {
 
         userRepository.save(user);
 
-        return "register_success";
+        return "login";
     }
 }
