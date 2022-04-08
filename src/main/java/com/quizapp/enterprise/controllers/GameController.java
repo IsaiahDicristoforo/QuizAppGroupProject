@@ -8,7 +8,9 @@ import com.quizapp.enterprise.models.game.Guess;
 import com.quizapp.enterprise.models.game.GuessResult;
 import com.quizapp.enterprise.models.game.Player;
 import com.quizapp.enterprise.persistence.GameTracker;
+import com.quizapp.enterprise.services.GameService;
 import com.quizapp.enterprise.services.IGameService;
+import com.quizapp.enterprise.services.IQuestionService;
 import com.quizapp.enterprise.webSockets.PlayerJoinEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,9 @@ public class GameController {
 
     @Autowired
     IGameService gameService;
+
+    @Autowired
+    IQuestionService questionService;
 
     @Autowired
     SimpMessagingTemplate messagingTemplate;
@@ -62,12 +67,12 @@ public class GameController {
     }
 
     @PostMapping("/checkGuess")
-    public GuessResult checkGuess(@RequestBody Guess userGuess) throws BusinessLogicError {
+    public GuessResult checkGuess(@RequestBody Guess userGuess) throws Exception {
         GuessResult result = gameService.ProcessPlayerGuess(userGuess.getGuess(),userGuess.getGameCode(), userGuess.getQuestionId(), userGuess.getPlayerName(), userGuess.getSecondsRemaining());
         result.setGameId(userGuess.getGameCode());
         result.setPlayerUsername(userGuess.getPlayerName());
 
-        if(result.isWordCorrect()){
+        if(result.isWordCorrect() || GameTracker.getInstance().getPlayer(userGuess.getGameCode(), userGuess.getPlayerName()).getRound().getTotalGuessesTaken() >= questionService.getQuestion((int) userGuess.getQuestionId()).getTotalGuessesAllowed()){
             sendGuessResult(result);
         }
         return result;
@@ -79,7 +84,7 @@ public class GameController {
     }
 
     @MessageMapping("/gameOver")
-    public void sendGameOveNotification(String gameId) throws BusinessLogicError {
+    public void sendGameOverNotification(String gameId) throws BusinessLogicError {
         ArrayList<Player> leaderboard = GameTracker.getInstance().getLeaderboard(gameId);
         messagingTemplate.convertAndSend("/game1/gameOver/3" , leaderboard );
     }
