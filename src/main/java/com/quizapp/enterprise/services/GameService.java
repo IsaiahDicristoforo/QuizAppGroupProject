@@ -56,7 +56,7 @@ public class GameService implements IGameService{
     }
 
     @Override
-    public Game getGame(String gameId) {
+    public Game getGame(String gameId) throws BusinessLogicError {
         return GameTracker.getInstance().getGameByCode(gameId);
     }
 
@@ -71,7 +71,7 @@ public class GameService implements IGameService{
         GameTracker.getInstance().joinGame(gameId, playerToJoin);
     }
 
-    private boolean userNameExists(String userName, String gameCode){
+    private boolean userNameExists(String userName, String gameCode) throws BusinessLogicError {
 
       return GameTracker
                 .getInstance()
@@ -83,7 +83,7 @@ public class GameService implements IGameService{
 
     }
 
-    public GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining) {
+    public GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining) throws BusinessLogicError {
 
         Question question = questionRepository.getById(questionId);
         String correctWord = question.getWordle();
@@ -133,12 +133,12 @@ public class GameService implements IGameService{
     }
 
     @Override
-    public void processPlayerTimeExpirationEvent(String playerName, String gameId) {
+    public void processPlayerTimeExpirationEvent(String playerName, String gameId) throws BusinessLogicError {
         GameTracker.getInstance().updatePlayerRound(gameId, playerName, false, true, 0);
         dispatchGameOrRoundOverEvents(GameTracker.getInstance().getGameByCode(gameId).getGameStatus(), gameId);
     }
 
-    private void dispatchGameOrRoundOverEvents(GameStatus gameStatus, String gameCode){
+    private void dispatchGameOrRoundOverEvents(GameStatus gameStatus, String gameCode) throws BusinessLogicError {
         if(gameStatus == GameStatus.GameEnded){
             gameOverEventPublisher.publishGameOverEvent(gameCode, GameTracker.getInstance().getLeaderboard(gameCode));
             roundOverEventPublisher.publishRoundOverEvent(gameCode, GameTracker.getInstance().getLeaderboard(gameCode));
@@ -210,7 +210,7 @@ public class GameService implements IGameService{
     }
 
     @Override
-    public Question nextQuestion(String gameId) {
+    public Question nextQuestion(String gameId) throws BusinessLogicError {
         //A new round has started, so we need to reset the game state
         GameTracker.getInstance().updateGameState(GameStatus.Started, gameId);
         return GameTracker.getInstance().getNextQuestion(gameId);

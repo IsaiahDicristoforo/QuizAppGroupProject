@@ -13,10 +13,10 @@ public interface IGameService {
 
      Game startNewGame(int quizId);
      ArrayList<Game> getAllGames();
-     Game getGame(String gameId);
+     Game getGame(String gameId) throws BusinessLogicError;
      void joinGame(String gameId, Player playerToJoin) throws BusinessLogicError;
      ArrayList<Guess> checkGuess(String userGuess, String correctAnswer);
-     Question nextQuestion(String gameId);
-     GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining );
-     void processPlayerTimeExpirationEvent(String playerName, String gameId);
+     Question nextQuestion(String gameId) throws BusinessLogicError;
+     GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining ) throws BusinessLogicError;
+     void processPlayerTimeExpirationEvent(String playerName, String gameId) throws BusinessLogicError;
 }
