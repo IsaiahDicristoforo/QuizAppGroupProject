@@ -1,5 +1,6 @@
 package com.quizapp.enterprise.services;
 
+import com.quizapp.enterprise.errorHandling.BusinessLogicError;
 import com.quizapp.enterprise.models.Question;
 import com.quizapp.enterprise.models.game.Game;
 import com.quizapp.enterprise.models.game.Guess;
@@ -13,7 +14,7 @@ public interface IGameService {
      Game startNewGame(int quizId);
      ArrayList<Game> getAllGames();
      Game getGame(String gameId);
-     void joinGame(String gameId, Player playerToJoin) throws Exception;
+     void joinGame(String gameId, Player playerToJoin) throws BusinessLogicError;
      ArrayList<Guess> checkGuess(String userGuess, String correctAnswer);
      Question nextQuestion(String gameId);
      GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining );

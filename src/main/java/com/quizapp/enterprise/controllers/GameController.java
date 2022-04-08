@@ -1,5 +1,6 @@
 package com.quizapp.enterprise.controllers;
 
+import com.quizapp.enterprise.errorHandling.BusinessLogicError;
 import com.quizapp.enterprise.models.Question;
 import com.quizapp.enterprise.models.WordleDisplayDetail;
 import com.quizapp.enterprise.models.game.Game;
@@ -10,6 +11,8 @@ import com.quizapp.enterprise.persistence.GameTracker;
 import com.quizapp.enterprise.services.IGameService;
 import com.quizapp.enterprise.webSockets.PlayerJoinEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -43,9 +46,9 @@ public class GameController {
     }
 
     @PostMapping(value = "/joinGame/{gameId}")
-    public Game joinGame(@PathVariable("gameId") String gameId, @RequestBody Player player) throws Exception {
+    public ResponseEntity<Game> joinGame(@PathVariable("gameId") String gameId, @RequestBody Player player) throws BusinessLogicError {
         gameService.joinGame(gameId, player);
-        return gameService.getGame(gameId);
+        return new ResponseEntity<Game>(gameService.getGame(gameId), HttpStatus.OK);
     }
 
     @PostMapping(value = "/{id}/nextQuestion")

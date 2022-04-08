@@ -1,5 +1,6 @@
 package com.quizapp.enterprise.services;
 
+import com.quizapp.enterprise.errorHandling.BusinessLogicError;
 import com.quizapp.enterprise.events.GameOverEventPublisher;
 import com.quizapp.enterprise.events.RoundOverEvent;
 import com.quizapp.enterprise.events.RoundOverEventPublisher;
@@ -60,12 +61,12 @@ public class GameService implements IGameService{
     }
 
     @Override
-    public void joinGame(String gameId, Player playerToJoin) throws Exception {
+    public void joinGame(String gameId, Player playerToJoin) throws BusinessLogicError {
 
         playerToJoin.setRound(new PlayerRound());
 
         if(userNameExists(playerToJoin.getPlayerUsername(), gameId)){
-            throw new Exception("Username already exists. Please choose another username");
+            throw new BusinessLogicError("Username already exists. Please choose another username");
         }
         GameTracker.getInstance().joinGame(gameId, playerToJoin);
     }
