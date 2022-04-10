@@ -1,6 +1,6 @@
 
 let currentQuestionNumber = 0;
-
+let roundInProgress = false
 $(document).ready(function(){
 
     connect()
@@ -16,13 +16,14 @@ function connect() {
     stompClient.connect({}, function(frame) {
 
         $("#nextQuestion").click(function(){
+            roundInProgress = true
             $("#nextQuestion").hide()
             stompClient.send("/app/chat1/nextQuestion", {}, JSON.stringify({ "gameId": $("#hostScreenGameCode").text()  }));
         })
 
         stompClient.subscribe('/game1/messages/' + $("#hostScreenGameCode").text() , function(messageOutput) {
             let playerName = JSON.parse(messageOutput.body)["playerName"];
-            $(".playing").append("<li id=\"" + playerName +  "\" class=\"list-group-item d-flex justify-content-between align-items-center\">" + playerName +  "<span class=\"badge bg-primary rounded-pill\">0</span></li>")
+            $(".playing").append("<li id=\"" + playerName +  "\" class=\"list-group-item d-flex justify-content-between align-items-center\">" + playerName +  "</li>")
         });
 
         stompClient.subscribe('/game1/gameOver/' + $("#hostScreenGameCode").text(), function(messageOutput){
@@ -47,8 +48,12 @@ function connect() {
     newStomClient.connect({}, function(frame) {
 
         newStomClient.subscribe("/game1/roundOver/" + $("#hostScreenGameCode").text(), function(messageOutput){
+
+            roundInProgress = false
             $("#nextQuestion").show()
             $(".complete").empty()
+            $(".playing").children("*").css("visibility", "visible")
+
         });
 
 
@@ -60,13 +65,20 @@ function connect() {
     stompClient2.connect({}, function(frame){
         stompClient2.subscribe('/game1/playerUpdate/'+$("#hostScreenGameCode").text(), function (messageOutput){
             let name = JSON.parse(messageOutput.body)["playerUsername"];
-            $(".complete").append("<li class=\"list-group-item d-flex justify-content-between align-items-center\">" + name +  "<span class=\"badge bg-primary rounded-pill\">0</span></li>")
-            $("#" + name).remove()
+            el = $("#"+name)
+            el.css("visibility", "hidden")
+
+            if(roundInProgress){
+                $(".complete").append("<li id=\"" + name +  "\" class=\"list-group-item d-flex justify-content-between align-items-center\">" + name + "</li>")
+            }
+
+
         })
             })
 
 }
 function nextQuestionClicked(){
+    $("#complete").empty()
     currentQuestionNumber += 1
     $("#questionCount").text("Question " + currentQuestionNumber + " / " + totalQuestions)
 }

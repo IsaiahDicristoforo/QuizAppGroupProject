@@ -1,5 +1,6 @@
 package com.quizapp.enterprise.controllers;
 
+import com.quizapp.enterprise.errorHandling.BusinessLogicError;
 import com.quizapp.enterprise.models.Question;
 import com.quizapp.enterprise.models.WordleDisplayDetail;
 import com.quizapp.enterprise.models.game.Game;
@@ -7,9 +8,13 @@ import com.quizapp.enterprise.models.game.Guess;
 import com.quizapp.enterprise.models.game.GuessResult;
 import com.quizapp.enterprise.models.game.Player;
 import com.quizapp.enterprise.persistence.GameTracker;
+import com.quizapp.enterprise.services.GameService;
 import com.quizapp.enterprise.services.IGameService;
+import com.quizapp.enterprise.services.IQuestionService;
 import com.quizapp.enterprise.webSockets.PlayerJoinEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +29,9 @@ public class GameController {
     IGameService gameService;
 
     @Autowired
+    IQuestionService questionService;
+
+    @Autowired
     SimpMessagingTemplate messagingTemplate;
 
 
@@ -33,23 +41,23 @@ public class GameController {
     }
 
     @GetMapping(value = "/{gameId}/players")
-    public ArrayList<Player> getPlayers(@PathVariable("gameId") String gameId){
+    public ArrayList<Player> getPlayers(@PathVariable("gameId") String gameId) throws BusinessLogicError {
         return gameService.getGame(gameId).getPlayers();
     }
 
     @GetMapping(value = "/{gameId}")
-    public Game getGame(@PathVariable("gameId") String gameId){
+    public Game getGame(@PathVariable("gameId") String gameId) throws BusinessLogicError {
       return gameService.getGame(gameId);
     }
 
     @PostMapping(value = "/joinGame/{gameId}")
-    public Game joinGame(@PathVariable("gameId") String gameId, @RequestBody Player player) throws Exception {
+    public ResponseEntity<Game> joinGame(@PathVariable("gameId") String gameId, @RequestBody Player player) throws BusinessLogicError {
         gameService.joinGame(gameId, player);
-        return gameService.getGame(gameId);
+        return new ResponseEntity<Game>(gameService.getGame(gameId), HttpStatus.OK);
     }
 
     @PostMapping(value = "/{id}/nextQuestion")
-    public Question nextQuestion(@PathVariable("id") String gameId){
+    public Question nextQuestion(@PathVariable("id") String gameId) throws BusinessLogicError {
         return gameService.nextQuestion(gameId);
     }
 
@@ -59,24 +67,29 @@ public class GameController {
     }
 
     @PostMapping("/checkGuess")
-    public GuessResult checkGuess(@RequestBody Guess userGuess){
+    public GuessResult checkGuess(@RequestBody Guess userGuess) throws Exception {
         GuessResult result = gameService.ProcessPlayerGuess(userGuess.getGuess(),userGuess.getGameCode(), userGuess.getQuestionId(), userGuess.getPlayerName(), userGuess.getSecondsRemaining());
         result.setGameId(userGuess.getGameCode());
         result.setPlayerUsername(userGuess.getPlayerName());
 
-        if(result.isWordCorrect()){
+        if(result.isWordCorrect() || GameTracker.getInstance().getPlayer(userGuess.getGameCode(), userGuess.getPlayerName()).getRound().getTotalGuessesTaken() >= questionService.getQuestion((int) userGuess.getQuestionId()).getTotalGuessesAllowed()){
             sendGuessResult(result);
         }
         return result;
     }
 
     @PostMapping("/{gameId}/timeUp")
-    public void playerFailEvent(@RequestParam("playerName") String playerName, @PathVariable("gameId") String gameId){
+    public void playerFailEvent(@RequestParam("playerName") String playerName, @PathVariable("gameId") String gameId) throws BusinessLogicError {
         gameService.processPlayerTimeExpirationEvent(playerName, gameId);
     }
 
+    @GetMapping("/{gameID}/gameExists")
+    public boolean checkIfGameExists(@PathVariable("gameID") String gameId){
+        return GameTracker.getInstance().gameExists(gameId);
+    }
+
     @MessageMapping("/gameOver")
-    public void sendGameOveNotification(String gameId){
+    public void sendGameOverNotification(String gameId) throws BusinessLogicError {
         ArrayList<Player> leaderboard = GameTracker.getInstance().getLeaderboard(gameId);
         messagingTemplate.convertAndSend("/game1/gameOver/3" , leaderboard );
     }
