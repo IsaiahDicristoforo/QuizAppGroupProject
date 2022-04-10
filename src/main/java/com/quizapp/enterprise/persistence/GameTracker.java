@@ -50,6 +50,13 @@ public class GameTracker {
                 .get();
     }
 
+    public boolean gameExists(String gameCode){
+        return games.stream()
+                .filter(g -> g.getGameCode().equals(gameCode))
+                .findAny()
+                .isPresent();
+    }
+
     public void joinGame(
             String gameCode, Player playerToJoin) throws BusinessLogicError {
         getGameByCode(gameCode)

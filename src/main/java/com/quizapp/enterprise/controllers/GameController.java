@@ -83,6 +83,11 @@ public class GameController {
         gameService.processPlayerTimeExpirationEvent(playerName, gameId);
     }
 
+    @GetMapping("/{gameID}/gameExists")
+    public boolean checkIfGameExists(@PathVariable("gameID") String gameId){
+        return GameTracker.getInstance().gameExists(gameId);
+    }
+
     @MessageMapping("/gameOver")
     public void sendGameOverNotification(String gameId) throws BusinessLogicError {
         ArrayList<Player> leaderboard = GameTracker.getInstance().getLeaderboard(gameId);
