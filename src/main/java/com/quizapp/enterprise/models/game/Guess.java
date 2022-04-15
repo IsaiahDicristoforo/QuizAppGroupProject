@@ -17,6 +17,7 @@ public class Guess {
 
     private String gameCode;
     private String playerName;
+    private int secondsRemaining;
 
     public Guess(int isCorrectLetter, String letter) {
         IsCorrectLetter = isCorrectLetter;

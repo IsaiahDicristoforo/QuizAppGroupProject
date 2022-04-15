@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class GameViewController {
@@ -17,7 +16,7 @@ public class GameViewController {
     private IGameService gameService;
 
     @RequestMapping("game/")
-    public String game(@RequestParam("gameId") String gameId, Model model){
+    public String game(@RequestParam("gameId") String gameId, Model model) throws BusinessLogicError {
 
         model.addAttribute("players", gameService.getGame(gameId).getPlayers());
         model.addAttribute("gameCode", gameId);

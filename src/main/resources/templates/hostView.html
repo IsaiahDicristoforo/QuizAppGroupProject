@@ -13,7 +13,7 @@
     <script src="/js/hostView.js"></script>
 
 </head>
-<body>
+<body style=" height: 100vh; background-color: #73e1f5">
 
 <div id="hostContainer" style="display: flex; align-items: center; flex-direction: column">
 
@@ -28,7 +28,7 @@
         <h2 id="questionCount"> Question 1 / <span th:text="${totalQuestions}"></span></h2>
     </div>
 
-    <div id="playerStatus">
+    <div style="padding: 60px" id="playerStatus">
 
 
         <div class="container">
@@ -41,7 +41,7 @@
                 </div>
                 <div class="col-sm-6" style="background-color:#5cd55c; padding: 20px">
                     <h1>Complete</h1>
-                    <ul class="list-group complete">
+                    <ul class="list-group complete"/>
                 </div>
             </div>
         </div>
@@ -53,8 +53,9 @@
 
 </div>
 
-
-<button id="nextQuestion" onclick="nextQuestionClicked()" class="btn btn-primary">Next Question</button>
+<div style="display: flex; padding: 50px; justify-content: center">
+    <button id="nextQuestion" onclick="nextQuestionClicked()" class="btn btn-lg btn-primary">Next Question</button>
+</div>
 
 <script th:inline="javascript">
     let totalQuestions = [[${totalQuestions}]];
