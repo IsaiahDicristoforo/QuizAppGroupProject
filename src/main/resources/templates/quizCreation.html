@@ -1,50 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Quiz Creation</title>
+  <meta charset="UTF-8">
+  <title>Quiz Creation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/css/loginScreen.css">
+  <link rel="stylesheet" type="text/css" href="/css/quizzes.css">
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+  <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+  <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+  <script src="https://kit.fontawesome.com/e91255cdbc.js" crossorigin="anonymous"></script>
 </head>
-<body>
-<script src="/js/quizCreation.js"></script>
-<script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
+<body class="quiz-background-color">
 
+<div class="container pt-5">
+  <div class=" border border-0 rounded p-5 quiz-background-color-reverse">
 
-<div class="header">
-  <h1>Create your Quiz</h1>
+    <div class="row">
+      <h1>Create your Quiz</h1>
+    </div>
+
+    <hr>
+
+    <div class="row form-group mt-3">
+      <label class="col-md-2 col-form-label">Quiz Name:</label>
+      <div class="col-md-4">
+        <input class="form-control" type="text" id="myQuiz" name="myQuiz">
+      </div>
+    </div>
+
+    <div class="row form-group mt-3">
+      <label class="col-md-2 col-form-label">Quiz Description:</label>
+      <div class="col-md-4">
+        <input class="form-control" type="text" id="quizDescription" name="quizDescription">
+      </div>
+    </div>
+
+    <div class="row form-group mt-3">
+      <label class="col-md-2 col-form-label">Hints:</label>
+      <div class="col-md-4">
+        <label for="yes"> Yes </label>
+        <input type="radio" id="yes" name="hints" value="yes">
+        <label for="no"> No </label>
+        <input type="radio" id="no" name="hints" value="no">
+      </div>
+    </div>
+
+    <div class="row form-group mt-3">
+      <div class="col-md-2">
+        <button class="btn btn-dark" id="save" onclick="quizAttributes()">Save Quiz Attributes</button>
+      </div>
+      <div class="col-md-4">
+      </div>
+    </div>
+
+    <hr>
+
+    <section class="questions">
+      <div class="row" id="questions">
+        <form id="questionCreation" onsubmit="updateQuestionCounter(); updateCounter(); return addQuestions()">
+          <div class="row">
+            <label id="questionNumber">Question 1.</label>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <input class="form-control" id="question" type="text" placeholder="Word" readonly>
+            </div>
+            <div class="col-md-2">
+              <input class="form-control" id="allowedGuesses" type="number" placeholder="# Allowed Guesses" readonly>
+            </div>
+            <div class="col-md-2">
+              <input class="form-control" id="timeLimit" type="number" placeholder="Time Limit (sec)"  readonly>
+            </div>
+            <div class="col-md-2">
+              <input class="form-control" id="hint" type="text" placeholder="Hint" readonly>
+            </div>
+            <div class="col-md-2">
+              <input class="form-control btn btn-dark" id="addQuestion" type="submit" value="Add Question">
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <div class="row quizInfo mt-2">
+      <span id="numOfQuestions">Total Questions: 0</span>
+    </div>
+
+    <div class="row">
+      <div class="col-md-2">
+        <button class="btn btn-dark" id="createQuiz" onclick="saveQuiz()" disabled>Create Quiz</button>
+      </div>
+    </div>
+
+  </div>
 </div>
-
-<h3>What would you like to name your quiz?</h3>
-<input type="text" id="myQuiz" name="myQuiz"><br>
-<h3>Do you want to have hints?</h3>
-<label for="yes"> Yes </label>
-<input type="radio" id="yes" name="hints" value="yes">
-<label for="no"> No </label>
-<input type="radio" id="no" name="hints" value="no"><br><br>
-
-<button id="save" onclick="quizAttributes()">Save Quiz Attributes</button>
-<hr><br>
-
-<section class="questions">
-  <div id="questions">
-    <form id="questionCreation" onsubmit="updateQuestionCounter(); updateCounter(); return addQuestions()">
-      <label id="questionNumber">Question 1.</label>
-      <input id="question" type="text" placeholder="Word" readonly>
-      <input id="allowedGuesses" type="number" placeholder="# Allowed Guesses" readonly>
-      <input id="timeLimit" type="number" placeholder="Time Limit (sec)"  readonly>
-
-      <input id="hint" type="text" placeholder="Hint" readonly>
-      <input id="addQuestion" type="submit" value="Add Question">
-    </form>
-
-  </div>
-
-  <div class="quizInfo">
-    <br><h3 id="numOfQuestions">You currently have 0 questions added</h3><br>
-  </div>
-
-</section>
-
-<button id="createQuiz" onclick="saveQuiz()" disabled>Create Quiz</button>
-
+<script src="/js/quizCreation.js"></script>
 </body>
 </html>
