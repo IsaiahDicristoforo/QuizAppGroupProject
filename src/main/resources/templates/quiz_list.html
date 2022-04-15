@@ -24,7 +24,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-12">
-                    <a href="" class="btn btn-dark col-sm-12"> Create Quiz</a>
+                    <a th:href="@{/quizCreation}" class="btn btn-dark col-sm-12"> Create Quiz</a>
                 </div>
             </div>
 
@@ -33,7 +33,7 @@
                     <div class="card bg-dark text-white">
                         <div class="card-body">
                             <h5 th:text="${quiz.quizName}" class="card-title"></h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <p class="card-text" th:text="${quiz.description}"></p>
                             <a th:id="${quiz.quizId}" onclick="hostGame(this.id)" class="btn btn-light">Host</a>
                         </div>
                     </div>
