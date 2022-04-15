@@ -1,26 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Quiz List</title>
-    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css" />
-    <script type="text/javascript" src="/webjars/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="/js/quiz_list.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/css/loginScreen.css">
+    <link rel="stylesheet" type="text/css" href="/css/quizzes.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+    <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+    <script src="https://kit.fontawesome.com/e91255cdbc.js" crossorigin="anonymous"></script>
 </head>
-<body>
+<body class="quiz-background-color">
 
-<h1>Quiz List</h1>
+<div>
+    <div class="container pt-5">
+        <div class=" border border-0 rounded p-5 quiz-background-color-reverse">
+            <div class="row">
+                <h1 class="col-sm-6">Quiz List</h1>
+                <h2 class="col-sm-6 text-end">Logged in as <span th:text="${username}"/></h2>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <a href="" class="btn btn-dark col-sm-12"> Create Quiz</a>
+                </div>
+            </div>
 
-<h2>Logged in as <span th:text="${username}"/></h2>
-
-<div th:each="quiz: ${quizzes}" class="card w-50">
-    <div class="card-body">
-        <h5 th:text="${quiz.quizName}" class="card-title"></h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a th:id="${quiz.quizId}" onclick="hostGame(this.id)" class="btn btn-primary">Host</a>
+            <div class="row">
+                <div class="col-sm-6" th:each="quiz: ${quizzes}" style="padding-top: 12px; padding-bottom: 12px;">
+                    <div class="card bg-dark text-white">
+                        <div class="card-body">
+                            <h5 th:text="${quiz.quizName}" class="card-title"></h5>
+                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                            <a th:id="${quiz.quizId}" onclick="hostGame(this.id)" class="btn btn-light">Host</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<script type="text/javascript" src="/js/quiz_list.js"></script>
 
 </body>
 </html>
