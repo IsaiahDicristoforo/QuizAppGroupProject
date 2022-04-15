@@ -19,6 +19,9 @@ public class Quiz {
     @Column(name = "name")
     private String quizName;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "user_id")
     private int userId;
 
