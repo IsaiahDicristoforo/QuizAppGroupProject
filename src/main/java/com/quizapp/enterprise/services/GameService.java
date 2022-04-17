@@ -83,7 +83,14 @@ public class GameService implements IGameService{
 
     }
 
-    public GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining) throws BusinessLogicError {
+    public GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining) throws BusinessLogicError, IOException {
+        if(!isWord(userGuess))
+        {
+            GuessResult gr = new GuessResult();
+            gr.setInDictionary(false);
+            return gr;
+        }
+
 
         Question question = questionRepository.getById(questionId);
         String correctWord = question.getWordle();

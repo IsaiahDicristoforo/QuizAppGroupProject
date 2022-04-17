@@ -10,6 +10,7 @@ public class GuessResult {
     private String playerUsername;
     private String gameId;
     private boolean wordCorrect;
+    private boolean inDictionary;
     private int totalPoints;
 
 }

@@ -7,6 +7,7 @@ import com.quizapp.enterprise.models.game.Guess;
 import com.quizapp.enterprise.models.game.GuessResult;
 import com.quizapp.enterprise.models.game.Player;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 public interface IGameService {
@@ -17,6 +18,6 @@ public interface IGameService {
      void joinGame(String gameId, Player playerToJoin) throws BusinessLogicError;
      ArrayList<Guess> checkGuess(String userGuess, String correctAnswer);
      Question nextQuestion(String gameId) throws BusinessLogicError;
-     GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining ) throws BusinessLogicError;
+     GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining ) throws BusinessLogicError, IOException;
      void processPlayerTimeExpirationEvent(String playerName, String gameId) throws BusinessLogicError;
 }
