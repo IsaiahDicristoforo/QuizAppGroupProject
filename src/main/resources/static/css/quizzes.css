@@ -1,0 +1,11 @@
+.quiz-background-color {
+    background: #9152f8;
+    background: -webkit-linear-gradient(bottom, #7579ff, #b224ef);
+    background: linear-gradient(bottom,  #7579ff, #b224ef);
+}
+
+.quiz-background-color-reverse {
+    background: #9152f8;
+    background: -webkit-linear-gradient(bottom, #b224ef, #7579ff);
+    background: linear-gradient(bottom,  #7579ff, #b224ef);
+}

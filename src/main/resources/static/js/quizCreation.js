@@ -5,6 +5,7 @@ var questionNumber = 1;
 
 function quizAttributes(){
     document.getElementById('myQuiz').readOnly=true;
+    document.getElementById('quizDescription').disabled=true;
     document.getElementById('yes').disabled=true;
     document.getElementById('no').disabled=true;
     document.getElementById('question').removeAttribute('readonly');
@@ -34,10 +35,10 @@ function addQuestions(){
 function updateCounter(){
     counterValue++;
     if (counterValue == 1){
-        document.getElementById('numOfQuestions').innerHTML = "You have " + counterValue + " question added."
+        document.getElementById('numOfQuestions').innerHTML = "Total Questions: " + counterValue
     }
     else{
-        document.getElementById('numOfQuestions').innerHTML = "You have " + counterValue + " questions added."
+        document.getElementById('numOfQuestions').innerHTML = "Total Questions: " + counterValue
     }
 }
 
@@ -53,10 +54,11 @@ function saveQuiz(){
     else{
 
         let theQuizTitle = $("#myQuiz").val();
+        let theQuizDescription = $("#quizDescription").val();
         $.post({
             url: "/quiz",
             contentType: "application/json",
-            data: JSON.stringify({quizName: theQuizTitle})
+            data: JSON.stringify({quizName: theQuizTitle, description: theQuizDescription})
         }, function (data){
             let theQuizId = data["quizId"];
 
@@ -71,5 +73,6 @@ function saveQuiz(){
 
         })
         alert("Quiz Created!");
+        window.location.href = "/quizzes"
     }
 }

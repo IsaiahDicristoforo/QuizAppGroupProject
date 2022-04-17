@@ -1,6 +1,7 @@
 package com.quizapp.enterprise.controllers;
 
 import com.quizapp.enterprise.models.User;
+import com.quizapp.enterprise.models.game.Game;
 import com.quizapp.enterprise.persistence.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,7 +16,7 @@ public class HomeController {
     @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("")
+    @GetMapping("/")
     public String viewHomePage(){
         return "index";
     }
