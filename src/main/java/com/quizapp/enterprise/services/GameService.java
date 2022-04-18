@@ -83,8 +83,8 @@ public class GameService implements IGameService{
 
     }
 
-    public GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining) throws BusinessLogicError, IOException {
-        if(!isWord(userGuess))
+    public GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining) throws BusinessLogicError {
+        if(userGuess != null && !isWord(userGuess))
         {
             GuessResult gr = new GuessResult();
             gr.setInDictionary(false);
@@ -117,6 +117,7 @@ public class GameService implements IGameService{
        }
        result.setGuessResults(wordResults);
        result.setWordCorrect(wordCorrect);
+       result.setInDictionary(true);
 
        if(wordCorrect){
            Player player = GameTracker.getInstance().getPlayer(gameCode, playerName);
@@ -193,12 +194,17 @@ public class GameService implements IGameService{
      * @param word the users guess
      * @return boolean (is word/is not word)
      */
-    public boolean isWord(String word) throws IOException {
+    public boolean isWord(String word) {
         // Get the word file path
         Path path = Paths.get("words.txt");
 
         // Read the words into a byte stream
-        byte[] readBytes = Files.readAllBytes(path);
+        byte[] readBytes = new byte[0];
+        try {
+            readBytes = Files.readAllBytes(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // Convert the list to a string and set all words to lower case
         String wordListContents = new String(readBytes, StandardCharsets.UTF_8).toLowerCase();

@@ -18,6 +18,7 @@ public interface IGameService {
      void joinGame(String gameId, Player playerToJoin) throws BusinessLogicError;
      ArrayList<Guess> checkGuess(String userGuess, String correctAnswer);
      Question nextQuestion(String gameId) throws BusinessLogicError;
-     GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining ) throws BusinessLogicError, IOException;
+     GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining ) throws BusinessLogicError;
      void processPlayerTimeExpirationEvent(String playerName, String gameId) throws BusinessLogicError;
+     boolean isWord(String word);
 }

@@ -103,13 +103,24 @@ function wordSubmitted(){
         contentType: "application/json",
         data: JSON.stringify({guess: getGuess(row, wordLength), questionId: currentQuestionId, gameCode: $("#gameCode").text(), playerName: playerName, secondsRemaining: parseInt($("#timerText").text())})
     }, function(data){
+        let rotateLetterAnimation = anime.timeline({
+                autoplay: false,
+                easing: 'easeInOutQuad',
+            })
+
+        let inDictionary = data.inDictionary;
+        if(!inDictionary)
+        {
+            rotateLetterAnimation.add({'targets': targetsArray,border: "0px solid white", rotate: '1turn', easing: 'easeInOutSine', 'background': '#83867c'}, '-=500');
+            rotateLetterAnimation.play();
+
+            return false;
+        }
+
 
         let guessResults = data.guessResults;
         let wordCorrect = data.wordCorrect
-        let rotateLetterAnimation = anime.timeline({
-            autoplay: false,
-            easing: 'easeInOutQuad',
-        })
+
         for(let i = 0; i < targetsArray.length; i++){
 
             let color = ""
@@ -172,9 +183,11 @@ function wordSubmitted(){
         }
         rotateLetterAnimation.play()
 
+
+        row++;
     })
 
-    row++;
+
 }
 
 
