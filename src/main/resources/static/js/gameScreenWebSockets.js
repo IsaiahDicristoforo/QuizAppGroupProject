@@ -1,5 +1,7 @@
 var currentQuestionId  = 0
 
+var wordleLength = 0;
+
 let playerName = ""
 
 $(document).ready(function(){
@@ -54,7 +56,11 @@ function connect() {
 
                 $("#sabotageDiv").show()
                 $("#powerupDiv").show()
+
+                wordleLength = newQuestionDetails.wordleLength;
             });
+
+
         });
 
         var newSocket3 = new SockJS('/chat1');

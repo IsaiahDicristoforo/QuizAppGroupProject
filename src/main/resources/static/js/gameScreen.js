@@ -1,7 +1,7 @@
 
 let row = 1;
 let column = 0;
-let wordLength = 8;
+let wordLength = wordleLength;
 let wordleGridActive = false;
 let interval = null;
 let totalAllowedGuesses = 0
@@ -92,10 +92,19 @@ function backspacePressed(){
     column--;
 }
 function wordSubmitted(){
+    $('#responseMsg').text('');
     column = 0;
     let targetsArray = []
     for (let i = 1; i <= wordLength; i++){
         targetsArray.push("#row" + row + "column" + i)
+    }
+
+    if(getGuess(row, wordLength).length < wordleLength)
+    {
+        console.log(wordLength + " " + getGuess(row, wordLength).length);
+        $('#responseMsg').text('Invalid word length!');
+
+        return false;
     }
 
     $.post({
@@ -113,6 +122,8 @@ function wordSubmitted(){
         {
             rotateLetterAnimation.add({'targets': targetsArray,border: "0px solid white", rotate: '1turn', easing: 'easeInOutSine', 'background': '#83867c'}, '-=500');
             rotateLetterAnimation.play();
+
+            $('#responseMsg').text("Word not in dictionary!");
 
             return false;
         }
