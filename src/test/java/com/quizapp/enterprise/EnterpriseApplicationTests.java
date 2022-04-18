@@ -5,6 +5,7 @@ import com.quizapp.enterprise.models.Question;
 import com.quizapp.enterprise.models.Quiz;
 import com.quizapp.enterprise.models.User;
 import com.quizapp.enterprise.models.game.Game;
+import com.quizapp.enterprise.models.game.GameStatus;
 import com.quizapp.enterprise.models.game.Guess;
 import com.quizapp.enterprise.services.GameService;
 import com.quizapp.enterprise.services.IGameService;
@@ -92,7 +93,7 @@ class EnterpriseApplicationTests {
         boolean correct = true;
         for(Guess guess : gec) {
 
-          if(guess.IsCorrectLetter != 1) {
+            if(guess.IsCorrectLetter != 1) {
                 fail("User Guess of "
                         + guess.Letter
                         + " was not correct");
@@ -146,5 +147,16 @@ class EnterpriseApplicationTests {
 
         GameService gs = new GameService();
         assertFalse(gs.isWord(word));
+    }
+
+    /**
+     * Scenario: Check game status is correct upon start of game
+     */
+    @Test
+    void verifyGameStatus() {
+        GameStatus gameStatus = GameStatus.NotStarted;
+
+        Game game = new Game();
+        assertEquals(gameStatus, game.getGameStatus());
     }
 }
