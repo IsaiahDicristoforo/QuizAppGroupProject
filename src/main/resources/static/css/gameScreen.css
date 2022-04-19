@@ -3,6 +3,9 @@
 body{
     margin: 0;
     height: 100vh;
+
+    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(97,186,255,1) 0%, rgba(166,239,253,1) 90.1% );
+
 }
 
 #pointsEarned{
@@ -18,11 +21,12 @@ body{
     grid-column-end: 3;
     grid-column-gap: 5px;
     padding: 30px;
+    background-color: white;
+    border-radius: 5px;
 }
 
 
 .letter{
-    border: 1px solid white;
     aspect-ratio: 1;
     background: #ced4da;
     text-align: center;

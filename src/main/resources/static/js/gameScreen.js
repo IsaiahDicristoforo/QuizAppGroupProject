@@ -152,6 +152,13 @@ function wordSubmitted(){
             stopTimer()
             rotateLetterAnimation.complete = function(anim){
 
+                anime({
+                    targets: '#wordleGridContainer',
+                    backgroundColor: ["white", "rgba(172,148,148,0)"],
+                    easing: 'easeInOutQuad',
+                    duration: 1200
+                })
+
               let gridAnimation =  {
                     targets: '#wordleGridContainer .letter',
                     scale: [
@@ -185,7 +192,7 @@ function wordSubmitted(){
 
 
         }
-        else if(!wordCorrect && row > totalAllowedGuesses){
+        else if(!wordCorrect && row >= totalAllowedGuesses){
             rotateLetterAnimation.complete = function(anim){
                 hideAll()
                 showFailScreen()
@@ -203,6 +210,8 @@ function wordSubmitted(){
 
 
 function createGrid(wordLength, totalGuesses){
+
+    $("#wordleGridContainer").css("backgroundColor", "white")
 
     $("#Correct").hide();
     $("#Incorrect").hide();
