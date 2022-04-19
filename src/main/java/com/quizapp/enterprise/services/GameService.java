@@ -209,8 +209,11 @@ public class GameService implements IGameService{
         // Convert the list to a string and set all words to lower case
         String wordListContents = new String(readBytes, StandardCharsets.UTF_8).toLowerCase();
 
+        wordListContents = wordListContents.replaceAll("\r", "");
         // Convert words to a list and add it to our hash set
+
         String[] words = wordListContents.split("\n");
+
         HashSet<String> wordsSet = new HashSet<>();
         Collections.addAll(wordsSet, words);
 

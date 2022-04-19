@@ -1,7 +1,7 @@
 
 let row = 1;
 let column = 0;
-let wordLength = wordleLength;
+let wordLength = 0;
 let wordleGridActive = false;
 let interval = null;
 let totalAllowedGuesses = 0

@@ -58,6 +58,8 @@ function connect() {
                 $("#powerupDiv").show()
 
                 wordleLength = newQuestionDetails.wordleLength;
+                wordLength = wordleLength
+
             });
 
 
