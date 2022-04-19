@@ -16,7 +16,7 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {BusinessLogicError.class})
     public ResponseEntity<Object> handleBusinessLogicException(BusinessLogicError exception){
-        logger.error("Business Logic Error: ");
+        logger.error("Business Logic Error: " + exception.getMessage());
         return new ResponseEntity<Object>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
