@@ -155,8 +155,8 @@ class EnterpriseApplicationTests {
     @Test
     void verifyGameStatus() {
         GameStatus gameStatus = GameStatus.NotStarted;
-
         Game game = new Game();
+        game.setGameStatus(gameStatus);
         assertEquals(gameStatus, game.getGameStatus());
     }
 }
