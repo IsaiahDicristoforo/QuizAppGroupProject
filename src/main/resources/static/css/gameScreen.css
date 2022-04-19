@@ -5,6 +5,9 @@ body{
     height: 100vh;
 }
 
+#pointsEarned{
+    font-size: 50px;
+}
 
 #wordleGridContainer{
     display: grid;

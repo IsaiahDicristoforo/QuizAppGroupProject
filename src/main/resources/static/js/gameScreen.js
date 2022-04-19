@@ -268,7 +268,7 @@ function tickTimer(){
 
       let counter = 1
     players.forEach(player => {
-        $("#leaderboardTableBody").append("<tr> <th scope=\"row\">" + counter + "</th> <td>" + player.playerUsername  + "</td> <td><span className=\"badge bg-primary rounded-pill\">" + player.totalPoints +  "</span></td> </tr>");
+        $("#leaderboardTableBody").append("<tr> <th scope=\"row\">" + counter + "</th> <td>" + player.playerUsername  + "</td> <td><span class=\"badge bg-primary rounded-pill\">" + player.totalPoints +  "</span></td> </tr>");
         counter++
     });
   }

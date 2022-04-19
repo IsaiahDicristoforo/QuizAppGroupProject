@@ -5,7 +5,7 @@ $(document).ready(function(){
 
     connect()
 
-    $("#joinGameLink").append(window.location.host + "/game/" + $("#hostScreenGameCode").text())
+    $("#joinGameLink").append("Go To: " + window.location.host + " and enter the game code...")
 })
 
 
