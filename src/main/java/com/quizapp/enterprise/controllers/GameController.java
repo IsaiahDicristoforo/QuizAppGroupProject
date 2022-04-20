@@ -118,6 +118,7 @@ public class GameController {
         wordleDisplayDetails.setQuestionId(newQuestion.getQuestionId().intValue());
         wordleDisplayDetails.setTotalGuesses(newQuestion.getTotalGuessesAllowed());
         wordleDisplayDetails.setWordleTimeLimit(newQuestion.getQuestionTimeLimitSeconds());
+        wordleDisplayDetails.setHints(newQuestion.getHints());
         messagingTemplate.convertAndSend("/game1/newQuestion/"  + wordleDisplayDetails.getGameId(), wordleDisplayDetails);
 
     }

@@ -48,6 +48,15 @@ function connect() {
             newStomClient.subscribe('/game1/newQuestion/' + $("#gameCode").text() , function(messageOutput) {
                 let newQuestionDetails = JSON.parse(messageOutput.body)
                 currentQuestionId = newQuestionDetails.questionId
+                let hints = newQuestionDetails.hints
+
+                $("#hintList").empty()
+                $("#hintList").append("<h2>Hints</h2>")
+
+               hints.forEach(element => {
+                   console.log(element.hint);
+                   $("#hintList").append("<div>" + element.hint + "</div>")})
+
                 createGrid(newQuestionDetails.wordleLength, newQuestionDetails.totalGuesses)
                 $("#timerText").text(newQuestionDetails.wordleTimeLimit)
                 clearInterval(interval)

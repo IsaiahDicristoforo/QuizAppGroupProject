@@ -3,6 +3,7 @@ package com.quizapp.enterprise.controllers;
 import com.quizapp.enterprise.errorHandling.BusinessLogicError;
 import com.quizapp.enterprise.services.GameService;
 import com.quizapp.enterprise.services.IGameService;
+import com.quizapp.enterprise.services.IQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ public class GameViewController {
 
     @Autowired
     private IGameService gameService;
+
 
     @RequestMapping("game/")
     public String game(@RequestParam("gameId") String gameId, Model model) throws BusinessLogicError {
