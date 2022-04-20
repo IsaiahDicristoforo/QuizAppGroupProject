@@ -9,8 +9,10 @@ import com.quizapp.enterprise.models.game.*;
 import com.quizapp.enterprise.persistence.GameTracker;
 import com.quizapp.enterprise.persistence.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -194,16 +196,15 @@ public class GameService implements IGameService{
      * @param word the users guess
      * @return boolean (is word/is not word)
      */
-    public boolean isWord(String word) {
-        // Get the word file path
-        Path path = Paths.get("words.txt");
+    public boolean isWord(String word)  {
 
-        // Read the words into a byte stream
-        byte[] readBytes = new byte[0];
-        try {
-            readBytes = Files.readAllBytes(path);
-        } catch (IOException e) {
-            e.printStackTrace();
+        byte[] readBytes = {};
+
+        try{
+            File resource = new ClassPathResource("words.txt").getFile();
+            readBytes = (Files.readAllBytes(resource.toPath()));
+        }catch(IOException ex){
+            ex.printStackTrace();
         }
 
         // Convert the list to a string and set all words to lower case
