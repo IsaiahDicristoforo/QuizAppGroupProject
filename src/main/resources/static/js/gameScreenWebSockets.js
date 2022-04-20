@@ -7,7 +7,6 @@ let playerName = ""
 $(document).ready(function(){
 
     $("#sabotageDiv").hide()
-    $("#powerupDiv").hide()
 
     $("#joinGame").click(function (){
         connect();
@@ -64,7 +63,7 @@ function connect() {
                 totalAllowedGuesses = newQuestionDetails.totalGuesses
 
                 $("#sabotageDiv").show()
-                $("#powerupDiv").show()
+
 
                 wordleLength = newQuestionDetails.wordleLength;
                 wordLength = wordleLength
@@ -88,7 +87,6 @@ function connect() {
 
 
                 $("#sabotageDiv").hide()
-                $("#powerupDiv").hide()
 
                 displayLeaderboard(JSON.parse(messageOutput.body))
 

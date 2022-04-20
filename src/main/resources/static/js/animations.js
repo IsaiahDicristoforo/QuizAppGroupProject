@@ -53,8 +53,9 @@ function flashScreenSabotage(target){
 }
 
 function startSabotageNotificationAnimation(sabotuer, sabotageType, target){
+    $("#gameMessage").text("You were sabotaged by " + sabotuer)
+
     if(sabotageType == 'RotatingGrid'){
-        $("#gameMessage").text("You were sabotaged by " + sabotuer)
         startRotateGridSabotage($("#wordleGridContainer").get())
     }
     else if (sabotageType == 'FreezeScreen'){
