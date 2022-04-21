@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Wordle Multiplayer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="/css/loginScreen.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/loginScreen.css}">
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
     <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
@@ -22,7 +22,7 @@
                 </span>
                 <span class="login-form-title">Wordle Multiplayer</span>
                 <div class="wrapper-input">
-                    <input class="input" type="text" th:name="gameId" placeholder="Enter A Game Code" autocomplete="sigh" style="width: 100% !important;">
+                    <input class="input" type="text" th:name="gameId" placeholder="Enter game code (ex. ab345)" autocomplete="sigh" style="width: 100% !important;">
                 </div>
                 <div class="container-login-form-btn">
                     <button type="submit" class="login-form-btn">Enter</button>
@@ -36,6 +36,5 @@
         </div>
     </div>
 </div>
-<div>
 </body>
 </html>

@@ -127,6 +127,10 @@ input:-ms-input-placeholder { color: #fff;}
     padding: 0 5px 0 18px;
 }
 
+input:placeholder-shown {
+    font-style: italic;
+}
+
 .input:focus {
     border-color: transparent !important;
 }
