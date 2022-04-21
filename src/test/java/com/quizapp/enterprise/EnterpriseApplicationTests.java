@@ -49,35 +49,6 @@ class EnterpriseApplicationTests {
         assertEquals(email, user.getEmail());
     }
 
-    /**
-     * Validate that the GameService can save and return games. (based on individual assignment)
-     * @author Mahesh Gowda
-     */
-    @Test
-    void verifyAddAndRemoveGames() {
-
-        /*
-        String gameCode =  "FIRST";
-        GameService gameService = new GameService();
-        Game game = new Game();
-        game.setGameCode(gameCode);
-
-
-        List<Game> games = gameService.getAllGames();
-        boolean gamePresent = false;
-        for (Game g : games) {
-            if (g.getGameCode().equals(gameCode)) {
-                gamePresent = true;
-                break;
-            }
-        }
-
-        assertTrue(gamePresent);
-*/
-
-        assertTrue(true);
-
-    }
 
     /**
      * Scenario: User guesses correct answer
