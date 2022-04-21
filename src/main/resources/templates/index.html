@@ -16,16 +16,16 @@
 <div class="container-login">
     <div class="container-login-div">
         <div class="wrapper">
-            <form class="login-form validate-form" th:action="@{/gameView/}" method="post">
+            <form class="login-form validate-form" th:action="@{/game/}" method="get">
                 <span class="login-form-logo">
                     <i class="fa-solid fa-square-pen fa-2x"></i>
                 </span>
                 <span class="login-form-title">Wordle Multiplayer</span>
                 <div class="wrapper-input">
-                    <input class="input" id="username" type="text" name="gameCode" placeholder="Enter game code (ex. ab345)" autocomplete="sigh" style="width: 100% !important;">
+                    <input class="input" type="text" th:name="gameId" placeholder="Enter game code (ex. ab345)" autocomplete="sigh" style="width: 100% !important;">
                 </div>
                 <div class="container-login-form-btn">
-                    <button type="button" class="login-form-btn">Enter</button>
+                    <button type="submit" class="login-form-btn">Enter</button>
                 </div>
                 <div class="forget-password-div">
                     <a class="forget-password-text" th:href="@{/login}">Login?</a>

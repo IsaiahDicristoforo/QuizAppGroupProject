@@ -51,6 +51,7 @@
         <div class="row content" style="display: flex; padding: 20px; justify-content: space-between">
             <h1 style="color: black; text-align: center" class="h1">KaWordle</h1>
             <h5  id="gameCode" style="" th:text="${gameCode}"></h5>
+            <h6 id="responseMsg"></h6>
         </div>
 
     <div style="height: 100%; min-height: 500px" class="row content">
@@ -87,9 +88,9 @@
 
                 </div>
             </div>
-            <div id="Correct">
-                <h2>Correct</h2>
-                <input style="border: none" class="readonly form-control-sm" id="pointsEarned" type="text">
+            <div  id="Correct">
+                <h1>Correct</h1>
+                   <input style="border: none" class="readonly form-control-sm" id="pointsEarned" type="text">
             </div>
             <div id="Incorrect">
                 <h2>Incorrect</h2>
@@ -107,10 +108,8 @@
 
             </div>
 
-            <div style="text-align: left">
+            <div id="hintList" style="text-align: left">
                 <h2>Hints</h2>
-                <div>Hint 1</div>
-                <div>Hint 2</div>
             </div>
 
         </div>
@@ -129,14 +128,14 @@
                 <ul id="dropdownSabotage" class="dropdown-menu sabotagePlayerList" aria-labelledby="dropdownMenuButton1"></ul>
             </div>
 
-            <div id="gameEventNotificationScreen" style="display: flex; justify-content: center; align-items: center; background-color: #f3f3f3; width: 50%; height: 75px;">
+            <div id="gameEventNotificationScreen" style="display: flex; justify-content: center; align-items: center;  width: 50%; height: 75px;">
 
                 <h4 id="gameMessage">
 
                 </h4>
             </div>
 
-            <div id="powerupDiv" class="dropup">
+            <div style="visibility: hidden" id="powerupDiv" class="dropup">
                 <button  id="powerupDropdownDiv" class="btn btn-secondary dropdown-toggle btn-success" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Powerups
                 </button>

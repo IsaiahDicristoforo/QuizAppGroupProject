@@ -2,6 +2,9 @@ package com.quizapp.enterprise.models;
 
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 public class WordleDisplayDetail {
 
@@ -10,4 +13,5 @@ public class WordleDisplayDetail {
     private int totalGuesses;
     private int questionId;
     private String gameId;
+    private List<Hint> hints;
 }

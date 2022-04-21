@@ -1,11 +1,12 @@
 var currentQuestionId  = 0
 
+var wordleLength = 0;
+
 let playerName = ""
 
 $(document).ready(function(){
 
     $("#sabotageDiv").hide()
-    $("#powerupDiv").hide()
 
     $("#joinGame").click(function (){
         connect();
@@ -46,6 +47,15 @@ function connect() {
             newStomClient.subscribe('/game1/newQuestion/' + $("#gameCode").text() , function(messageOutput) {
                 let newQuestionDetails = JSON.parse(messageOutput.body)
                 currentQuestionId = newQuestionDetails.questionId
+                let hints = newQuestionDetails.hints
+
+                $("#hintList").empty()
+                $("#hintList").append("<h2>Hints</h2>")
+
+               hints.forEach(element => {
+                   console.log(element.hint);
+                   $("#hintList").append("<div>" + element.hint + "</div>")})
+
                 createGrid(newQuestionDetails.wordleLength, newQuestionDetails.totalGuesses)
                 $("#timerText").text(newQuestionDetails.wordleTimeLimit)
                 clearInterval(interval)
@@ -53,8 +63,14 @@ function connect() {
                 totalAllowedGuesses = newQuestionDetails.totalGuesses
 
                 $("#sabotageDiv").show()
-                $("#powerupDiv").show()
+
+
+                wordleLength = newQuestionDetails.wordleLength;
+                wordLength = wordleLength
+
             });
+
+
         });
 
         var newSocket3 = new SockJS('/chat1');
@@ -71,7 +87,6 @@ function connect() {
 
 
                 $("#sabotageDiv").hide()
-                $("#powerupDiv").hide()
 
                 displayLeaderboard(JSON.parse(messageOutput.body))
 

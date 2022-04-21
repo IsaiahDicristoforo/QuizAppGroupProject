@@ -13,13 +13,15 @@
     <script src="/js/hostView.js"></script>
 
 </head>
-<body>
+<body style=" height: 100vh; display: flex; flex-direction: column; justify-content: center; background: #9152f8;
+    background: -webkit-linear-gradient(top, #7579ff, #b224ef);
+    background: linear-gradient(top, #7579ff, #b224ef);">
 
-<div id="hostContainer" style="display: flex; align-items: center; flex-direction: column">
+<div id="hostContainer" style="display: flex; justify-content: center; align-items: center; flex-direction: column">
 
     <div>
-        <h1 style="font-family: 'Comic Sans MS'; font-size: 50px" class="header">Welcome To Wordle</h1>
-        <h4 id="joinGameLink">Join Game: </h4>
+        <h1 style="font-family: 'Comic Sans MS'; text-align: center; font-size: 50px" class="header">Welcome To Wordle</h1>
+        <h4 id="joinGameLink"></h4>
 
         <h2 id="hostScreenGameCode" style="font-family: 'Comic Sans MS'; text-align: center " th:text="${gameCode}"></h2>
     </div>
@@ -28,8 +30,7 @@
         <h2 id="questionCount"> Question 1 / <span th:text="${totalQuestions}"></span></h2>
     </div>
 
-    <div id="playerStatus">
-
+    <div style="padding: 60px; display: none"; id="playerStatus">
 
         <div class="container">
             <div class="row">
@@ -53,8 +54,9 @@
 
 </div>
 
-
-<button id="nextQuestion" onclick="nextQuestionClicked()" class="btn btn-primary">Next Question</button>
+<div style="display: flex;  padding: 50px; justify-content: center">
+    <button id="nextQuestion" style="width: 100%;" onclick="nextQuestionClicked()" class="btn btn-lg btn-success btn-primary">Next Question</button>
+</div>
 
 <script th:inline="javascript">
     let totalQuestions = [[${totalQuestions}]];

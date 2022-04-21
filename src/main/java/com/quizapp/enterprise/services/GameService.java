@@ -1,5 +1,6 @@
 package com.quizapp.enterprise.services;
 
+import com.quizapp.enterprise.errorHandling.BusinessLogicError;
 import com.quizapp.enterprise.events.GameOverEventPublisher;
 import com.quizapp.enterprise.events.RoundOverEvent;
 import com.quizapp.enterprise.events.RoundOverEventPublisher;
@@ -8,8 +9,10 @@ import com.quizapp.enterprise.models.game.*;
 import com.quizapp.enterprise.persistence.GameTracker;
 import com.quizapp.enterprise.persistence.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -55,22 +58,22 @@ public class GameService implements IGameService{
     }
 
     @Override
-    public Game getGame(String gameId) {
+    public Game getGame(String gameId) throws BusinessLogicError {
         return GameTracker.getInstance().getGameByCode(gameId);
     }
 
     @Override
-    public void joinGame(String gameId, Player playerToJoin) throws Exception {
+    public void joinGame(String gameId, Player playerToJoin) throws BusinessLogicError {
 
         playerToJoin.setRound(new PlayerRound());
 
         if(userNameExists(playerToJoin.getPlayerUsername(), gameId)){
-            throw new Exception("Username already exists. Please choose another username");
+            throw new BusinessLogicError("Username already exists. Please choose another username");
         }
         GameTracker.getInstance().joinGame(gameId, playerToJoin);
     }
 
-    private boolean userNameExists(String userName, String gameCode){
+    private boolean userNameExists(String userName, String gameCode) throws BusinessLogicError {
 
       return GameTracker
                 .getInstance()
@@ -82,7 +85,14 @@ public class GameService implements IGameService{
 
     }
 
-    public GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining) {
+    public GuessResult ProcessPlayerGuess(String userGuess, String gameCode, Long questionId, String playerName, int secondsRemaining) throws BusinessLogicError {
+        if(userGuess != null && !isWord(userGuess))
+        {
+            GuessResult gr = new GuessResult();
+            gr.setInDictionary(false);
+            return gr;
+        }
+
 
         Question question = questionRepository.getById(questionId);
         String correctWord = question.getWordle();
@@ -109,6 +119,7 @@ public class GameService implements IGameService{
        }
        result.setGuessResults(wordResults);
        result.setWordCorrect(wordCorrect);
+       result.setInDictionary(true);
 
        if(wordCorrect){
            Player player = GameTracker.getInstance().getPlayer(gameCode, playerName);
@@ -132,12 +143,12 @@ public class GameService implements IGameService{
     }
 
     @Override
-    public void processPlayerTimeExpirationEvent(String playerName, String gameId) {
+    public void processPlayerTimeExpirationEvent(String playerName, String gameId) throws BusinessLogicError {
         GameTracker.getInstance().updatePlayerRound(gameId, playerName, false, true, 0);
         dispatchGameOrRoundOverEvents(GameTracker.getInstance().getGameByCode(gameId).getGameStatus(), gameId);
     }
 
-    private void dispatchGameOrRoundOverEvents(GameStatus gameStatus, String gameCode){
+    private void dispatchGameOrRoundOverEvents(GameStatus gameStatus, String gameCode) throws BusinessLogicError {
         if(gameStatus == GameStatus.GameEnded){
             gameOverEventPublisher.publishGameOverEvent(gameCode, GameTracker.getInstance().getLeaderboard(gameCode));
             roundOverEventPublisher.publishRoundOverEvent(gameCode, GameTracker.getInstance().getLeaderboard(gameCode));
@@ -185,18 +196,25 @@ public class GameService implements IGameService{
      * @param word the users guess
      * @return boolean (is word/is not word)
      */
-    public boolean isWord(String word) throws IOException {
-        // Get the word file path
-        Path path = Paths.get("words.txt");
+    public boolean isWord(String word)  {
 
-        // Read the words into a byte stream
-        byte[] readBytes = Files.readAllBytes(path);
+        byte[] readBytes = {};
+
+        try{
+            File resource = new ClassPathResource("words.txt").getFile();
+            readBytes = (Files.readAllBytes(resource.toPath()));
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }
 
         // Convert the list to a string and set all words to lower case
         String wordListContents = new String(readBytes, StandardCharsets.UTF_8).toLowerCase();
 
+        wordListContents = wordListContents.replaceAll("\r", "");
         // Convert words to a list and add it to our hash set
+
         String[] words = wordListContents.split("\n");
+
         HashSet<String> wordsSet = new HashSet<>();
         Collections.addAll(wordsSet, words);
 
@@ -209,7 +227,7 @@ public class GameService implements IGameService{
     }
 
     @Override
-    public Question nextQuestion(String gameId) {
+    public Question nextQuestion(String gameId) throws BusinessLogicError {
         //A new round has started, so we need to reset the game state
         GameTracker.getInstance().updateGameState(GameStatus.Started, gameId);
         return GameTracker.getInstance().getNextQuestion(gameId);

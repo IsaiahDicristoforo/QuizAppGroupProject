@@ -43,6 +43,11 @@ public class QuizService implements IQuizService {
     }
 
     @Override
+    public void deleteQuiz(int quizId) {
+        quizRepository.deleteById(quizId);
+    }
+
+    @Override
     public ArrayList<Quiz> getAllQuizzes(String username){
         int userId =  userRepository.findUserByUsername(username).getUserID();
 

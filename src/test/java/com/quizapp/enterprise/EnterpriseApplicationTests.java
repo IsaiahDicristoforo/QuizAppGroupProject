@@ -5,6 +5,7 @@ import com.quizapp.enterprise.models.Question;
 import com.quizapp.enterprise.models.Quiz;
 import com.quizapp.enterprise.models.User;
 import com.quizapp.enterprise.models.game.Game;
+import com.quizapp.enterprise.models.game.GameStatus;
 import com.quizapp.enterprise.models.game.Guess;
 import com.quizapp.enterprise.services.GameService;
 import com.quizapp.enterprise.services.IGameService;
@@ -48,35 +49,6 @@ class EnterpriseApplicationTests {
         assertEquals(email, user.getEmail());
     }
 
-    /**
-     * Validate that the GameService can save and return games. (based on individual assignment)
-     * @author Mahesh Gowda
-     */
-    @Test
-    void verifyAddAndRemoveGames() {
-
-        /*
-        String gameCode =  "FIRST";
-        GameService gameService = new GameService();
-        Game game = new Game();
-        game.setGameCode(gameCode);
-
-
-        List<Game> games = gameService.getAllGames();
-        boolean gamePresent = false;
-        for (Game g : games) {
-            if (g.getGameCode().equals(gameCode)) {
-                gamePresent = true;
-                break;
-            }
-        }
-
-        assertTrue(gamePresent);
-*/
-
-        assertTrue(true);
-
-    }
 
     /**
      * Scenario: User guesses correct answer
@@ -92,7 +64,7 @@ class EnterpriseApplicationTests {
         boolean correct = true;
         for(Guess guess : gec) {
 
-          if(guess.IsCorrectLetter != 1) {
+            if(guess.IsCorrectLetter != 1) {
                 fail("User Guess of "
                         + guess.Letter
                         + " was not correct");
@@ -146,5 +118,16 @@ class EnterpriseApplicationTests {
 
         GameService gs = new GameService();
         assertFalse(gs.isWord(word));
+    }
+
+    /**
+     * Scenario: Check game status is correct upon start of game
+     */
+    @Test
+    void verifyGameStatus() {
+        GameStatus gameStatus = GameStatus.NotStarted;
+        Game game = new Game();
+        game.setGameStatus(gameStatus);
+        assertEquals(gameStatus, game.getGameStatus());
     }
 }

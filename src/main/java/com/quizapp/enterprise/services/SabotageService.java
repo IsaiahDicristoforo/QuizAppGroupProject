@@ -9,6 +9,7 @@ import java.util.Random;
 public class SabotageService implements ISabotageService {
     @Override
     public SabotageType generateRandomSabotage() {
-        return SabotageType.values()[new Random().nextInt(SabotageType.values().length)];
+        Random r = new Random();
+        return SabotageType.values()[r.nextInt(SabotageType.values().length)];
     }
 }

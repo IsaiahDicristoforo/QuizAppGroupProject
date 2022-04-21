@@ -1,7 +1,7 @@
 
 let row = 1;
 let column = 0;
-let wordLength = 8;
+let wordLength = 0;
 let wordleGridActive = false;
 let interval = null;
 let totalAllowedGuesses = 0
@@ -92,10 +92,19 @@ function backspacePressed(){
     column--;
 }
 function wordSubmitted(){
+    $('#responseMsg').text('');
     column = 0;
     let targetsArray = []
     for (let i = 1; i <= wordLength; i++){
         targetsArray.push("#row" + row + "column" + i)
+    }
+
+    if(getGuess(row, wordLength).length < wordleLength)
+    {
+        console.log(wordLength + " " + getGuess(row, wordLength).length);
+        $('#responseMsg').text('Invalid word length!');
+
+        return false;
     }
 
     $.post({
@@ -103,13 +112,26 @@ function wordSubmitted(){
         contentType: "application/json",
         data: JSON.stringify({guess: getGuess(row, wordLength), questionId: currentQuestionId, gameCode: $("#gameCode").text(), playerName: playerName, secondsRemaining: parseInt($("#timerText").text())})
     }, function(data){
+        let rotateLetterAnimation = anime.timeline({
+                autoplay: false,
+                easing: 'easeInOutQuad',
+            })
+
+        let inDictionary = data.inDictionary;
+        if(!inDictionary)
+        {
+            rotateLetterAnimation.add({'targets': targetsArray,border: "0px solid white", rotate: '1turn', easing: 'easeInOutSine', 'background': '#83867c'}, '-=500');
+            rotateLetterAnimation.play();
+
+            $('#responseMsg').text("Word not in dictionary!");
+
+            return false;
+        }
+
 
         let guessResults = data.guessResults;
         let wordCorrect = data.wordCorrect
-        let rotateLetterAnimation = anime.timeline({
-            autoplay: false,
-            easing: 'easeInOutQuad',
-        })
+
         for(let i = 0; i < targetsArray.length; i++){
 
             let color = ""
@@ -129,6 +151,13 @@ function wordSubmitted(){
         if(wordCorrect){
             stopTimer()
             rotateLetterAnimation.complete = function(anim){
+
+                anime({
+                    targets: '#wordleGridContainer',
+                    backgroundColor: ["white", "rgba(172,148,148,0)"],
+                    easing: 'easeInOutQuad',
+                    duration: 1200
+                })
 
               let gridAnimation =  {
                     targets: '#wordleGridContainer .letter',
@@ -163,7 +192,7 @@ function wordSubmitted(){
 
 
         }
-        else if(!wordCorrect && row > totalAllowedGuesses){
+        else if(!wordCorrect && row >= totalAllowedGuesses){
             rotateLetterAnimation.complete = function(anim){
                 hideAll()
                 showFailScreen()
@@ -172,13 +201,17 @@ function wordSubmitted(){
         }
         rotateLetterAnimation.play()
 
+
+        row++;
     })
 
-    row++;
+
 }
 
 
 function createGrid(wordLength, totalGuesses){
+
+    $("#wordleGridContainer").css("backgroundColor", "white")
 
     $("#Correct").hide();
     $("#Incorrect").hide();
@@ -244,7 +277,7 @@ function tickTimer(){
 
       let counter = 1
     players.forEach(player => {
-        $("#leaderboardTableBody").append("<tr> <th scope=\"row\">" + counter + "</th> <td>" + player.playerUsername  + "</td> <td><span className=\"badge bg-primary rounded-pill\">" + player.totalPoints +  "</span></td> </tr>");
+        $("#leaderboardTableBody").append("<tr> <th scope=\"row\">" + counter + "</th> <td>" + player.playerUsername  + "</td> <td><span class=\"badge bg-primary rounded-pill\">" + player.totalPoints +  "</span></td> </tr>");
         counter++
     });
   }

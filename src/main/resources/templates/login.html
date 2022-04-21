@@ -18,7 +18,7 @@
         <div class="wrapper">
             <form class="login-form validate-form" th:action="@{/login}" method="post">
                 <span class="login-form-logo">
-                    <i class="fa-solid fa-square-pen fa-2x"></i>
+                    <a style="color: black" th:href="@{/}"><i class="fa-solid fa-square-pen fa-2x"></i></a>
                 </span>
                 <span class="login-form-title">Login</span>
                 <div class="alert text-center" th:if="${errorMessage}">Username or password was not found.</div>
@@ -32,9 +32,6 @@
                 </div>
                 <div class="container-login-form-btn">
                     <button type="submit" name="login" class="login-form-btn">Login</button>
-                </div>
-                <div class="container-login-form-btn" style="margin-top: 30px">
-                    <button type="button" class="login-form-btn">Login With Google</button>
                 </div>
             </form>
         </div>

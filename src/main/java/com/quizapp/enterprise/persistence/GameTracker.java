@@ -1,5 +1,6 @@
 package com.quizapp.enterprise.persistence;
 
+import com.quizapp.enterprise.errorHandling.BusinessLogicError;
 import com.quizapp.enterprise.events.RoundOverEvent;
 import com.quizapp.enterprise.events.RoundOverEventPublisher;
 import com.quizapp.enterprise.models.Question;
@@ -33,21 +34,37 @@ public class GameTracker {
         return games;
     }
 
-    public Game getGameByCode(String gameCode){
+    public Game getGameByCode(String gameCode) throws BusinessLogicError {
+
+         if(!games.stream()
+                 .filter(g -> g.getGameCode().equals(gameCode))
+                 .findAny()
+                 .isPresent()){
+             throw new BusinessLogicError("Sorry, Game Does Not Exist. Please Try A Different Game Code");
+         }
+
+
         return games.stream()
                 .filter(g -> g.getGameCode().equals(gameCode))
                 .findAny()
                 .get();
     }
 
+    public boolean gameExists(String gameCode){
+        return games.stream()
+                .filter(g -> g.getGameCode().equals(gameCode))
+                .findAny()
+                .isPresent();
+    }
+
     public void joinGame(
-            String gameCode, Player playerToJoin)  {
+            String gameCode, Player playerToJoin) throws BusinessLogicError {
         getGameByCode(gameCode)
                 .getPlayers()
                 .add(playerToJoin);
     }
 
-    public Question getNextQuestion(String gameCode){
+    public Question getNextQuestion(String gameCode) throws BusinessLogicError {
 
         Game game = getGameByCode(gameCode);
 
@@ -71,7 +88,7 @@ public class GameTracker {
 
     }
 
-    public void updatePlayerRound(String gameCode, String playerName, boolean correct, boolean setComplete, int totalPoints){
+    public void updatePlayerRound(String gameCode, String playerName, boolean correct, boolean setComplete, int totalPoints) throws BusinessLogicError {
         Game game = getGameByCode(gameCode);
         Player playerToUpdate =  game.getPlayers().stream().filter(player -> player.getPlayerUsername().equals(playerName)).findFirst().get();
         playerToUpdate.getRound().setComplete(setComplete);
@@ -79,7 +96,7 @@ public class GameTracker {
     }
 
 
-    private void updateGameState(String gameCode){
+    private void updateGameState(String gameCode) throws BusinessLogicError {
 
         Game game = getGameByCode(gameCode);
         if(game.getPlayers().stream().allMatch(player -> player.getRound().isComplete())){
@@ -91,15 +108,15 @@ public class GameTracker {
 
     }
 
-    public void updateGameState(GameStatus gameStatus, String gameId){
+    public void updateGameState(GameStatus gameStatus, String gameId) throws BusinessLogicError {
         getGameByCode(gameId).setGameStatus(gameStatus);
     }
 
-    public Player getPlayer(String gameCode, String username){
+    public Player getPlayer(String gameCode, String username) throws BusinessLogicError {
         return getGameByCode(gameCode).getPlayers().stream().filter(p -> p.getPlayerUsername().equals(username)).findFirst().get();
     }
 
-    public ArrayList<Player> getLeaderboard(String gameId){
+    public ArrayList<Player> getLeaderboard(String gameId) throws BusinessLogicError {
         ArrayList<Player> players = getGameByCode(gameId).getPlayers();
          Collections.sort(players, new Comparator<Player>() {
             @Override
