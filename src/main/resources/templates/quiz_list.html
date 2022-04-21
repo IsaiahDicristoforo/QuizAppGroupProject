@@ -35,6 +35,7 @@
                             <h5 th:text="${quiz.quizName}" class="card-title"></h5>
                             <p class="card-text" th:text="${quiz.description}"></p>
                             <a th:id="${quiz.quizId}" onclick="hostGame(this.id)" class="btn btn-light">Host</a>
+                            <a th:id="${quiz.quizId}" onclick="deleteQuiz(this.id)" class="btn btn-sm btn-danger">Delete</a>
                         </div>
                     </div>
                 </div>

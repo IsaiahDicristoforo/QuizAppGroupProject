@@ -44,4 +44,10 @@ public class QuizController {
         return quizService.getQuiz(id);
     }
 
+    @DeleteMapping("/quiz/{id}")
+    @ResponseBody
+    public void deleteQuizById(@PathVariable("id") int id){
+         quizService.deleteQuiz(id);
+    }
+
 }

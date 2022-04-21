@@ -8,6 +8,7 @@ public interface IQuizService {
 
     Quiz createQuiz(Quiz quizToAdd, String username);
     Quiz getQuiz(int quizId) throws Exception;
+    void deleteQuiz(int quizId);
 
     ArrayList<Quiz> getAllQuizzes(String username);
 }
